@@ -1,0 +1,211 @@
+using System;
+using System.Collections.Generic;
+
+namespace CoreCZ
+{
+    /// <summary>
+    /// 
+    /// </summary>
+    public class InvalidTurnException: Exception 
+    {
+        
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public struct Position
+    {
+        public Position(short r, short c)
+        {
+            row = r;
+            column = c;
+        }
+        // TODO: use byte    
+        public short row;
+        public short column;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public enum Side:byte
+	{
+	    Cross,
+        Zero,
+        Nobody
+	}
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public struct Area
+    {
+        public Area(Position sw, Position ne)
+        {
+            this.sw = sw;
+            this.ne = ne;
+        }
+        public readonly Position ne, sw;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public struct Turn
+    {
+        public Turn(Position pos, Side s, int i)
+        {
+            position = pos;
+            side = s;
+            index = i;
+        }
+
+        public readonly Position position;
+        public readonly Side side;
+        public readonly int index;
+    }
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public partial class Board
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        public Board()
+        {
+            mField = new Storage<Side>(100, Side.Nobody);
+            mBoundingBox = new Area(new Position(short.MaxValue, short.MaxValue), new Position(short.MinValue, short.MinValue));
+            CurrentPlayer = Side.Cross;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="pos"></param>
+        /// <returns></returns>
+        public Side this[Position pos]
+        {
+            set 
+            {
+                try
+                {
+                    Side s = mField[pos.row, pos.column];
+
+                    if (s != Side.Nobody || value != CurrentPlayer)
+                    {
+                        throw new InvalidTurnException();
+                    }
+
+                    updatePosition(pos, value);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    //Special case, not a game error. reallocation may be needed
+                    throw new InvalidTurnException();
+                }
+            }
+            get 
+            {
+                try
+                {
+                    return mField[pos.row, pos.column];
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    return Side.Nobody;
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Area BoundingBox
+        {
+            get 
+            {
+                return mBoundingBox; 
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Side CurrentPlayer
+        {
+            get;
+            private set;
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Position LastPosition
+        {
+            get 
+            {
+                if (mTurns.Count > 0)
+                {
+                    return mTurns[mTurns.Count - 1].position;
+                }
+                else
+                {
+                    return new Position(0, 0);
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Winner
+        {
+            get { return false; }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public void Clear()
+        {
+            mTurns.Clear();
+            mField.Fill(Side.Nobody);
+            mBoundingBox = new Area(new Position(short.MaxValue, short.MaxValue), new Position(short.MinValue, short.MinValue));
+            CurrentPlayer = Side.Cross;
+        }
+    }
+
+    #region Board Implementations
+    public partial class Board
+    {
+        private void updatePosition(Position pos, Side val)
+        {
+
+            mField[pos.row, pos.column] = val;
+            CurrentPlayer = val == Side.Cross ? Side.Zero : Side.Cross;
+            mTurns.Add(new Turn(pos, val, mTurns.Count));
+            mBoundingBox = join(mBoundingBox, pos);
+        }
+
+        private static Area join(Area a, Position p)
+        {
+            return new Area( new Position( Math.Min( a.sw.row, p.row ), Math.Min( a.sw.column, p.column )),
+                new Position( Math.Max( a.ne.row, p.row ), Math.Max( a.ne.column, p.column ) ) );
+        }
+
+        private Area mBoundingBox;
+        private List<Turn> mTurns = new List<Turn>();
+        private Storage<Side> mField;
+    }
+    #endregion
+}
