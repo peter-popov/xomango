@@ -56,9 +56,8 @@ namespace xomango
         private void InitPlayers()
         {
             control.HumanPlayer player1 = new control.HumanPlayer(gameController.GameBoard, "Player1", CoreCZ.Side.Cross);
-            ScreenTouched += player1.HandleInput;
-            VisibleRectChanged += player1.OnVisibleRectChanged;
-
+           
+            
             control.MachinePlayer player2 = new control.MachinePlayer(gameController.GameBoard, CoreCZ.Side.Zero);
             gameController.Player1 = player1;
             gameController.Player2 = player2;
@@ -82,11 +81,14 @@ namespace xomango
             turnsLayer = new TurnsLayer(content, 
                                         gameController.GameBoard,
                                         new Vector2(screenRect.Width, screenRect.Height));
+            
+            turnsLayer.ScreenTaped += (gameController.Player1 as control.HumanPlayer).HandleInput;
+
             gameController.OnTurn += turnsLayer.OnTurnDone;
 
-            gameLayers.AddView(turnsLayer);
-            gameLayers.AddView(new GridLayer(content));
-            gameLayers.AddView(new BackgroundLayer(content));
+            gameLayers.AddLayer(turnsLayer);
+            gameLayers.AddLayer(new GridLayer(content));
+            gameLayers.AddLayer(new BackgroundLayer(content));
 
             // Will couse initialization of all others layers
             scrollLayer.Initialize();           
@@ -100,10 +102,7 @@ namespace xomango
         {            
             while (TouchPanel.IsGestureAvailable)
             {
-                GestureSample g = TouchPanel.ReadGesture();
-
-                ScreenTouched(this, new control.TouchEventArgs(g));
-                scrollLayer.HandleInput(g);
+                scrollLayer.HandleInput(TouchPanel.ReadGesture());
             }
 
             scrollLayer.Update(gameTime);

@@ -1,14 +1,15 @@
 using System;
 using Microsoft.Xna.Framework.Input.Touch;
+using CoreCZ;
 
 namespace xomango.control
 {
     public class TouchEventArgs : EventArgs
     {
-        public TouchEventArgs(GestureSample gs)
+        public TouchEventArgs(Position pos)
         {
-            this.gs = gs;
+            Position = pos;
         }
-        public readonly GestureSample gs;
+        public readonly Position Position;
     }
 }

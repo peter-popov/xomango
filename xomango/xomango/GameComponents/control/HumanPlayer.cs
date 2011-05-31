@@ -31,14 +31,13 @@ namespace xomango.control
 
         public void HandleInput(object sender, control.TouchEventArgs args)
         {
-            if (Side != board.CurrentPlayer)
+            try
             {
-               // return;
+                board[args.Position] = side;
+                madeTurn(args.Position);
             }
-
-            if (args.gs.GestureType == GestureType.Tap)
+            catch (Exception)
             {
-                processTurnGesture(args.gs.Position);
             }
         }
 
@@ -46,51 +45,9 @@ namespace xomango.control
 
         public override Side Side { get { return side; } }
 
-        public void OnVisibleRectChanged(object sender, xomango.layers.ViewRectChangedEventArgs args)
-        {
-            visibleRect = args.rect;
-        }
-
-        private bool translateTapPosition(Vector2 tap, out Position pos)
-        {
-            float globalX = visibleRect.X + tap.X;
-            float globalY = visibleRect.Y + tap.Y;
-
-            if (!visibleRect.Contains(new Point((int)globalX, (int)globalY)))
-            {
-                pos = new Position();
-                return false;
-            }
-
-            pos = new Position((short)(globalX / GameOptions.Instanse.CellSize), (short)(globalY / GameOptions.Instanse.CellSize));
-            //problems with divion of negative numbers
-            if (globalX < 0) pos.row--;
-            if (globalY < 0) pos.column--;
-            return true;
-        }
-
-        private void processTurnGesture(Vector2 tap)
-        {
-            Position pos;
-            if (!translateTapPosition(tap, out pos))
-            {
-                return;
-            }
-            try
-            {
-                board[pos] = side;
-                madeTurn(pos);
-            }
-            catch (Exception)
-            { 
-            }
-        }               
-
         private readonly string name;
         private readonly Side side;
 
-        private Board board;
-        private Rectangle visibleRect = new Rectangle(0,0,0,0);
-
+        private Board board;        
     }
 }

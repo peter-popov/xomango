@@ -13,32 +13,37 @@ namespace xomango.layers
 {
     class LayersCollection: Layer
     {
-        private List<Layer> views = new List<Layer>();
+        private List<Layer> layers = new List<Layer>();
 
 
-        public void AddView(Layer view)
+        public void AddLayer(Layer view)
         {
-            views.Add(view);
+            layers.Add(view);
         }
 
-        public void RemoveView(Layer view)
+        public void RemoveLayer(Layer view)
         {
-            views.Remove(view);
+            layers.Remove(view);
         }
 
         public override void Initialize()
         {
-            views.ForEach((Layer v) => v.Initialize());
+            layers.ForEach((Layer v) => v.Initialize());
         }
 
         public override void Update(GameTime gameTime)
         {
-            views.ForEach((Layer v) => v.Update(gameTime));    
+            layers.ForEach((Layer v) => v.Update(gameTime));    
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle rect)
         {
-            views.ForEach((Layer v) => v.Draw(spriteBatch, rect));
-        } 
+            layers.ForEach((Layer v) => v.Draw(spriteBatch, rect));
+        }
+
+        public override void HandleInput(GestureSample sample)
+        {
+            layers.ForEach( l => l.HandleInput(sample) );
+        }
     }
 }

@@ -13,11 +13,15 @@ namespace xomango.layers
 {
     abstract class Layer
     {
-
         public abstract void Initialize();
 
         public abstract void Update(GameTime gameTime);
 
         public abstract void Draw(SpriteBatch spriteBatch, Rectangle rect);
+
+        public virtual void HandleInput(GestureSample gesture)
+        {
+            //do nothing by default
+        }
     }
 }

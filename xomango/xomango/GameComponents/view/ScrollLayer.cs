@@ -49,14 +49,15 @@ namespace xomango.layers
             innerView.Update(gameTime);    
         }
         
-        public void HandleInput(GestureSample sample)
+        public override void HandleInput(GestureSample sample)
         {
-                switch (sample.GestureType)
-                {
-                    case GestureType.FreeDrag:
-                        Scroll(sample.Delta);
-                        break;
-                }
+            switch (sample.GestureType)
+            {
+                case GestureType.FreeDrag:
+                    Scroll(sample.Delta);
+                    break;
+            }
+            innerView.HandleInput(sample);
         }
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle viewportRect)

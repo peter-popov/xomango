@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using CoreCZ;
 using xomango.utils;
+using xomango.control;
 
 namespace xomango.layers
 {
@@ -18,6 +19,20 @@ namespace xomango.layers
         ContentManager content;
         Board board;
         Vector2 drawSize;
+
+        public event EventHandler<TouchEventArgs> ScreenTaped;
+
+        public override void HandleInput(GestureSample sample)
+        {
+            if (sample.GestureType == GestureType.Tap)
+            {
+                Position pos;
+                if (translateTapPosition(sample.Position, out pos) && ScreenTaped != null)
+                {
+                    ScreenTaped(this, new TouchEventArgs(pos));
+                }
+            }
+        }
 
         public void Clear()
         {
@@ -89,7 +104,9 @@ namespace xomango.layers
             if (curentTurnAnimation != null)
             {
                 curentTurnAnimation.Draw(spriteBatch, new Vector2(curentTurn.position.row * cellSize, curentTurn.position.column * cellSize), SpriteEffects.None);
-            }  
+            }
+
+            lastVisibleRect = rect;
         }
 
         public void OnTurnDone(object sender, TurnEventArgs args)
@@ -112,6 +129,25 @@ namespace xomango.layers
             curentTurnAnimation.Repeat = false;
         }
 
+        private bool translateTapPosition(Vector2 tap, out Position pos)
+        {
+            float globalX = lastVisibleRect.X + tap.X;
+            float globalY = lastVisibleRect.Y + tap.Y;
+
+            if (!lastVisibleRect.Contains(new Point((int)globalX, (int)globalY)))
+            {
+                pos = new Position();
+                return false;
+            }
+
+            pos = new Position((short)(globalX / GameOptions.Instanse.CellSize), (short)(globalY / GameOptions.Instanse.CellSize));
+            //problems with divion of negative numbers
+            if (globalX < 0) pos.row--;
+            if (globalY < 0) pos.column--;
+            return true;
+        }
+
+        Rectangle lastVisibleRect;
         int cellSize = GameOptions.Instanse.CellSize;
         bool canInput = true;
         Animation cross, zero;
