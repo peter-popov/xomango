@@ -16,10 +16,6 @@ namespace xomango.layers
 {
     class TurnsLayer: Layer
     {
-        ContentManager content;
-        Board board;
-        Vector2 drawSize;
-
         public event EventHandler<TouchEventArgs> ScreenTaped;
 
         public override void HandleInput(GestureSample sample)
@@ -147,6 +143,9 @@ namespace xomango.layers
             return true;
         }
 
+        ContentManager content;
+        Board board;
+        Vector2 drawSize;
         Rectangle lastVisibleRect;
         int cellSize = GameOptions.Instanse.CellSize;
         bool canInput = true;

@@ -37,13 +37,12 @@ namespace xomango
             timer.UpdateInterval = TimeSpan.FromTicks(333333);
             timer.Update += OnUpdate;
             timer.Draw += OnDraw;
-
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Set the sharing mode of the graphics device to turn on XNA rendering
-            SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
+            SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);            
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
@@ -52,7 +51,6 @@ namespace xomango
             // TODO: use this.content to load your game content here
             game = new XoGame(gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 480, 720), content);
 
-            game.Orientation = ConvertPageOrientation(this.Orientation);
             game.LoadContent();
 
             // Start the timer
@@ -112,7 +110,7 @@ namespace xomango
 
         private void PageOrientationChanged(object sender, OrientationChangedEventArgs e)
         {
-            game.Orientation = ConvertPageOrientation(e.Orientation);
+            //game.Orientation = ConvertPageOrientation(e.Orientation);
             switch (e.Orientation)
             {
                 case PageOrientation.Portrait:

@@ -31,6 +31,19 @@ namespace xomango
             }
         }
 
+        public void HandleInput(object sender, control.TouchEventArgs args)
+        {
+            //TODO: think about it
+            if (player1 is control.HumanPlayer)
+            {
+                (player1 as control.HumanPlayer).HandleInput(sender, args);
+            }
+            if (player2 is control.HumanPlayer)
+            {
+                (player2 as control.HumanPlayer).HandleInput(sender, args);
+            }
+        }
+
         public BasePlayer Player1
         {
             get { return player1; }

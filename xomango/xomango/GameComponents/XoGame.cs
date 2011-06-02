@@ -29,8 +29,7 @@ namespace xomango
         {
             this.gameController = gameController;
             this.screenRect = rect;
-            this.content = content;
-            //this.EnabledGestures = GestureType.FreeDrag | GestureType.Tap;
+            this.content = content;           
             gameLayers = new LayersCollection();
             scrollLayer = new ScrollLayer(gameLayers, screenRect);            
         }
@@ -43,9 +42,7 @@ namespace xomango
 
         private void InitPlayers()
         {
-            control.HumanPlayer player1 = new control.HumanPlayer(gameController.GameBoard, "Player1", CoreCZ.Side.Cross);
-           
-            
+            control.HumanPlayer player1 = new control.HumanPlayer(gameController.GameBoard, "Player1", CoreCZ.Side.Cross);                       
             control.MachinePlayer player2 = new control.MachinePlayer(gameController.GameBoard, CoreCZ.Side.Zero);
             gameController.Player1 = player1;
             gameController.Player2 = player2;
@@ -70,8 +67,7 @@ namespace xomango
                                         gameController.GameBoard,
                                         new Vector2(screenRect.Width, screenRect.Height));
             
-            turnsLayer.ScreenTaped += (gameController.Player1 as control.HumanPlayer).HandleInput;
-
+            turnsLayer.ScreenTaped += gameController.HandleInput;
             gameController.OnTurn += turnsLayer.OnTurnDone;
 
             gameLayers.AddLayer(turnsLayer);
@@ -97,7 +93,7 @@ namespace xomango
             gameController.Update(gameTime);
         }
 
-        public void Draw(/*GameTime gameTime*/)
+        public void Draw()
         {
             scrollLayer.Draw(spriteBatch, screenRect);
         }
