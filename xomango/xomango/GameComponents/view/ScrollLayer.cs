@@ -26,9 +26,15 @@ namespace xomango.layers
         public ScrollLayer(Layer view, Rectangle boundingRect)
         {
             innerView = view;
-            currentView = boundingRect;
-            viewport = new Viewport(boundingRect);
+            ScreenViewport = boundingRect;            
             VirtualViewport = boundingRect;
+            currentView = boundingRect;
+            graphicViewport = new Viewport(boundingRect.X, boundingRect.Y,
+                Math.Min(boundingRect.Width, boundingRect.Height),
+                Math.Max(boundingRect.Width, boundingRect.Height));
+            graphicViewport.MaxDepth = 0.9f;
+            graphicViewport.MinDepth = 0.1f;
+
         }
 
         public void Reset()
@@ -64,7 +70,13 @@ namespace xomango.layers
         {          
             //save old viewport
             Viewport oldViewPort = spriteBatch.GraphicsDevice.Viewport;
-            spriteBatch.GraphicsDevice.Viewport = new Viewport(viewportRect);
+            try
+            {
+                spriteBatch.GraphicsDevice.Viewport = new Viewport(viewportRect);
+            }
+            catch
+            {
+            }
             spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, translation);
 
             innerView.Draw(spriteBatch, currentView);
@@ -73,7 +85,7 @@ namespace xomango.layers
             // restore viewport
             spriteBatch.GraphicsDevice.Viewport = oldViewPort;
         }
-
+        
         public void Scroll(Vector2 delta)
         {
             offset -= delta;
@@ -81,11 +93,11 @@ namespace xomango.layers
             offset.X = Math.Max(offset.X, VirtualViewport.X);
             offset.Y = Math.Max(offset.Y, VirtualViewport.Y);
 
-            offset.X = Math.Min(offset.X, VirtualViewport.Right - viewport.Width);
-            offset.Y = Math.Min(offset.Y, VirtualViewport.Bottom - viewport.Height);
+            offset.X = Math.Min(offset.X, VirtualViewport.Right - ScreenViewport.Width);
+            offset.Y = Math.Min(offset.Y, VirtualViewport.Bottom - ScreenViewport.Height);
 
             translation = Matrix.CreateTranslation(-offset.X, -offset.Y, 0);
-            currentView = new Rectangle((int)offset.X, (int)offset.Y, viewport.Width, viewport.Height);       
+            currentView = new Rectangle((int)offset.X, (int)offset.Y, ScreenViewport.Width, ScreenViewport.Height);       
             if (Scrolled != null)
             {
                 Scrolled(this, new ViewRectChangedEventArgs(currentView));
@@ -98,12 +110,27 @@ namespace xomango.layers
             set;
         }
 
+        public Rectangle ScreenViewport
+        {
+            get
+            {
+                return screenViewport;
+            }
+            set
+            {
+                screenViewport = value;
+                Scroll(new Vector2(0, 0));
+            }
+        }
+
         public EventHandler<ViewRectChangedEventArgs> Scrolled;
+
+        private Viewport graphicViewport;
+        private Rectangle screenViewport;
+        private Rectangle currentView;
 
         private Matrix translation;
         private Vector2 offset;
-        private Rectangle currentView;
-        private Viewport viewport;        
         private Layer innerView;
     }
 }

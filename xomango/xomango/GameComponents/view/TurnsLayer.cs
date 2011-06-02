@@ -155,7 +155,6 @@ namespace xomango.layers
         Turn curentTurn;
         List<Position> turns = new List<Position>();
         Texture2D crossFrames;
-        Texture2D zeroFrames;
-        
+        Texture2D zeroFrames;        
     }
 }

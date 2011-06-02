@@ -38,7 +38,6 @@ namespace xomango
             timer.Update += OnUpdate;
             timer.Draw += OnDraw;
 
-            game = new XoGame(gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 800, 480), content);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -49,7 +48,11 @@ namespace xomango
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
 
+
             // TODO: use this.content to load your game content here
+            game = new XoGame(gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 480, 720), content);
+
+            game.Orientation = ConvertPageOrientation(this.Orientation);
             game.LoadContent();
 
             // Start the timer
@@ -86,8 +89,43 @@ namespace xomango
         {
             SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
             
-            game.Draw(new GameTime(e.TotalTime, e.ElapsedTime) );
+            game.Draw(/*new GameTime(e.TotalTime, e.ElapsedTime)*/);
             // TODO: Add your drawing code here
+        }
+
+        private DisplayOrientation ConvertPageOrientation(PageOrientation po)
+        {
+            switch (po)
+            {
+                case PageOrientation.Landscape:
+                case PageOrientation.LandscapeLeft:
+                    return DisplayOrientation.LandscapeLeft;
+                case PageOrientation.LandscapeRight:
+                    return DisplayOrientation.LandscapeRight;
+                case PageOrientation.Portrait:
+                case PageOrientation.PortraitUp:
+                case PageOrientation.PortraitDown:
+                    return DisplayOrientation.Portrait;
+            }
+            return DisplayOrientation.Default;
+        }
+
+        private void PageOrientationChanged(object sender, OrientationChangedEventArgs e)
+        {
+            game.Orientation = ConvertPageOrientation(e.Orientation);
+            switch (e.Orientation)
+            {
+                case PageOrientation.Portrait:
+                case PageOrientation.PortraitDown:
+                case PageOrientation.PortraitUp:
+                    game.ScreenRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, (int)this.ActualWidth, (int)this.ActualHeight - 80);
+                    break;
+                default:
+                    game.ScreenRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, (int)this.ActualWidth - 80, (int)this.ActualHeight);
+                    break;
+            }
+
+            game.Draw();
         }
     }
 }

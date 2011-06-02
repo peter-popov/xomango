@@ -34,19 +34,7 @@ namespace xomango
             gameLayers = new LayersCollection();
             scrollLayer = new ScrollLayer(gameLayers, screenRect);            
         }
-
-        public event EventHandler<ViewRectChangedEventArgs> VisibleRectChanged
-        {
-            add
-            {
-                scrollLayer.Scrolled += value;
-            }
-            remove
-            {
-                scrollLayer.Scrolled -= value;            
-            }
-        }
-
+        
         public void Reset()
         {
             scrollLayer.Reset();
@@ -109,12 +97,10 @@ namespace xomango
             gameController.Update(gameTime);
         }
 
-        public void Draw(GameTime gameTime)
+        public void Draw(/*GameTime gameTime*/)
         {
-            scrollLayer.Draw(spriteBatch, GetScreenRectWithOrientation());
+            scrollLayer.Draw(spriteBatch, screenRect);
         }
-
-        public event EventHandler<control.TouchEventArgs> ScreenTouched;
 
         private void NewTurnDone(object sender, TurnEventArgs args)
         {
@@ -142,16 +128,17 @@ namespace xomango
              );
         }
 
-        private Rectangle GetScreenRectWithOrientation()
+        public Rectangle ScreenRectangle
         {
-            //if (ScreenManager.Game.Window.CurrentOrientation != DisplayOrientation.Portrait)
-            //{
-            //    return screenRect;
-            //}
-            return new Rectangle(screenRect.X, screenRect.Y, screenRect.Height, screenRect.Width);
+            set
+            {
+                scrollLayer.ScreenViewport = value;
+                screenRect = value;
+            }
+            get
+            {
+                return screenRect;
+            }
         }
-
-       
-
     }
 }
