@@ -30,8 +30,8 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             
             <!--Createa a single button to navigate to the second page which is rendered with XNA-->
-            <Button Height="100" Content="Change to XNA rendered page" Click="Button_Click" />
-            
+            <Button Height="100" Content="Resume game" Click="Button_Click" Margin="0,104,0,435" />
+            <Button Content="New game" Height="108" HorizontalAlignment="Left" Margin="0,197,0,0" Name="button1" VerticalAlignment="Top" Width="456" Click="button1_Click" />
         </Grid>
     </Grid>
  

@@ -245,6 +245,16 @@ namespace CoreCZ
             get { return mWin; }
         }
 
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public IEnumerable<Turn> Turns
+        {
+            get { return mTurns; }
+        }
+
+
         /// <summary>
         /// 
         /// </summary>

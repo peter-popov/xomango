@@ -107,7 +107,6 @@ namespace xomango
                 //WTF!!!
                 Debug.Assert(false, "WTF in GameControler::nextPlayer()!");
             }
-
         }
 
         public Board GameBoard

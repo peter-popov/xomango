@@ -26,5 +26,10 @@ namespace xomango
         {
             NavigationService.Navigate(new Uri("/GamePage.xaml", UriKind.Relative));
         }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/GamePage.xaml", UriKind.Relative));
+        }
     }
 }

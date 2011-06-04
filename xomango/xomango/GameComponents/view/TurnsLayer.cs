@@ -20,7 +20,7 @@ namespace xomango.layers
 
         public override void HandleInput(GestureSample sample)
         {
-            if (sample.GestureType == GestureType.Tap)
+            if (sample.GestureType == GestureType.Tap && canInput)
             {
                 Position pos;
                 if (translateTapPosition(sample.Position, out pos) && ScreenTaped != null)
@@ -34,7 +34,6 @@ namespace xomango.layers
         {
             curentTurnAnimation = null;
             canInput = true;
-            turns.Clear();
         }
 
         public TurnsLayer(ContentManager contentManager, Board gameBoard, Vector2 drawSize)
@@ -75,8 +74,6 @@ namespace xomango.layers
                 canInput = !curentTurnAnimation.Update(gameTime);
                 if (canInput)
                 {
-                    //Animation ended
-                    turns.Add(curentTurn.position);
                     curentTurnAnimation = null;
                 }
             }
@@ -84,8 +81,14 @@ namespace xomango.layers
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle rect)
         {
-            foreach (Position p in turns)
+            foreach (Turn turn in board.Turns)
             {
+                Position p = turn.position;                
+                //Do not draw turn which is currently animated
+                if (curentTurnAnimation != null && p == curentTurn.position)
+                {
+                    continue;
+                }
                 if (board[p] == Side.Cross)
                 {
                     cross.Draw(spriteBatch, new Vector2(p.row * cellSize, p.column * cellSize), SpriteEffects.None);
@@ -95,7 +98,6 @@ namespace xomango.layers
                     zero.Draw(spriteBatch, new Vector2(p.row * cellSize, p.column * cellSize), SpriteEffects.None);
                 }
             }
-
 
             if (curentTurnAnimation != null)
             {
@@ -107,12 +109,6 @@ namespace xomango.layers
 
         public void OnTurnDone(object sender, TurnEventArgs args)
         {
-            if (curentTurnAnimation != null)
-            {
-                //Somedoby tapping too fast
-                turns.Add(curentTurn.position);
-            }
-
             curentTurn = args.Turn;
             if (curentTurn.side == Side.Cross)
             {
@@ -152,7 +148,6 @@ namespace xomango.layers
         Animation cross, zero;
         Animation curentTurnAnimation;
         Turn curentTurn;
-        List<Position> turns = new List<Position>();
         Texture2D crossFrames;
         Texture2D zeroFrames;        
     }
