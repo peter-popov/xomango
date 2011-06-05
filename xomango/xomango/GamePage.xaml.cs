@@ -123,7 +123,14 @@ namespace xomango
         {
             if (gameControler.GameBoard.Winner)
             {
-                MessageBox.Show("Somebody win!");
+                if (gameControler.CurrentPlayer.Type == PlayerType.Human)
+                {
+                    MessageBox.Show("Congratulations! You win!");
+                }
+                else
+                {
+                    MessageBox.Show("Sorry, you lose.");                
+                }
             }
         }
 

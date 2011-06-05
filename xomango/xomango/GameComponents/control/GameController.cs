@@ -116,6 +116,11 @@ namespace xomango
             }
         }
 
+        public BasePlayer CurrentPlayer
+        {
+            get { return currentPlayer; }
+        }
+
         private void playerMadeTurn(object sender, TurnEventArgs args)
         {
             if (sender == currentPlayer)
@@ -128,7 +133,10 @@ namespace xomango
                     }
                     OnTurn(this, args);
                 }
-                nextPlayer();
+                if (!gameBoard.Winner)
+                {
+                    nextPlayer();
+                }
             }
             else
             {
