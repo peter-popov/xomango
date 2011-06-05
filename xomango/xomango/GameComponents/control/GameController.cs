@@ -73,6 +73,10 @@ namespace xomango
 
         public void HandleInput(object sender, control.TouchEventArgs args)
         {
+            if (gameBoard.Winner)
+            {
+                return;
+            }
             //TODO: think about it
             if (player1 is control.HumanPlayer)
             {
