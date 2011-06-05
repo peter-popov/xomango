@@ -48,7 +48,10 @@ namespace xomango
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
 
-            gameControler = GameControler.Load();
+            if (NavigationContext.QueryString["resume"] == "true")
+            {
+                gameControler = GameControler.Load();            
+            }            
             if (gameControler==null)
             {
                 gameControler = new GameControler();
