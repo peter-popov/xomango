@@ -66,7 +66,9 @@ namespace xomango
             // Will couse initialization of all others layers
             scrollLayer.Initialize();           
 
-            gameController.OnTurn += NewTurnDone;            
+            gameController.OnTurn += NewTurnDone;
+
+            UpdateVirtualViewport();
         }
 
         public void Update(GameTime gameTime)
@@ -86,6 +88,11 @@ namespace xomango
         }
 
         private void NewTurnDone(object sender, TurnEventArgs args)
+        {
+            UpdateVirtualViewport();
+        }
+
+        private void UpdateVirtualViewport()
         {
             //need to calculate new scrolling space
             CoreCZ.Area area = gameController.GameBoard.BoundingBox;
