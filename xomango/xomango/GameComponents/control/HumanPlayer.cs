@@ -9,7 +9,7 @@ using CoreCZ;
 namespace xomango.control
 {
     class HumanPlayer:BasePlayer
-    {
+    {        
         public HumanPlayer(Board board, string name, Side side)
         {
             this.board = board;
@@ -19,6 +19,8 @@ namespace xomango.control
             // Enable tap gestures
             TouchPanel.EnabledGestures = TouchPanel.EnabledGestures | GestureType.Tap;
         }
+
+        public override PlayerType Type { get { return PlayerType.Human; } }
 
         public override void Update(GameTime gameTime)
         {

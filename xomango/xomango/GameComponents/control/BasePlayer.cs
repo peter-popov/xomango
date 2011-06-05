@@ -8,6 +8,14 @@ using CoreCZ;
 
 namespace xomango
 {
+    public enum PlayerType
+    {
+        Human,
+        Machine,
+        Online
+    }
+
+
     public class TurnEventArgs : EventArgs
     {
         public TurnEventArgs(Turn turn)
@@ -23,6 +31,8 @@ namespace xomango
     /// </summary>
     public abstract class BasePlayer
     {
+        public abstract PlayerType Type { get; }
+
         public abstract void Update(GameTime gameTime);
 
         public abstract string Name { get; }

@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 
 namespace CoreCZ
@@ -266,6 +267,46 @@ namespace CoreCZ
             CurrentPlayer = Side.Cross;
             mWin = false;
         }
+
+#region Serialization
+        private void writePos(Position p, BinaryWriter bw)
+        {
+            bw.Write(p.row);
+            bw.Write(p.column);            
+        }
+
+        private Position readPos(BinaryReader br)
+        {
+            short row = br.ReadInt16();
+            short col = br.ReadInt16();
+            return new Position(row, col);
+        }
+
+
+        public void Serialize(BinaryWriter bw)
+        {
+            //Simply write all turns
+            bw.Write(mTurns.Count);
+            foreach(Turn turn in mTurns)
+            {
+                writePos(turn.position, bw);
+                bw.Write((int)turn.side);
+            }
+        }
+
+        public void Deserialize(BinaryReader br)
+        {
+            Clear();
+            // read and "make" all turns
+            int count = br.ReadInt32();
+            for (int i = 0; i < count; ++i)
+            {
+                Position p = readPos(br);
+                Side s = (Side)(br.ReadInt32());
+                this[p] = s;
+            }
+        }
+#endregion
     }
 
     #region Board Implementations
@@ -317,7 +358,7 @@ namespace CoreCZ
         {
             return new Area( new Position( Math.Min( a.sw.row, p.row ), Math.Min( a.sw.column, p.column )),
                              new Position( Math.Max( a.ne.row, p.row ), Math.Max( a.ne.column, p.column )) );
-        }
+        }        
 
         private Area mBoundingBox;
         private List<Turn> mTurns = new List<Turn>();

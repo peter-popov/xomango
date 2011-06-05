@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -181,17 +182,29 @@ namespace CoreCZ.AI
         }
         #endregion
 
+        #region Serialization
+
+        public void Serialize(BinaryWriter bw)
+        {
+            
+        }
+
+        public void Deserialize(BinaryReader bw)
+        {
+
+        }
+        #endregion
+
         #region Fields
         private Side side;
         private Area area;
-        private PositionInfo[,] data;
+        private PositionInfo[,] data;        
         #endregion
     }
 
 
     partial class State
     {
-
         private void UpdateLines(Position pos)
         {
             System.Diagnostics.Debug.Assert(this[pos] != null, "Can't update from empty position");

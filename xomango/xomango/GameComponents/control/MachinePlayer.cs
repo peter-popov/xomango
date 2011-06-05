@@ -12,12 +12,16 @@ namespace xomango.control
     {
         public MachinePlayer(Board board, Side side)
         {
-            playerAI = new SimplePlayer(side);
+            playerAI = new SimplePlayer(side, board);
             this.board = board;
             this.side = side;
         }
 
         bool timeToMakeTheTurn = false;
+
+
+        public override PlayerType Type { get { return PlayerType.Machine; } }
+
         
         public void OnEnemyMadeTurn(Object sender, TurnEventArgs args)
         {

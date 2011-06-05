@@ -19,6 +19,22 @@ namespace CoreCZ
             //ai = new AI.MinMax.MinMax(new HeuristicCostFunction(), this.gen);
         }
 
+        public SimplePlayer(Side s, Board b)
+        {
+            this.Side = s;
+            foreach (Turn turn in b.Turns)
+            {
+                if (currentState == null)
+                {
+                    currentState = new State(turn.position, turn.side);
+                }
+                else
+                {
+                    currentState = currentState.DeriveState(turn.position);
+                }
+            }
+        }
+
         public Side Side { get; set; }
 
         public void EnemyTurn(Position pos)

@@ -40,19 +40,8 @@ namespace xomango
             turnsLayer.Clear();
         }
 
-        private void InitPlayers()
-        {
-            control.HumanPlayer player1 = new control.HumanPlayer(gameController.GameBoard, "Player1", CoreCZ.Side.Cross);                       
-            control.MachinePlayer player2 = new control.MachinePlayer(gameController.GameBoard, CoreCZ.Side.Zero);
-            gameController.Player1 = player1;
-            gameController.Player2 = player2;
-            player1.OnTurnMade += player2.OnEnemyMadeTurn;
-        }
-
         public void LoadContent()
         {
-            InitPlayers();
-
             TouchPanel.EnabledGestures =
                 GestureType.Tap |
                 GestureType.FreeDrag;
@@ -77,9 +66,7 @@ namespace xomango
             // Will couse initialization of all others layers
             scrollLayer.Initialize();           
 
-            gameController.OnTurn += NewTurnDone;
-
-            gameController.Restart();
+            gameController.OnTurn += NewTurnDone;            
         }
 
         public void Update(GameTime gameTime)

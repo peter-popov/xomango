@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.IO.IsolatedStorage;
 using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -22,7 +23,7 @@ namespace xomango
         ContentManager content;
         GameTimer timer;
         SpriteBatch spriteBatch;
-        GameControler gameControler = new GameControler();
+        GameControler gameControler;
         XoGame game;
 
         public GamePage()
@@ -47,14 +48,19 @@ namespace xomango
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
 
-
+            gameControler = GameControler.Load();
+            if (gameControler==null)
+            {
+                gameControler = new GameControler();
+                gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);
+            }
             // TODO: use this.content to load your game content here
             game = new XoGame(gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 480, 720), content);
 
             game.LoadContent();
 
             // Start the timer
-            timer.Start();
+            timer.Start();                        
 
             base.OnNavigatedTo(e);
         }
@@ -67,7 +73,17 @@ namespace xomango
             // Set the sharing mode of the graphics device to turn off XNA rendering
             SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(false);
 
+            gameControler.Save();
             base.OnNavigatedFrom(e);
+        }
+
+        private void InitPlayers()
+        {
+            control.HumanPlayer player1 = new control.HumanPlayer(gameControler.GameBoard, "Player1", CoreCZ.Side.Cross);
+            control.MachinePlayer player2 = new control.MachinePlayer(gameControler.GameBoard, CoreCZ.Side.Zero);
+            gameControler.Player1 = player1;
+            gameControler.Player2 = player2;
+            player1.OnTurnMade += player2.OnEnemyMadeTurn;
         }
 
         /// <summary>

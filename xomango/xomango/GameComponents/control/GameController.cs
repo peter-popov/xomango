@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.IO.IsolatedStorage;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +10,18 @@ using CoreCZ;
 
 namespace xomango
 {
+
+    
     class GameControler
     {
         public GameControler()
         {
             gameBoard = new Board();
+        }
+
+        private GameControler(Board board)
+        {
+            gameBoard = board;
         }
 
         public void Restart()
@@ -21,6 +30,37 @@ namespace xomango
             currentPlayer = player1;
             player1.Reset();
             player2.Reset();
+        }
+
+
+        public void SetUpGame(PlayerType pt1, PlayerType pt2)
+        {
+            if (pt1 == PlayerType.Human)
+            {
+                Player1 = new control.HumanPlayer(gameBoard, "You", Side.Cross);
+            }
+            else if (pt1 == PlayerType.Machine)
+            {
+                Player1 = new control.MachinePlayer(gameBoard, Side.Cross);
+            }
+
+            if (pt2 == PlayerType.Human)
+            {
+                Player2 = new control.HumanPlayer(gameBoard, "You", Side.Zero);
+                if (pt1 == PlayerType.Machine)
+                {
+                    Player2.OnTurnMade += (Player1 as control.MachinePlayer).OnEnemyMadeTurn;
+                }
+            }
+            else if (pt2 == PlayerType.Machine)
+            {
+                Player2 = new control.MachinePlayer(gameBoard, Side.Zero);
+                if (pt1 == PlayerType.Human)
+                {
+                    Player1.OnTurnMade += (Player2 as control.MachinePlayer).OnEnemyMadeTurn;
+                }
+            }
+            currentPlayer = player1;
         }
 
         public void Update(GameTime gameTime)
@@ -114,6 +154,81 @@ namespace xomango
             get { return gameBoard; }
         }
 
+        public static GameControler Load()
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            if ( !settings.Contains("Saved") || settings["Saved"] == false.ToString())
+            {
+                return null;
+            }
+
+            Board board = new Board();
+            GameControler ctrl;
+            try
+            {
+                using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    using (IsolatedStorageFileStream isoStream = store.OpenFile(@"board.dat", FileMode.Open))
+                    {
+                        BinaryReader br = new BinaryReader(isoStream);
+                        board.Deserialize(br);
+                        br.Close();
+                    }
+                }
+                ctrl = new GameControler(board);
+
+                ctrl.SetUpGame(parseType(settings["Game.Player1"].ToString()), parseType(settings["Game.Player2"].ToString()));
+
+                if (settings["Game.CurrentTurnFrom"].ToString() == 1.ToString())
+                {
+                    ctrl.currentPlayer = ctrl.player1;
+                }
+                else
+                {
+                    ctrl.currentPlayer = ctrl.player2;                
+                }
+
+                return ctrl;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public void Save()
+        {
+            using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream isoStream = store.OpenFile(@"board.dat", FileMode.OpenOrCreate))
+                {
+                    BinaryWriter wr = new BinaryWriter(isoStream);
+                    gameBoard.Serialize(wr);
+                    wr.Close();
+                }
+            }
+
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            settings["Saved"] = true;
+            settings["Game.Player1"] = Player1.Type;
+            settings["Game.Player2"] = Player2.Type;
+            settings["Game.CurrentTurnFrom"] = (player1 == currentPlayer) ? 1 : 2;
+        }
+
+        private static PlayerType parseType(string s)
+        {
+            if (s == PlayerType.Human.ToString())
+            {
+                return PlayerType.Human;
+            }
+            else if (s == PlayerType.Machine.ToString())
+            {
+                return PlayerType.Machine;
+            }
+            Debug.Assert(false);
+            return PlayerType.Human;            
+        }
+
         public event EventHandler<TurnEventArgs> OnTurn;
     
 
@@ -121,8 +236,5 @@ namespace xomango
         private BasePlayer player2;
         private BasePlayer currentPlayer;
         private Board gameBoard;
-
-
-
     }
 }
