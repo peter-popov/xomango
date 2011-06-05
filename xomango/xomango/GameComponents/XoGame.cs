@@ -101,7 +101,8 @@ namespace xomango
             Point to = new Point(area.ne.row, area.ne.column);
             if (from.X > to.X || from.Y > to.Y)
             {
-                //This is fucking imposible!
+                //No turns have been made yet, st minimum rectangle
+                scrollLayer.VirtualViewport = screenRect;
                 return;
             }
 
@@ -124,6 +125,7 @@ namespace xomango
             {
                 scrollLayer.ScreenViewport = value;
                 screenRect = value;
+                UpdateVirtualViewport();
             }
             get
             {
