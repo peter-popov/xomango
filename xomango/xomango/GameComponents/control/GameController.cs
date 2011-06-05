@@ -154,9 +154,10 @@ namespace xomango
             get { return gameBoard; }
         }
 
+        #region Serialization
         public static GameControler Load()
         {
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;            
             if ( !settings.Contains("Saved") || settings["Saved"] == false.ToString())
             {
                 return null;
@@ -198,6 +199,16 @@ namespace xomango
 
         public void Save()
         {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            settings.Remove("Saved");
+
+            if (gameBoard.Turns.Count() == 0 || gameBoard.Winner)
+            {
+                return;
+            }
+            
+            settings["Saved"] = true;            
+
             using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 using (IsolatedStorageFileStream isoStream = store.OpenFile(@"board.dat", FileMode.OpenOrCreate))
@@ -208,8 +219,6 @@ namespace xomango
                 }
             }
 
-            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
-            settings["Saved"] = true;
             settings["Game.Player1"] = Player1.Type;
             settings["Game.Player2"] = Player2.Type;
             settings["Game.CurrentTurnFrom"] = (player1 == currentPlayer) ? 1 : 2;
@@ -228,6 +237,8 @@ namespace xomango
             Debug.Assert(false);
             return PlayerType.Human;            
         }
+
+        #endregion
 
         public event EventHandler<TurnEventArgs> OnTurn;
     

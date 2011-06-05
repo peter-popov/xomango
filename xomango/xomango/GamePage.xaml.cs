@@ -57,6 +57,7 @@ namespace xomango
                 gameControler = new GameControler();
                 gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);
             }
+            gameControler.OnTurn += NewTurnDone;
             // TODO: use this.content to load your game content here
             game = new XoGame(gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 480, 720), content);
 
@@ -78,16 +79,7 @@ namespace xomango
 
             gameControler.Save();
             base.OnNavigatedFrom(e);
-        }
-
-        private void InitPlayers()
-        {
-            control.HumanPlayer player1 = new control.HumanPlayer(gameControler.GameBoard, "Player1", CoreCZ.Side.Cross);
-            control.MachinePlayer player2 = new control.MachinePlayer(gameControler.GameBoard, CoreCZ.Side.Zero);
-            gameControler.Player1 = player1;
-            gameControler.Player2 = player2;
-            player1.OnTurnMade += player2.OnEnemyMadeTurn;
-        }
+        }      
 
         /// <summary>
         /// Allows the page to run logic such as updating the world,
@@ -125,6 +117,14 @@ namespace xomango
                     return DisplayOrientation.Portrait;
             }
             return DisplayOrientation.Default;
+        }
+
+        private void NewTurnDone(object sender, TurnEventArgs args)
+        {
+            if (gameControler.GameBoard.Winner)
+            {
+                MessageBox.Show("Somebody win!");
+            }
         }
 
         private void PageOrientationChanged(object sender, OrientationChangedEventArgs e)
