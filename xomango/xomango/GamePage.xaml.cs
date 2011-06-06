@@ -24,6 +24,7 @@ namespace xomango
         GameTimer timer;
         SpriteBatch spriteBatch;
         GameControler gameControler;
+        bool hasWinner=false;
         XoGame game;
 
         public GamePage()
@@ -57,11 +58,12 @@ namespace xomango
                 gameControler = new GameControler();
                 gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);
             }
-            gameControler.OnTurn += NewTurnDone;
+           
             // TODO: use this.content to load your game content here
             game = new XoGame(gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 480, 720), content);
-
+           
             game.LoadContent();
+            game.TurnAnimationEvent += OnAnimationReady;
 
             // Start the timer
             timer.Start();                        
@@ -119,7 +121,7 @@ namespace xomango
             return DisplayOrientation.Default;
         }
 
-        private void NewTurnDone(object sender, TurnEventArgs args)
+        private void OnAnimationReady(object sender, EventArgs args)
         {
             if (gameControler.GameBoard.Winner)
             {
@@ -136,7 +138,6 @@ namespace xomango
 
         private void PageOrientationChanged(object sender, OrientationChangedEventArgs e)
         {
-            //game.Orientation = ConvertPageOrientation(e.Orientation);
             switch (e.Orientation)
             {
                 case PageOrientation.Portrait:

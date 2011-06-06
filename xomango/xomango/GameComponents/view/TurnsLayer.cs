@@ -17,6 +17,7 @@ namespace xomango.layers
     class TurnsLayer: Layer
     {
         public event EventHandler<TouchEventArgs> ScreenTaped;
+        public event EventHandler<EventArgs> TurnAnimationFinished;
 
         public override void HandleInput(GestureSample sample)
         {
@@ -56,8 +57,7 @@ namespace xomango.layers
         /// to run.  This is where it can query for any required services and load content.
         /// </summary>
         public override void Initialize()
-        {
-      
+        {      
             crossFrames = content.Load<Texture2D>("animation/cross_animation");
             cross = createTurnAnimation(crossFrames, 60, 10);
             cross.Stop();
@@ -74,6 +74,10 @@ namespace xomango.layers
                 canInput = !curentTurnAnimation.Update(gameTime);
                 if (canInput)
                 {
+                    if (TurnAnimationFinished != null)
+                    {
+                        TurnAnimationFinished(this, new EventArgs());
+                    }
                     curentTurnAnimation = null;
                 }
             }

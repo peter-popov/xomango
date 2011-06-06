@@ -132,5 +132,19 @@ namespace xomango
                 return screenRect;
             }
         }
+
+        public event EventHandler<EventArgs> TurnAnimationEvent
+        {
+            add 
+            {
+                if (turnsLayer != null)
+                    turnsLayer.TurnAnimationFinished += value;
+            }
+            remove
+            {
+                if (turnsLayer != null)
+                    turnsLayer.TurnAnimationFinished -= value;            
+            }
+        }
     }
 }
