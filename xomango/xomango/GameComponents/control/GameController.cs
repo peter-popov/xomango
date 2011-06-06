@@ -32,6 +32,13 @@ namespace xomango
             player2.Reset();
         }
 
+        public void Undo()
+        {
+            gameBoard.Undo();
+            gameBoard.Undo();
+            player1.Undo();
+            player2.Undo();
+        }
 
         public void SetUpGame(PlayerType pt1, PlayerType pt2)
         {

@@ -31,7 +31,8 @@ namespace xomango
             this.screenRect = rect;
             this.content = content;           
             gameLayers = new LayersCollection();
-            scrollLayer = new ScrollLayer(gameLayers, screenRect);            
+            scrollLayer = new ScrollLayer(gameLayers, screenRect);
+            
         }
         
         public void Reset()

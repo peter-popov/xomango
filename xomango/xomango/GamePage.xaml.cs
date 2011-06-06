@@ -27,6 +27,8 @@ namespace xomango
         bool hasWinner=false;
         XoGame game;
 
+        UIElementRenderer elementRenderer;
+
         public GamePage()
         {
             InitializeComponent();
@@ -66,7 +68,9 @@ namespace xomango
             game.TurnAnimationEvent += OnAnimationReady;
 
             // Start the timer
-            timer.Start();                        
+            timer.Start();
+
+            elementRenderer = new UIElementRenderer(this, (int)DesiredSize.Width, (int)DesiredSize.Height);
 
             base.OnNavigatedTo(e);
         }
@@ -90,7 +94,6 @@ namespace xomango
         private void OnUpdate(object sender, GameTimerEventArgs e)
         {
             game.Update(new GameTime(e.TotalTime, e.ElapsedTime));
-            // TODO: Add your update logic here
         }
 
         /// <summary>
@@ -102,6 +105,11 @@ namespace xomango
             
             game.Draw(/*new GameTime(e.TotalTime, e.ElapsedTime)*/);
             // TODO: Add your drawing code here
+
+            elementRenderer.Render();
+            spriteBatch.Begin();
+            spriteBatch.Draw(elementRenderer.Texture, Vector2.Zero, Microsoft.Xna.Framework.Color.White);
+            spriteBatch.End();
         }
 
         private DisplayOrientation ConvertPageOrientation(PageOrientation po)
@@ -123,6 +131,7 @@ namespace xomango
 
         private void OnAnimationReady(object sender, EventArgs args)
         {
+            undoButton.IsEnabled = true;
             if (gameControler.GameBoard.Winner)
             {
                 if (gameControler.CurrentPlayer.Type == PlayerType.Human)
@@ -133,6 +142,7 @@ namespace xomango
                 {
                     MessageBox.Show("Sorry, you lose.");                
                 }
+                undoButton.IsEnabled = false;
             }
         }
 
@@ -151,6 +161,23 @@ namespace xomango
             }
 
             game.Draw();
+        }
+
+        private void PhoneApplicationPage_LayoutUpdated(object sender, EventArgs e)
+        {
+            // Create the UIElementRenderer to draw the XAML page to a texture.
+            if (ActualWidth > 0 && ActualHeight > 0)
+            {
+                elementRenderer = new UIElementRenderer(this, (int)ActualWidth, (int)ActualHeight);
+            }
+            // Check for 0 because when we navigate away the LayoutUpdate event
+            // is raised but ActualWidth and ActualHeight will be 0 in that case.            
+        }
+
+        private void undoButton_Click(object sender, RoutedEventArgs e)
+        {
+            gameControler.Undo();
+            undoButton.IsEnabled = false;
         }
     }
 }

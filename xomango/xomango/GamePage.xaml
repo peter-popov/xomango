@@ -9,10 +9,20 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape" Orientation="Portrait"
+    SupportedOrientations="PortraitOrLandscape"
     mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="False" OrientationChanged="PageOrientationChanged">
+    shell:SystemTray.IsVisible="False" OrientationChanged="PageOrientationChanged" xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps" LayoutUpdated="PhoneApplicationPage_LayoutUpdated">
     
     <!--No XAML content is required as the page is rendered entirely with XNA-->
-
+    <Grid Height="800" Name="grid1" Width="480" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="170*" />
+            <ColumnDefinition Width="310" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="640*" />
+            <RowDefinition Height="80" />            
+        </Grid.RowDefinitions>
+        <Button Content="Undo" Grid.Row="2" Height="80" HorizontalAlignment="Left" Name="undoButton" VerticalAlignment="Top" Width="170" Click="undoButton_Click" IsEnabled="False" />
+    </Grid>
 </phone:PhoneApplicationPage>

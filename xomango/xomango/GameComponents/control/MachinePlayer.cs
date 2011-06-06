@@ -45,6 +45,11 @@ namespace xomango.control
             timeToMakeTheTurn = false;
         }
 
+        public override void Undo()
+        {
+            playerAI.Undo();
+        }
+
         public override string Name { get { return "Barnie"; } }
 
         public override Side Side { get { return playerAI.Side; } }

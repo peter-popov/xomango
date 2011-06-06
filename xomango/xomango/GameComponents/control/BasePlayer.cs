@@ -41,6 +41,8 @@ namespace xomango
 
         public abstract void Reset( );
 
+        public virtual void Undo() { }
+
         public event EventHandler<TurnEventArgs> OnTurnMade;
 
         protected void madeTurn(Position pos)
