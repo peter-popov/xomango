@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 
 
-namespace xomango.layers
+namespace GameComponents.View
 {
     class GridLayer: Layer
     {

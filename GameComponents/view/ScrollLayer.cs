@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 
-namespace xomango.layers
+namespace GameComponents.View
 {
     public class ViewRectChangedEventArgs : EventArgs
     {

@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace xomango.utils
+namespace GameComponents.View
 {
     class Animation
     {

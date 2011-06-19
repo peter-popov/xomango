@@ -5,11 +5,15 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xomango", "xomango\xomango\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xomangoLib", "xomango\xomangoLib\xomangoLib.csproj", "{EC3EE198-2E80-4309-A40A-3F93F36B7BCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xomangoLibContent", "xomango\xomangoLibContent\xomangoLibContent.contentproj", "{2373002D-D849-4A98-96FA-4FB6573D01C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xogameContent", "xomango\xomangoLibContent\xogameContent.contentproj", "{2373002D-D849-4A98-96FA-4FB6573D01C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCZ", "CoreCZ\CoreCZ.csproj", "{C3496342-D032-4159-946A-B123D6D1466A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameComponents", "GameComponents\GameComponents.csproj", "{03BBD605-7417-4A46-A3CB-CC22265A9782}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xoxna", "xoxna\xoxna\xoxna.csproj", "{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainGUI", "xoxna\PlainGUI\PlainGUI.csproj", "{23F1C49B-2645-47E4-ACCD-E0E512AECC49}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +75,30 @@ Global
 		{03BBD605-7417-4A46-A3CB-CC22265A9782}.Release|Mixed Platforms.Build.0 = Release|Windows Phone
 		{03BBD605-7417-4A46-A3CB-CC22265A9782}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
 		{03BBD605-7417-4A46-A3CB-CC22265A9782}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Debug|Any CPU.ActiveCfg = Debug|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Debug|Mixed Platforms.ActiveCfg = Debug|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Debug|Mixed Platforms.Build.0 = Debug|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Debug|Mixed Platforms.Deploy.0 = Debug|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Debug|Windows Phone.Deploy.0 = Debug|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Release|Any CPU.ActiveCfg = Release|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Release|Mixed Platforms.ActiveCfg = Release|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Release|Mixed Platforms.Build.0 = Release|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Release|Mixed Platforms.Deploy.0 = Release|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Release|Windows Phone.Build.0 = Release|Windows Phone
+		{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}.Release|Windows Phone.Deploy.0 = Release|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Debug|Any CPU.ActiveCfg = Debug|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Debug|Mixed Platforms.ActiveCfg = Debug|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Debug|Mixed Platforms.Build.0 = Debug|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Debug|Windows Phone.Build.0 = Debug|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Release|Any CPU.ActiveCfg = Release|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Release|Mixed Platforms.ActiveCfg = Release|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Release|Mixed Platforms.Build.0 = Release|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Release|Windows Phone.ActiveCfg = Release|Windows Phone
+		{23F1C49B-2645-47E4-ACCD-E0E512AECC49}.Release|Windows Phone.Build.0 = Release|Windows Phone
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

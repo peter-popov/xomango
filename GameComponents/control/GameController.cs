@@ -8,10 +8,8 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using CoreCZ;
 
-namespace xomango
-{
-
-    
+namespace GameComponents.Control
+{    
     public class GameControler
     {
         public GameControler()
@@ -44,27 +42,27 @@ namespace xomango
         {
             if (pt1 == PlayerType.Human)
             {
-                Player1 = new control.HumanPlayer(gameBoard, "You", Side.Cross);
+                Player1 = new HumanPlayer(gameBoard, "You", Side.Cross);
             }
             else if (pt1 == PlayerType.Machine)
             {
-                Player1 = new control.MachinePlayer(gameBoard, Side.Cross);
+                Player1 = new MachinePlayer(gameBoard, Side.Cross);
             }
 
             if (pt2 == PlayerType.Human)
             {
-                Player2 = new control.HumanPlayer(gameBoard, "You", Side.Zero);
+                Player2 = new HumanPlayer(gameBoard, "You", Side.Zero);
                 if (pt1 == PlayerType.Machine)
                 {
-                    Player2.OnTurnMade += (Player1 as control.MachinePlayer).OnEnemyMadeTurn;
+                    Player2.OnTurnMade += (Player1 as MachinePlayer).OnEnemyMadeTurn;
                 }
             }
             else if (pt2 == PlayerType.Machine)
             {
-                Player2 = new control.MachinePlayer(gameBoard, Side.Zero);
+                Player2 = new MachinePlayer(gameBoard, Side.Zero);
                 if (pt1 == PlayerType.Human)
                 {
-                    Player1.OnTurnMade += (Player2 as control.MachinePlayer).OnEnemyMadeTurn;
+                    Player1.OnTurnMade += (Player2 as MachinePlayer).OnEnemyMadeTurn;
                 }
             }
             currentPlayer = player1;
@@ -78,20 +76,20 @@ namespace xomango
             }
         }
 
-        public void HandleInput(object sender, control.TouchEventArgs args)
+        public void HandleInput(object sender, TouchEventArgs args)
         {
             if (gameBoard.Winner)
             {
                 return;
             }
             //TODO: think about it
-            if (player1 is control.HumanPlayer)
+            if (player1 is HumanPlayer)
             {
-                (player1 as control.HumanPlayer).HandleInput(sender, args);
+                (player1 as HumanPlayer).HandleInput(sender, args);
             }
-            if (player2 is control.HumanPlayer)
+            if (player2 is HumanPlayer)
             {
-                (player2 as control.HumanPlayer).HandleInput(sender, args);
+                (player2 as HumanPlayer).HandleInput(sender, args);
             }
         }
 

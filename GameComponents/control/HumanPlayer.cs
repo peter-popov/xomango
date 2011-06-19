@@ -6,7 +6,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input.Touch;
 using CoreCZ;
 
-namespace xomango.control
+namespace GameComponents.Control
 {
     class HumanPlayer:BasePlayer
     {        
@@ -31,7 +31,7 @@ namespace xomango.control
             
         }
 
-        public void HandleInput(object sender, control.TouchEventArgs args)
+        public void HandleInput(object sender, TouchEventArgs args)
         {
             try
             {

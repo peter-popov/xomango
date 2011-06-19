@@ -1,22 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <ProjectGuid>{EC3EE198-2E80-4309-A40A-3F93F36B7BCE}</ProjectGuid>
+    <ProjectGuid>{340B2C40-9BFD-4B4D-83C9-D4AC2D65096A}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">Windows Phone</Platform>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>xomangoLib</RootNamespace>
-    <AssemblyName>xomangoLib</AssemblyName>
+    <RootNamespace>xoxna</RootNamespace>
+    <AssemblyName>xoxna</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows Phone</XnaPlatform>
     <XnaProfile>Reach</XnaProfile>
-    <XnaCrossPlatformGroupID>cab4668a-eb42-47e3-b6a6-e994174f254d</XnaCrossPlatformGroupID>
-    <XnaOutputType>Library</XnaOutputType>
-    <XnaRefreshLevel>1</XnaRefreshLevel>
+    <XnaCrossPlatformGroupID>e1af2b26-a9ae-4222-8721-d50f80f4ce3e</XnaCrossPlatformGroupID>
+    <XnaOutputType>Game</XnaOutputType>
+    <XnaRefreshLevel>0</XnaRefreshLevel>
+    <WPTombstoneEnabled>false</WPTombstoneEnabled>
+    <XapFilename>$(AssemblyName).xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <XnaWindowsPhoneManifestTemplate>Properties\WMAppManifest.xml</XnaWindowsPhoneManifestTemplate>
+    <TileImage>Background.png</TileImage>
+    <TileTitle>xoxna</TileTitle>
+    <SupportedCultures>
+    </SupportedCultures>
+    <ApplicationIcon>Game.ico</ApplicationIcon>
+    <Thumbnail>PhoneGameThumb.png</Thumbnail>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Windows Phone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,13 +65,44 @@
     <Reference Include="System.Net" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BattleScreen.cs" />
+    <Compile Include="MainGame.cs" />
+    <Compile Include="MainMenuScreen.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="Properties\AppManifest.xml">
+      <XnaPlatformSpecific>true</XnaPlatformSpecific>
+    </None>
+    <None Include="Properties\WMAppManifest.xml">
+      <XnaPlatformSpecific>true</XnaPlatformSpecific>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\xomangoLibContent\xogameContent.contentproj">
+    <Content Include="Game.ico" />
+    <Content Include="PhoneGameThumb.png">
+      <XnaPlatformSpecific>true</XnaPlatformSpecific>
+    </Content>
+    <Content Include="Background.png">
+      <XnaPlatformSpecific>true</XnaPlatformSpecific>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\CoreCZ\CoreCZ.csproj">
+      <Project>{C3496342-D032-4159-946A-B123D6D1466A}</Project>
+      <Name>CoreCZ</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\GameComponents\GameComponents.csproj">
+      <Project>{03BBD605-7417-4A46-A3CB-CC22265A9782}</Project>
+      <Name>GameComponents</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\xomango\xomangoLibContent\xogameContent.contentproj">
+      <Project>{2373002D-D849-4A98-96FA-4FB6573D01C4}</Project>
       <Name>xogameContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
-      <Project>{2373002D-D849-4A98-96FA-4FB6573D01C4}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\PlainGUI\PlainGUI.csproj">
+      <Project>{23F1C49B-2645-47E4-ACCD-E0E512AECC49}</Project>
+      <Name>PlainGUI</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

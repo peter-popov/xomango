@@ -6,7 +6,7 @@ using System.Diagnostics;
 using Microsoft.Xna.Framework;
 using CoreCZ;
 
-namespace xomango
+namespace GameComponents.Control
 {
     public enum PlayerType
     {

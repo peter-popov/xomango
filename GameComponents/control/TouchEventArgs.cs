@@ -2,7 +2,7 @@ using System;
 using Microsoft.Xna.Framework.Input.Touch;
 using CoreCZ;
 
-namespace xomango.control
+namespace GameComponents.Control
 {
     public class TouchEventArgs : EventArgs
     {

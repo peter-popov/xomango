@@ -10,31 +10,59 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-using xomango.utils;
-using xomango.layers;
+using GameComponents.Control;
+using GameComponents.View;
 
-namespace xomango
+namespace GameComponents
 {
+    public interface IInputEnumerator
+    {
+        bool IsGestureAvaliable {get;}
+        GestureSample ReadGesture();
+    };
+
+    class DefaultInputEnumerator : IInputEnumerator
+    {
+        public bool IsGestureAvaliable
+        {
+            get
+            {
+                return TouchPanel.IsGestureAvailable;
+            }
+        }
+
+        public GestureSample ReadGesture()
+        {
+            return TouchPanel.ReadGesture();
+        }
+    }
+
     public class XoGame
     {
         GameControler gameController;
         ContentManager content;
-        Rectangle screenRect;
-        layers.ScrollLayer scrollLayer;
-        layers.LayersCollection gameLayers;
+        Rectangle screenRect;        
+        ScrollLayer scrollLayer;
+        LayersCollection gameLayers;
         SpriteBatch spriteBatch;
         TurnsLayer turnsLayer;
         IGraphicsDeviceService deviceService;
+        IInputEnumerator inputEnumerator;
 
         public XoGame(IGraphicsDeviceService deviceService, GameControler gameController, Rectangle rect, ContentManager content)
+            : this(deviceService, gameController, rect, content, new DefaultInputEnumerator())
+        {            
+        }
+
+        public XoGame(IGraphicsDeviceService deviceService, GameControler gameController, Rectangle rect, ContentManager content, IInputEnumerator input)
         {
             this.gameController = gameController;
             this.screenRect = rect;
             this.content = content;
             this.deviceService = deviceService;
+            this.inputEnumerator = input;
             gameLayers = new LayersCollection();
-            scrollLayer = new ScrollLayer(gameLayers, screenRect);
-            
+            scrollLayer = new ScrollLayer(gameLayers, screenRect);            
         }
         
         public void Reset()
@@ -76,9 +104,9 @@ namespace xomango
 
         public void Update(GameTime gameTime)
         {            
-            while (TouchPanel.IsGestureAvailable)
+            while (inputEnumerator.IsGestureAvaliable)
             {
-                scrollLayer.HandleInput(TouchPanel.ReadGesture());
+                scrollLayer.HandleInput(inputEnumerator.ReadGesture());
             }
 
             scrollLayer.Update(gameTime);

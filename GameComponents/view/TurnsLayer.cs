@@ -9,10 +9,9 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input.Touch;
 using CoreCZ;
-using xomango.utils;
-using xomango.control;
+using GameComponents.Control;
 
-namespace xomango.layers
+namespace GameComponents.View
 {
     class TurnsLayer: Layer
     {

@@ -6,7 +6,7 @@ using CoreCZ;
 
 using Microsoft.Xna.Framework;
 
-namespace xomango.control
+namespace GameComponents.Control
 {
     class MachinePlayer : BasePlayer
     {

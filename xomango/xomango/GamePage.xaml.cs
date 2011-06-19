@@ -15,6 +15,8 @@ using Microsoft.Phone.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using GameComponents;
+using GameComponents.Control;
 
 namespace xomango
 {
@@ -24,7 +26,6 @@ namespace xomango
         GameTimer timer;
         SpriteBatch spriteBatch;
         GameControler gameControler;
-        bool hasWinner=false;
         XoGame game;
 
         UIElementRenderer elementRenderer;
