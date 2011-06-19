@@ -66,6 +66,7 @@ namespace PlainGUI
             set { position = value; }
         }
 
+        public Color TextColor;
 
         #endregion
 
@@ -143,7 +144,7 @@ namespace PlainGUI
 #endif
 
             // Draw the selected entry in yellow, otherwise white.
-            Color color = isSelected ? Color.Yellow : Color.White;
+            Color color = isSelected ? Color.Brown : Color.Black;
 
             // Pulsate the size of the selected menu entry.
             double time = gameTime.TotalGameTime.TotalSeconds;

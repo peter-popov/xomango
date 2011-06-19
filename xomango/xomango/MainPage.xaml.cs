@@ -23,8 +23,6 @@ namespace xomango
             InitializeComponent();
         }
 
-
-
         // Simple button Click event handler to take us to the second page
         private void ResumeGameButton_Click(object sender, RoutedEventArgs e)
         {

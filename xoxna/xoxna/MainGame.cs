@@ -25,11 +25,11 @@ namespace xo5
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
 
-            graphics.SupportedOrientations =
-                DisplayOrientation.Default |
-                DisplayOrientation.LandscapeLeft |
-                DisplayOrientation.LandscapeRight |
-                DisplayOrientation.Portrait;
+            graphics.SupportedOrientations = DisplayOrientation.Portrait;
+            //    DisplayOrientation.Default |
+            //    DisplayOrientation.LandscapeLeft |
+            //    DisplayOrientation.LandscapeRight |
+            //    DisplayOrientation.Portrait;
 
             // Frame rate is 30 fps by default for Windows Phone.
             TargetElapsedTime = TimeSpan.FromTicks(333333);
@@ -39,10 +39,13 @@ namespace xo5
             screenManager = new ScreenManager(this);
             gameController = new GameControler();
 
+            graphics.PreferredBackBufferWidth = 480;
+            graphics.PreferredBackBufferHeight = 800;
+
             Components.Add(screenManager);
         }
 
-        Rectangle gameRectangle = new Rectangle(0, 0, 600, 480);
+        Rectangle gameRectangle = new Rectangle(0, 0, 480, 800);
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -52,16 +55,10 @@ namespace xo5
         /// </summary>
         protected override void Initialize()
         {
-            // attempt to deserialize the screen manager from disk. if that fails, we add our default screens.
-            if (!screenManager.DeserializeState())
-            {
-                BattleScreen battleScreen = new BattleScreen(graphics, gameController, gameRectangle);
-                screenManager.AddScreen(battleScreen, null);
-                MainMenuScreen menuScreen = new MainMenuScreen(gameController, gameRectangle, battleScreen);
-                screenManager.AddScreen(menuScreen, null);
-            }
-
-            //bannerAd = adManager.CreateAd("Text480_80", new Rectangle(720, 0, GraphicsDevice.Viewport.Bounds.Width, 80), RotationMode.Manual, false);
+            BattleScreen battleScreen = new BattleScreen(graphics, gameController, gameRectangle);
+            screenManager.AddScreen(battleScreen, null);
+            MainMenuScreen menuScreen = new MainMenuScreen(gameController, gameRectangle, battleScreen);
+            screenManager.AddScreen(menuScreen, null);
 
             base.Initialize();        
         }        

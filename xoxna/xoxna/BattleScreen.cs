@@ -72,6 +72,12 @@ namespace xo5
 
         public override void HandleInput(InputState input)
         {
+            PlayerIndex player;
+            if (input.IsNewButtonPress(Buttons.Back, null, out player))
+            {
+                ExitScreen();
+            }
+
             inputEnumerator.add(input);
         }
 

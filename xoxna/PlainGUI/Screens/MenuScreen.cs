@@ -29,7 +29,6 @@ namespace PlainGUI
         List<MenuEntry> menuEntries = new List<MenuEntry>();
         int selectedEntry = 0;
         string menuTitle;
-
         #endregion
 
         #region Properties
@@ -44,6 +43,9 @@ namespace PlainGUI
             get { return menuEntries; }
         }
 
+        public Texture2D Background;
+
+        public Color TitleColor;
 
         #endregion
 
@@ -221,6 +223,12 @@ namespace PlainGUI
 
             spriteBatch.Begin();
 
+            //Draw background
+            if (Background != null)
+            {
+                spriteBatch.Draw(Background, Vector2.Zero, Color.White);
+            }
+
             // Draw each menu entry in turn.
             for (int i = 0; i < menuEntries.Count; i++)
             {
@@ -239,12 +247,11 @@ namespace PlainGUI
             // Draw the menu title centered on the screen
             Vector2 titlePosition = new Vector2(graphics.Viewport.Width / 2, 80);
             Vector2 titleOrigin = font.MeasureString(menuTitle) / 2;
-            Color titleColor = new Color(192, 192, 192) * TransitionAlpha;
             float titleScale = 1.25f;
 
             titlePosition.Y -= transitionOffset * 100;
 
-            spriteBatch.DrawString(font, menuTitle, titlePosition, titleColor, 0,
+            spriteBatch.DrawString(font, menuTitle, titlePosition, TitleColor, 0,
                                    titleOrigin, titleScale, SpriteEffects.None, 0);
 
             spriteBatch.End();

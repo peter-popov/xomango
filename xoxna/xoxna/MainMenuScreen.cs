@@ -31,6 +31,9 @@ namespace xo5
 
         public override void LoadContent()
         {
+            Background = ScreenManager.Game.Content.Load<Texture2D>("textures/comicpanel8");
+            TitleColor = Color.Black;
+
             SpriteFont menuFont = ScreenManager.Game.Content.Load<SpriteFont>("MenuFont");
             ScreenManager.Font = menuFont;
 
@@ -40,13 +43,9 @@ namespace xo5
             resumeGame.Selected += ResumeGame;
             
              // Create our menu entries.
-            MenuEntry newGame = new MenuEntry(menuFont, "New game");
+            MenuEntry newGame = new MenuEntry(menuFont, "New game");       
             newGame.Selected += NewGame;
             MenuEntries.Add(newGame);
-
-            // Create our menu entries.
-            MenuEntry settings = new MenuEntry(menuFont, "Settings");
-            MenuEntries.Add(settings);
 
             // Create our menu entries.
             MenuEntry about = new MenuEntry(menuFont, "About");            
@@ -96,6 +95,6 @@ namespace xo5
 
         BattleScreen battleScreen;
         GameControler gameController;
-        Rectangle gameRectangle;
+        Rectangle gameRectangle;        
     }
 }
