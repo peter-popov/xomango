@@ -49,7 +49,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
-    <Reference Include="Microsoft.Phone.Controls.Maps, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e" />
     <Reference Include="Microsoft.Phone.Interop" />
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.Game" />
@@ -69,20 +68,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GameComponents\XoGame.cs" />
-    <Compile Include="GameComponents\control\BasePlayer.cs" />
-    <Compile Include="GameComponents\control\GameController.cs" />
-    <Compile Include="GameComponents\control\HumanPlayer.cs" />
-    <Compile Include="GameComponents\control\MachinePlayer.cs" />
-    <Compile Include="GameComponents\control\TouchEventArgs.cs" />
-    <Compile Include="GameComponents\view\Animation.cs" />
-    <Compile Include="GameComponents\view\BackgroundLayer.cs" />
-    <Compile Include="GameComponents\view\GridLayer.cs" />
-    <Compile Include="GameComponents\view\Layer.cs" />
-    <Compile Include="GameComponents\view\LayersCollection.cs" />
-    <Compile Include="GameComponents\view\ScrollLayer.cs" />
-    <Compile Include="GameComponents\view\TurnsLayer.cs" />
-    <Compile Include="GameOptions.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -110,7 +95,6 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="xomango_6_5_2011_10_36_11_PM.sap" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">
@@ -126,9 +110,16 @@
       <Project>{C3496342-D032-4159-946A-B123D6D1466A}</Project>
       <Name>CoreCZ</Name>
     </ProjectReference>
+    <ProjectReference Include="..\GameComponents\GameComponents.csproj">
+      <Project>{03BBD605-7417-4A46-A3CB-CC22265A9782}</Project>
+      <Name>GameComponents</Name>
+    </ProjectReference>
     <ProjectReference Include="..\xomangoLib\xomangoLib.csproj">
       <Name>xomangoLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Images\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />

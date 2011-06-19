@@ -15,7 +15,7 @@ using xomango.layers;
 
 namespace xomango
 {
-    class XoGame
+    public class XoGame
     {
         GameControler gameController;
         ContentManager content;
@@ -24,12 +24,14 @@ namespace xomango
         layers.LayersCollection gameLayers;
         SpriteBatch spriteBatch;
         TurnsLayer turnsLayer;
+        IGraphicsDeviceService deviceService;
 
-        public XoGame(GameControler gameController, Rectangle rect, ContentManager content)
+        public XoGame(IGraphicsDeviceService deviceService, GameControler gameController, Rectangle rect, ContentManager content)
         {
             this.gameController = gameController;
             this.screenRect = rect;
-            this.content = content;           
+            this.content = content;
+            this.deviceService = deviceService;
             gameLayers = new LayersCollection();
             scrollLayer = new ScrollLayer(gameLayers, screenRect);
             
@@ -48,7 +50,7 @@ namespace xomango
                 GestureType.FreeDrag;
 
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
+            spriteBatch = new SpriteBatch(deviceService.GraphicsDevice);
             // Initialize layers
             scrollLayer.Scroll(new Vector2(0, 0));
             //

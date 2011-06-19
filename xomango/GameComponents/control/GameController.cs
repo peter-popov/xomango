@@ -12,7 +12,7 @@ namespace xomango
 {
 
     
-    class GameControler
+    public class GameControler
     {
         public GameControler()
         {
