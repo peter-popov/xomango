@@ -106,11 +106,11 @@
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CoreCZ\CoreCZ.csproj">
+    <ProjectReference Include="..\..\CoreCZ\CoreCZ.csproj">
       <Project>{C3496342-D032-4159-946A-B123D6D1466A}</Project>
       <Name>CoreCZ</Name>
     </ProjectReference>
-    <ProjectReference Include="..\GameComponents\GameComponents.csproj">
+    <ProjectReference Include="..\..\GameComponents\GameComponents.csproj">
       <Project>{03BBD605-7417-4A46-A3CB-CC22265A9782}</Project>
       <Name>GameComponents</Name>
     </ProjectReference>

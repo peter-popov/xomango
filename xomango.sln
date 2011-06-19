@@ -7,9 +7,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xomangoLib", "xomango\xoman
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "xomangoLibContent", "xomango\xomangoLibContent\xomangoLibContent.contentproj", "{2373002D-D849-4A98-96FA-4FB6573D01C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCZ", "xomango\CoreCZ\CoreCZ.csproj", "{C3496342-D032-4159-946A-B123D6D1466A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreCZ", "CoreCZ\CoreCZ.csproj", "{C3496342-D032-4159-946A-B123D6D1466A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameComponents", "xomango\GameComponents\GameComponents.csproj", "{03BBD605-7417-4A46-A3CB-CC22265A9782}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameComponents", "GameComponents\GameComponents.csproj", "{03BBD605-7417-4A46-A3CB-CC22265A9782}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
