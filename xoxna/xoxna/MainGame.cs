@@ -26,10 +26,6 @@ namespace xo5
             Content.RootDirectory = "Content";
 
             graphics.SupportedOrientations = DisplayOrientation.Portrait;
-            //    DisplayOrientation.Default |
-            //    DisplayOrientation.LandscapeLeft |
-            //    DisplayOrientation.LandscapeRight |
-            //    DisplayOrientation.Portrait;
 
             // Frame rate is 30 fps by default for Windows Phone.
             TargetElapsedTime = TimeSpan.FromTicks(333333);
@@ -37,7 +33,6 @@ namespace xo5
             graphics.IsFullScreen = true; // Hide system tray for better gameplay experience
            
             screenManager = new ScreenManager(this);
-            gameController = new GameControler();
 
             graphics.PreferredBackBufferWidth = 480;
             graphics.PreferredBackBufferHeight = 800;
@@ -55,10 +50,8 @@ namespace xo5
         /// </summary>
         protected override void Initialize()
         {
-            BattleScreen battleScreen = new BattleScreen(graphics, gameController, gameRectangle);
-            screenManager.AddScreen(battleScreen, null);
-            MainMenuScreen menuScreen = new MainMenuScreen(gameController, gameRectangle, battleScreen);
-            screenManager.AddScreen(menuScreen, null);
+            MainMenuScreen menuScreen = new MainMenuScreen(gameRectangle);
+            screenManager.AddScreen(menuScreen, null);                        
 
             base.Initialize();        
         }        
@@ -101,11 +94,13 @@ namespace xo5
             base.Draw(gameTime);
         }
 
+        protected override void OnDeactivated(object sender, EventArgs args)
+        {
+            screenManager.Deactivated(sender, args);
+            base.OnDeactivated(sender, args);
+        }
+
         GraphicsDeviceManager graphics;
-        GameControler gameController;
         ScreenManager screenManager;
   }
-
-
-
 }

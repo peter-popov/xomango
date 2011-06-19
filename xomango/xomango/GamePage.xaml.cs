@@ -63,7 +63,7 @@ namespace xomango
             }
            
             // TODO: use this.content to load your game content here
-            game = new XoGame(SharedGraphicsDeviceManager.Current, gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 480, 720), content);
+            game = new XoGame(SharedGraphicsDeviceManager.Current.GraphicsDevice, gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 480, 720), content);
            
             game.LoadContent();
             game.TurnAnimationEvent += OnAnimationReady;

@@ -111,7 +111,7 @@ namespace PlainGUI
                     {
                         MenuEntry menuEntry = menuEntries[i];
 
-                        if (GetMenuEntryHitBounds(menuEntry).Contains(tapLocation))
+                        if (GetMenuEntryHitBounds(menuEntry).Contains(tapLocation) && menuEntry.Enabled)
                         {
                             // select the entry. since gestures are only available on Windows Phone,
                             // we can safely pass PlayerIndex.One to all entries since there is only
@@ -204,7 +204,7 @@ namespace PlainGUI
             {
                 bool isSelected = IsActive && (i == selectedEntry);
 
-                menuEntries[i].Update(this, isSelected, gameTime);
+                menuEntries[i].Update(this, gameTime);
             }
         }
 
@@ -224,7 +224,7 @@ namespace PlainGUI
             spriteBatch.Begin();
 
             //Draw background
-            if (Background != null)
+            if (Background != null && ScreenState != ScreenState.Hidden)
             {
                 spriteBatch.Draw(Background, Vector2.Zero, Color.White);
             }
@@ -236,7 +236,7 @@ namespace PlainGUI
 
                 bool isSelected = IsActive && (i == selectedEntry);
 
-                menuEntry.Draw(this, isSelected, gameTime);
+                menuEntry.Draw(this, gameTime);
             }
 
             // Make the menu slide into place during transitions, using a

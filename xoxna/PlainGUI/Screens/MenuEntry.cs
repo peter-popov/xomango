@@ -68,6 +68,8 @@ namespace PlainGUI
 
         public Color TextColor;
 
+        public bool Enabled;
+
         #endregion
 
         #region Events
@@ -101,6 +103,7 @@ namespace PlainGUI
         {
             this.font = font;
             this.text = text;
+            Enabled = true;
         }
 
 
@@ -112,39 +115,24 @@ namespace PlainGUI
         /// <summary>
         /// Updates the menu entry.
         /// </summary>
-        public virtual void Update(MenuScreen screen, bool isSelected, GameTime gameTime)
-        {
-            // there is no such thing as a selected item on Windows Phone, so we always
-            // force isSelected to be false
-#if WINDOWS_PHONE
-            isSelected = false;
-#endif
-
+        public virtual void Update(MenuScreen screen, GameTime gameTime)
+        {            
             // When the menu selection changes, entries gradually fade between
             // their selected and deselected appearance, rather than instantly
             // popping to the new state.
             float fadeSpeed = (float)gameTime.ElapsedGameTime.TotalSeconds * 4;
-
-            if (isSelected)
-                selectionFade = Math.Min(selectionFade + fadeSpeed, 1);
-            else
-                selectionFade = Math.Max(selectionFade - fadeSpeed, 0);
+            
+            selectionFade = Math.Max(selectionFade - fadeSpeed, 0);
         }
 
 
         /// <summary>
         /// Draws the menu entry. This can be overridden to customize the appearance.
         /// </summary>
-        public virtual void Draw(MenuScreen screen, bool isSelected, GameTime gameTime)
+        public virtual void Draw(MenuScreen screen, GameTime gameTime)
         {
-            // there is no such thing as a selected item on Windows Phone, so we always
-            // force isSelected to be false
-#if WINDOWS_PHONE
-            isSelected = false;
-#endif
-
             // Draw the selected entry in yellow, otherwise white.
-            Color color = isSelected ? Color.Brown : Color.Black;
+            Color color = Enabled ? Color.Black : Color.Gray;
 
             // Pulsate the size of the selected menu entry.
             double time = gameTime.TotalGameTime.TotalSeconds;

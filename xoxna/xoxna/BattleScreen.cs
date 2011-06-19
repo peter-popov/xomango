@@ -45,27 +45,30 @@ namespace xo5
 
     class BattleScreen: GameScreen
     {
-        GameControler gameController;
+        GameControler gameControler;
         Rectangle screenRect;
         XoGame game;
-        IGraphicsDeviceService deviceSrvice;
+        GraphicsDevice device;
         ScreenManagerInputEnumerator inputEnumerator = new ScreenManagerInputEnumerator();
 
-        public BattleScreen(IGraphicsDeviceService deviceSrvice, GameControler gameController, Rectangle rect)
+        public BattleScreen(GraphicsDevice device, GameControler gameController, Rectangle rect)
         {
-            this.deviceSrvice = deviceSrvice;
-            this.gameController = gameController;
+            this.device = device;
             this.screenRect = rect;
+            this.gameControler = gameController;
             this.EnabledGestures = GestureType.FreeDrag | GestureType.Tap;        
         }
 
-        public void Reset()
+        public void Load(bool resume, GameScreen parent)
         {
+
+           
+            
         }
 
         public override void LoadContent()
         {
-            game = new XoGame(deviceSrvice, gameController, screenRect, ScreenManager.Game.Content, inputEnumerator);
+            game = new XoGame(device, gameControler, screenRect, ScreenManager.Game.Content, inputEnumerator);
             game.LoadContent();
             base.LoadContent();
         }
@@ -75,6 +78,10 @@ namespace xo5
             PlayerIndex player;
             if (input.IsNewButtonPress(Buttons.Back, null, out player))
             {
+                if (gameControler != null)
+                {
+                    gameControler.Save();
+                }
                 ExitScreen();
             }
 
@@ -83,13 +90,13 @@ namespace xo5
 
         public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
         {            
-            game.Update(gameTime);                        
+            if (game != null) game.Update(gameTime);                        
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
 
         public override void Draw(GameTime gameTime)
         {
-            game.Draw();
+            if (game != null) game.Draw();
             base.Draw(gameTime);
         }
     }

@@ -46,20 +46,20 @@ namespace GameComponents
         LayersCollection gameLayers;
         SpriteBatch spriteBatch;
         TurnsLayer turnsLayer;
-        IGraphicsDeviceService deviceService;
+        GraphicsDevice device;
         IInputEnumerator inputEnumerator;
 
-        public XoGame(IGraphicsDeviceService deviceService, GameControler gameController, Rectangle rect, ContentManager content)
-            : this(deviceService, gameController, rect, content, new DefaultInputEnumerator())
+        public XoGame(GraphicsDevice device, GameControler gameController, Rectangle rect, ContentManager content)
+            : this(device, gameController, rect, content, new DefaultInputEnumerator())
         {            
         }
 
-        public XoGame(IGraphicsDeviceService deviceService, GameControler gameController, Rectangle rect, ContentManager content, IInputEnumerator input)
+        public XoGame(GraphicsDevice device, GameControler gameController, Rectangle rect, ContentManager content, IInputEnumerator input)
         {
             this.gameController = gameController;
             this.screenRect = rect;
             this.content = content;
-            this.deviceService = deviceService;
+            this.device = device;
             this.inputEnumerator = input;
             gameLayers = new LayersCollection();
             scrollLayer = new ScrollLayer(gameLayers, screenRect);            
@@ -78,7 +78,7 @@ namespace GameComponents
                 GestureType.FreeDrag;
 
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(deviceService.GraphicsDevice);
+            spriteBatch = new SpriteBatch(device);
             // Initialize layers
             scrollLayer.Scroll(new Vector2(0, 0));
             //
@@ -89,11 +89,11 @@ namespace GameComponents
             
             turnsLayer.ScreenTaped += gameController.HandleInput;
             gameController.OnTurn += turnsLayer.OnTurnDone;
-
-            gameLayers.AddLayer(turnsLayer);
+            
+            gameLayers.AddLayer(turnsLayer);            
             gameLayers.AddLayer(new GridLayer(content));
             gameLayers.AddLayer(new BackgroundLayer(content));
-
+            
             // Will couse initialization of all others layers
             scrollLayer.Initialize();           
 

@@ -248,6 +248,15 @@ namespace PlainGUI
 
         #region Public Methods
 
+        public event EventHandler OnDeactivated;
+        public void Deactivated(object sender, EventArgs args)
+        {
+            if (OnDeactivated != null)
+            {
+                OnDeactivated(sender, args);
+            }
+        }
+
         public InputState Input
         {
             get { return input; }

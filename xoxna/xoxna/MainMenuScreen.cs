@@ -8,7 +8,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.IO.IsolatedStorage;
 using PlainGUI;
+using System;
 using GameComponents.Control;
 
 namespace xo5
@@ -21,24 +23,22 @@ namespace xo5
         /// <summary>
         /// Constructor fills in the menu contents.
         /// </summary>
-        public MainMenuScreen(GameControler gameControler, Rectangle gameRect, BattleScreen screen)
+        public MainMenuScreen(Rectangle gameRect)
             : base("Crosses&Zeros")
         {
-            this.gameController = gameControler;
             this.gameRectangle = gameRect;
-            this.battleScreen = screen;
         }
 
         public override void LoadContent()
-        {
-            Background = ScreenManager.Game.Content.Load<Texture2D>("textures/comicpanel8");
+        {            
+            Background = ScreenManager.Game.Content.Load<Texture2D>("textures/comicpanel10");
             TitleColor = Color.Black;
 
             SpriteFont menuFont = ScreenManager.Game.Content.Load<SpriteFont>("MenuFont");
             ScreenManager.Font = menuFont;
 
             // Create our menu entries.
-            MenuEntry resumeGame = new MenuEntry(menuFont, "Resume");           
+            resumeGame = new MenuEntry(menuFont, "Resume");
             MenuEntries.Add(resumeGame);
             resumeGame.Selected += ResumeGame;
             
@@ -51,15 +51,9 @@ namespace xo5
             MenuEntry about = new MenuEntry(menuFont, "About");            
             MenuEntries.Add(about);
 
-            InitPlayers();
-            
+            ScreenManager.OnDeactivated += Deactivated;
 
             base.LoadContent();
-        }
-
-        private void InitPlayers()
-        {
-            gameController.SetUpGame(PlayerType.Human, PlayerType.Machine);
         }
 
         /// <summary>
@@ -67,9 +61,11 @@ namespace xo5
         /// </summary>
         private void NewGame(object sender, PlayerIndexEventArgs e)
         {
-            gameController.Restart();
-            battleScreen.Reset();            
-            LoadingScreen.Load(ScreenManager, false, null, this, battleScreen);
+            gameControler = new GameControler();
+            gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);
+
+            BattleScreen bs = new BattleScreen(ScreenManager.GraphicsDevice, gameControler, gameRectangle);
+            LoadingScreen.Load(ScreenManager, true, null, this, bs);
         }
 
         /// <summary>
@@ -77,7 +73,31 @@ namespace xo5
         /// </summary>
         private void ResumeGame(object sender, PlayerIndexEventArgs e)
         {
-            LoadingScreen.Load(ScreenManager, false, null, this, battleScreen);
+            gameControler = GameControler.Load();
+            if (gameControler != null)
+            {
+                BattleScreen bs = new BattleScreen(ScreenManager.GraphicsDevice, gameControler, gameRectangle);
+                LoadingScreen.Load(ScreenManager, true, null, this, bs);
+            }
+            else
+            {
+                NewGame(sender, e);
+            }
+        }
+
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {
+            IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
+            resumeGame.Enabled = settings.Contains("Saved") && settings["Saved"].ToString() == true.ToString();
+            base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
+        }
+
+        public void Deactivated(object sender, EventArgs args)
+        {
+            if (gameControler != null && !gameControler.GameBoard.Winner)
+            {
+                gameControler.Save();
+            }
         }
 
         /// <summary>
@@ -88,13 +108,9 @@ namespace xo5
             ScreenManager.Game.Exit();
         }
 
-        public override void Draw(GameTime gameTime)
-        {                
-            base.Draw(gameTime);
-        }
-
-        BattleScreen battleScreen;
-        GameControler gameController;
-        Rectangle gameRectangle;        
+        Rectangle gameRectangle;
+        GameControler gameControler = null;
+        // Create our menu entries.
+        MenuEntry resumeGame;
     }
 }
