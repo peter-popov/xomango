@@ -78,6 +78,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\Control.cs" />
     <Compile Include="Controls\DrawContext.cs" />
     <Compile Include="Controls\ImageControl.cs" />

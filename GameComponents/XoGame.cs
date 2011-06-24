@@ -57,6 +57,7 @@ namespace GameComponents
         public XoGame(GraphicsDevice device, GameControler gameController, Rectangle rect, ContentManager content, IInputEnumerator input)
         {
             this.gameController = gameController;
+            //this.spriteBatch = sb;
             this.screenRect = rect;
             this.content = content;
             this.device = device;
@@ -78,7 +79,10 @@ namespace GameComponents
                 GestureType.FreeDrag;
 
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(device);
+            if (spriteBatch == null)
+            {
+                spriteBatch = new SpriteBatch(device);
+            }
             // Initialize layers
             scrollLayer.Scroll(new Vector2(0, 0));
             //

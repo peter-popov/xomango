@@ -64,7 +64,7 @@ namespace xo5
             gameControler = new GameControler();
             gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);
 
-            BattleScreen bs = new BattleScreen(ScreenManager.GraphicsDevice, gameControler, gameRectangle);
+            BattleScreen bs = new BattleScreen(this, ScreenManager.GraphicsDevice, gameControler, gameRectangle);
             LoadingScreen.Load(ScreenManager, true, null, this, bs);
         }
 
@@ -75,8 +75,8 @@ namespace xo5
         {
             gameControler = GameControler.Load();
             if (gameControler != null)
-            {
-                BattleScreen bs = new BattleScreen(ScreenManager.GraphicsDevice, gameControler, gameRectangle);
+            {                
+                BattleScreen bs = new BattleScreen(this, ScreenManager.GraphicsDevice, gameControler, gameRectangle);                
                 LoadingScreen.Load(ScreenManager, true, null, this, bs);
             }
             else

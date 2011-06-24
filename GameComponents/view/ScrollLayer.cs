@@ -77,7 +77,7 @@ namespace GameComponents.View
             catch
             {
             }
-            spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, null, translation);
+            spriteBatch.Begin(SpriteSortMode.Texture, null, null, null, null, Effect, translation);
 
             innerView.Draw(spriteBatch, currentView);
 
@@ -122,6 +122,8 @@ namespace GameComponents.View
                 Scroll(new Vector2(0, 0));
             }
         }
+
+        public Effect Effect { get; set; }
 
         public EventHandler<ViewRectChangedEventArgs> Scrolled;
 
