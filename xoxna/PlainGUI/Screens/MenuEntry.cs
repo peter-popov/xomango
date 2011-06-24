@@ -43,6 +43,10 @@ namespace PlainGUI
 
         SpriteFont font;
 
+        
+        static Random r = new Random(4335340);
+        int timeshift = r.Next() % 100; 
+
         #endregion
 
         #region Properties
@@ -135,11 +139,11 @@ namespace PlainGUI
             Color color = Enabled ? Color.Black : Color.Gray;
 
             // Pulsate the size of the selected menu entry.
-            double time = gameTime.TotalGameTime.TotalSeconds;
+            double time = gameTime.TotalGameTime.TotalSeconds + timeshift;
             
             float pulsate = (float)Math.Sin(time * 6) + 1;
 
-            float scale = 1 + pulsate * 0.05f * selectionFade;
+            float scale = 1 + ( Enabled ? pulsate * 0.01f : 0 ); /** selectionFade*/;
 
             // Modify the alpha to fade text out during transitions.
             color = new Color(color.R, color.G, color.B) * screen.TransitionAlpha;
@@ -150,8 +154,12 @@ namespace PlainGUI
 
             Vector2 origin = new Vector2(0, font.LineSpacing / 2);
 
+            Vector2 v = font.MeasureString(text);
+
+            Vector2 delta = v * (1 - scale) / 2;
+
             spriteBatch.DrawString(font, text, position, color, 0,
-                                   origin, scale, SpriteEffects.None, 0);
+                                   origin - delta, scale, SpriteEffects.None, 0);
         }
 
 
