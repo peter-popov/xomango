@@ -67,6 +67,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BattleScreen.cs" />
+    <Compile Include="GameInfoPanel.cs" />
     <Compile Include="MainGame.cs" />
     <Compile Include="MainMenuScreen.cs" />
     <Compile Include="Program.cs" />

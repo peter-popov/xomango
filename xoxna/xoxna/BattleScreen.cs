@@ -11,6 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using PlainGUI;
+using PlainGUI.Controls;
 using GameComponents;
 using GameComponents.Control;
 using GameComponents.View;
@@ -78,6 +79,7 @@ namespace xo5
         XoGame game;
         GraphicsDevice device;
         ScreenManagerInputEnumerator inputEnumerator = new ScreenManagerInputEnumerator();
+        GameInfoPanel bottomPanel;
 
         public BattleScreen(GameScreen parent, GraphicsDevice device, GameControler gameController, Rectangle rect)
         {
@@ -90,9 +92,14 @@ namespace xo5
 
         public override void LoadContent()
         {
-            game = new XoGame(device, gameControler, screenRect, ScreenManager.Game.Content, inputEnumerator);
+            Rectangle gameRect = new Rectangle(screenRect.X, screenRect.Y, screenRect.Width, screenRect.Height - 100);
+            game = new XoGame(device, gameControler, gameRect, ScreenManager.Game.Content, inputEnumerator);
             game.LoadContent();
-            game.TurnAnimationEvent += TurnAnimationEnded;
+            game.TurnAnimationEvent += TurnAnimationEnded;            
+
+            bottomPanel = new GameInfoPanel(ScreenManager);
+            bottomPanel.OnUndo += Undo;
+            bottomPanel.Position = new Vector2(0, gameRect.Bottom);
             base.LoadContent();
         }
 
@@ -120,6 +127,7 @@ namespace xo5
 
         public override void HandleInput(InputState input)
         {
+            bottomPanel.HandleInput(input);
             PlayerIndex player;
             if (input.IsNewButtonPress(Buttons.Back, null, out player))
             {
@@ -133,20 +141,26 @@ namespace xo5
             inputEnumerator.add(input);
         }
 
-        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        public void Undo(object sender, EventArgs args)
         {
+            if (!gameControler.GameBoard.Winner)
+            {
+                gameControler.Undo();
+            }
+        }
 
-            
-            
+        public override void Update(GameTime gameTime, bool otherScreenHasFocus, bool coveredByOtherScreen)
+        {            
+            bottomPanel.Update(gameTime);
             if (game != null) game.Update(gameTime);
-            
-
-            
+                        
             base.Update(gameTime, otherScreenHasFocus, coveredByOtherScreen);
         }
 
         public override void Draw(GameTime gameTime)
         {
+            Control.BatchDraw(bottomPanel, ScreenManager.GraphicsDevice, ScreenManager.SpriteBatch, Vector2.Zero, gameTime);
+            
             if (game != null) game.Draw();
             base.Draw(gameTime);
         }

@@ -85,7 +85,7 @@ namespace PlainGUI.Controls
                 {
                     // convert the position to a Point that we can test against a Rectangle
                     Point tapLocation = new Point((int)gesture.Position.X, (int)gesture.Position.Y);
-                    Rectangle bb = new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
+                    Rectangle bb = new Rectangle((int)(Parent.Position.X + Position.X), (int)(Parent.Position.Y + Position.Y), (int)Size.X, (int)Size.Y);
                     if (bb.Contains(tapLocation) && Pressed != null)
                     {
                         Pressed(this, new EventArgs());

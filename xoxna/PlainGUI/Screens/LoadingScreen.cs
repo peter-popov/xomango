@@ -138,6 +138,7 @@ namespace PlainGUI
             // to bother drawing the message.
             if (loadingIsSlow)
             {
+                ScreenManager.GraphicsDevice.Clear(Color.Black);
                 SpriteBatch spriteBatch = ScreenManager.SpriteBatch;
                 SpriteFont font = ScreenManager.Font;
 
