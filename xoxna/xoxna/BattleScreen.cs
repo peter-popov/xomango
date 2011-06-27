@@ -17,7 +17,7 @@ using GameComponents.View;
 
 namespace xo5
 {
-    class EitbitRenderTarget2D : RenderTarget2D
+    public class EitbitRenderTarget2D : RenderTarget2D
     {
 
         public EitbitRenderTarget2D(GraphicsDevice device, int width, int height)
@@ -45,7 +45,7 @@ namespace xo5
     }
 
 
-    class ScreenManagerInputEnumerator : IInputEnumerator
+    public class ScreenManagerInputEnumerator : IInputEnumerator
     {
         public bool IsGestureAvaliable
         {
@@ -70,7 +70,7 @@ namespace xo5
         private int index = 0;
     }
 
-    class BattleScreen: GameScreen
+    public class BattleScreen: GameScreen
     {
         GameScreen parent;
         GameControler gameControler;
@@ -108,10 +108,11 @@ namespace xo5
         {
             if (gameControler.GameBoard.Winner)
             {
-                VictoryScreen scr = new VictoryScreen();
+                VictoryScreen scr = new VictoryScreen(parent, gameControler.CurrentPlayer.Type == PlayerType.Human);
                 EitbitRenderTarget2D bg = new EitbitRenderTarget2D(ScreenManager.GraphicsDevice, screenRect.Width, screenRect.Height);
                 RenderGrayscaleToTexture(bg);
                 scr.Background = bg;
+                scr.BattleScreen = this;
 
                 ScreenManager.AddScreen(scr, null);
             }

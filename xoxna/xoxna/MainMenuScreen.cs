@@ -59,7 +59,7 @@ namespace xo5
         /// <summary>
         /// Event handler for our New Game button.
         /// </summary>
-        private void NewGame(object sender, PlayerIndexEventArgs e)
+        public void NewGame(object sender, PlayerIndexEventArgs e)
         {
             gameControler = new GameControler();
             gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);

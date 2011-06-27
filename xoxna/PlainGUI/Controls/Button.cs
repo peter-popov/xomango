@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input.Touch;
 
 namespace PlainGUI.Controls
 {
@@ -11,7 +12,7 @@ namespace PlainGUI.Controls
     {
         private SpriteFont font;
         private string text;
-
+        private Rectangle boundigBox;
         public Color Color;
 
         // Actual text to draw
@@ -63,6 +64,7 @@ namespace PlainGUI.Controls
             this.font = font;
             this.Position = position;
             this.Color = color;
+            Size = font.MeasureString(text);
         }
 
         public override void Draw(DrawContext context)
@@ -71,5 +73,27 @@ namespace PlainGUI.Controls
 
             context.SpriteBatch.DrawString(font, Text, context.DrawOffset, Color);
         }
+
+        public event EventHandler<EventArgs> Pressed;
+
+        public override void HandleInput(InputState input)
+        {
+            // look for any taps that occurred and select any entries that were tapped
+            foreach (GestureSample gesture in input.Gestures)
+            {
+                if (gesture.GestureType == GestureType.Tap)
+                {
+                    // convert the position to a Point that we can test against a Rectangle
+                    Point tapLocation = new Point((int)gesture.Position.X, (int)gesture.Position.Y);
+                    Rectangle bb = new Rectangle((int)Position.X, (int)Position.Y, (int)Size.X, (int)Size.Y);
+                    if (bb.Contains(tapLocation) && Pressed != null)
+                    {
+                        Pressed(this, new EventArgs());
+                    }
+                }
+            }
+            base.HandleInput(input);
+        }
+                
     }
 }

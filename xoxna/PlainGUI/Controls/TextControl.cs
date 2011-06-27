@@ -7,7 +7,7 @@
 
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-
+using System;
 
 namespace PlainGUI.Controls
 {
@@ -18,9 +18,14 @@ namespace PlainGUI.Controls
     public class TextControl : Control
     {
         private SpriteFont font;
+        private string[] lines;
         private string text;
 
         public Color Color;
+        public float Scale;
+
+        private float lineHeight;
+        private static int lineIntreval = 3;
 
         // Actual text to draw
         public string Text
@@ -71,18 +76,33 @@ namespace PlainGUI.Controls
             this.font = font;
             this.Position = position;
             this.Color = color;
+            this.Scale = 1.0f;
+
+            lines = text.Split('\n');
+            lineHeight = font.MeasureString("H").Y;
         }
 
         public override void Draw(DrawContext context)
         {
             base.Draw(context);
-
-            context.SpriteBatch.DrawString(font, Text, context.DrawOffset, Color);
+            Vector2 pos = Vector2.Zero;
+            foreach (string s in lines)
+            {
+                context.SpriteBatch.DrawString(font, s, context.DrawOffset, Color, 0, pos, Scale, SpriteEffects.None, 0);
+                pos.Y -= lineHeight + lineIntreval;
+            }
         }
 
         override public Vector2 ComputeSize()
         {
-            return font.MeasureString(Text);
+            if (lines.Length == 0) return Vector2.Zero;
+            float w = 0;
+            foreach (string s in lines)
+            {                
+                w = Math.Max(w, font.MeasureString(s).X);
+            }
+
+            return new Vector2(w, lineHeight*lines.Length - lineIntreval);
         }
     }
 }
