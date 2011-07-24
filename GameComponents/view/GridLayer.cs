@@ -42,14 +42,14 @@ namespace GameComponents.View
             int refY = rect.Y - rect.Y % cellSize - cellSize; 
             int countX = rect.Width / cellSize + 1;
             int countY = rect.Height / cellSize + 3;
-
+            
             for (int i = 0; i <= countX; i++)
             {
                 for (int j = 0; j <= countY; j++)
                 {
                     Vector2 pos = new Vector2(refX + cellSize * i, refY + cellSize * j);
                     spriteBatch.Draw(cell, pos, Color.White);
-                    spriteBatch.DrawString(indexFont,
+                    /*spriteBatch.DrawString(indexFont,
                                            String.Format("{0},{1}",i-1,j-1), 
                                            pos + new Vector2(3,3), 
                                            Color.Gray, 
@@ -57,7 +57,7 @@ namespace GameComponents.View
                                            Vector2.Zero, 
                                            0.4f, 
                                            SpriteEffects.None, 
-                                           0);
+                                           0);*/
 
                 }
             }
