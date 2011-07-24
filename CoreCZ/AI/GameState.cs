@@ -7,7 +7,89 @@ using System.Diagnostics;
 
 namespace CoreCZ.AI
 {
+    public sealed class PositionInfo
+    {
+        public struct LineInfo
+        {
+            public Side side;
+            public byte amount;
+            public bool open;
+        }
 
+        public enum Orientation : int
+        {
+            Vertical = 0,
+            Horizontal = 1,
+            DigonalSW = 2,
+            DiagonalNW = 3
+        }
+
+        public enum Direction : int
+        {
+            Positive = 0,
+            Negative = 1
+        }
+
+        public PositionInfo(Side s)
+        {
+            this.Side = s;
+            for (int i = 0; i < env.Length; ++i)
+            {
+                env[i].side = Side.Nobody;
+            }
+        }
+
+        public LineInfo this[Orientation o, Direction d]
+        {
+            get
+            {
+                return env[2 * (int)o + (int)d];
+            }
+            set
+            {
+                env[2 * (int)o + (int)d] = value;
+            }
+        }
+
+        public static Position GetDirectionVector(Orientation o, Direction d)
+        {
+            Position p = new Position(0, 0);
+            if (o == Orientation.Vertical) p.column = 1;
+            if (o == Orientation.Horizontal) p.row = 1;
+            if (o == Orientation.DigonalSW) p.row = p.column = 1;
+            if (o == Orientation.DiagonalNW) { p.row = 1; p.column = -1; }
+
+            if (d == Direction.Negative)
+            {
+                p.row = (short)(-p.row);
+                p.column = (short)(-p.column);
+            }
+            return p;
+        }
+
+        public static Direction Flip(Direction d)
+        {
+            if (d == Direction.Positive) return Direction.Negative;
+            return Direction.Positive;
+        }
+
+        public PositionInfo Clone()
+        {
+            PositionInfo res = new PositionInfo(this.Side);
+            for (int i = 0; i < 8; ++i)
+            {
+                res.env[i] = this.env[i];
+            }
+            res.Active = this.Active;
+            return res;
+        }
+
+        private LineInfo[] env = new LineInfo[8];
+        public bool Active { get; set; }
+        public Side Side { get; set; }
+        public static Orientation[] Orientations = new Orientation[4] { Orientation.Vertical, Orientation.Horizontal, Orientation.DigonalSW, Orientation.DiagonalNW };
+        public static Direction[] Directions = new Direction[2] { Direction.Positive, Direction.Negative };
+    }
 
     public class GameState : IEnumerable<Position>
     {

@@ -10,10 +10,11 @@ namespace CoreCZ.AI.MinMax
     {
         ICostFunction<GameState> costFunction;
         ITurnsGenerator<GameState> turnsGenerator;
-        int maxDepth = 6;
+        int maxDepth = 4;
 
-        public MinMax(ICostFunction<GameState> costFunction, ITurnsGenerator<GameState> turnsGenerator)
+        public MinMax(ICostFunction<GameState> costFunction, ITurnsGenerator<GameState> turnsGenerator, int level)
         {
+            maxDepth = level * 2;
             this.costFunction = costFunction;
             this.turnsGenerator = turnsGenerator;
         }
@@ -21,25 +22,10 @@ namespace CoreCZ.AI.MinMax
         public Position FindTurn(GameState s)
         {
             Position turn = new Position(0,0);
-            Debug.WriteLine("Making turn");
-            Debug.WriteLine(s);
-
-            int turnValue = AlphaBetaSearch(s, int.MinValue, int.MaxValue, 0, ref turn);
-            //int turnValue = minMax(s,0, ref turn);
-
-            System.Diagnostics.Debug.WriteLine("Choose ({0},{1}) with cost {2}", turn.X, turn.Y, turnValue);
-
-            //GameCache.Instance.MoveUp();
-
-            //Debug.WriteLine("Cache stat: uses = {0}, missed {1}", GameCache.Instance.uses, GameCache.Instance.hits);
-
+            Debug.WriteLine(s);            
+            int turnValue = AlphaBetaSearch(s, int.MinValue, int.MaxValue, 0, ref turn);           
+            Debug.WriteLine("Choose ({0},{1}) with cost {2}", turn.X, turn.Y, turnValue);
             return turn;
-        }
-
-        private State deriveState(State s, Position p)
-        {
-            return s.DeriveState(p);
-            //return GameCache.Instance.DeriveState(s, p);
         }
 
         string intend(int deep)
@@ -55,8 +41,7 @@ namespace CoreCZ.AI.MinMax
         private int minMax(GameState s, int deep, ref Position turn)
         {
             int cost = costFunction.EvaluateState(s);
-            //State derived = s.DeriveState(p);
-            if (deep == maxDepth /*|| cost <= costFunction.LoseValue || cost >= costFunction.WinValue*/)
+            if (deep == maxDepth || cost <= costFunction.LoseValue || cost >= costFunction.WinValue)
             {
                 return cost;
             }

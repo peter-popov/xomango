@@ -87,7 +87,6 @@
     <Compile Include="AI\HeuristicCostFunction.cs" />
     <Compile Include="SimplePlayer.cs" />
     <Compile Include="AI\TurnHeuristics.cs" />
-    <Compile Include="AI\State.cs" />
     <Compile Include="AI\MinMax\ITurnsGenerator.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Player.cs" />
