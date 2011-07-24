@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using CoreCZ;
 
 using Microsoft.Xna.Framework;
@@ -17,9 +18,7 @@ namespace GameComponents.Control
             this.side = side;
         }
 
-        bool timeToMakeTheTurn = false;
-
-
+        
         public override PlayerType Type { get { return PlayerType.Machine; } }
 
         
@@ -34,15 +33,35 @@ namespace GameComponents.Control
             playerAI = new SimplePlayer(side);
         }
 
+        #region Worker
+        private void thinker()
+        {
+            readyToAnswer = false;
+            Position pos = playerAI.MakeNextTurn();
+            Thread.Sleep(300);
+            lock (this)
+            {                
+                readyToAnswer = true;
+                answer = pos;
+            }
+        }
+      
+        #endregion
+
         public override void Update(GameTime gameTime)
         {
             if (timeToMakeTheTurn)
             {
-                Position pos = playerAI.MakeNextTurn();
-                board[pos] = this.Side;
-                madeTurn(pos);
+                Thread th = new Thread(new ThreadStart(thinker));
+                th.Start();   
+                timeToMakeTheTurn = false;
+                return;                             
             }
-            timeToMakeTheTurn = false;
+            if (readyToAnswer)
+            {
+                board[answer] = this.Side;
+                madeTurn(answer);
+            }
         }
 
         public override void Undo()
@@ -57,5 +76,8 @@ namespace GameComponents.Control
         private CoreCZ.SimplePlayer playerAI;
         private Board board;
         private Side side;
+        private bool timeToMakeTheTurn = false;
+        private bool readyToAnswer = false;
+        private Position answer = new Position(0, 0);
     }
 }
