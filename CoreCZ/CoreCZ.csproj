@@ -10,7 +10,8 @@
     <RootNamespace>series</RootNamespace>
     <AssemblyName>series</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
     <XnaFrameworkVersion>v4.0</XnaFrameworkVersion>
     <XnaPlatform>Windows Phone</XnaPlatform>
     <XnaProfile>Reach</XnaProfile>
@@ -78,6 +79,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\GameState.cs" />
     <Compile Include="AI\HeuristicTrunsGenerator.cs" />
     <Compile Include="AI\MinMax\ICostFunction.cs" />
     <Compile Include="AI\MinMax\MinMax.cs" />

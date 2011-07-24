@@ -12,7 +12,7 @@ namespace CoreCZ.AI
         public struct LineInfo
         {
             public Side side;
-            public int amount;
+            public byte amount;
             public bool open;
         }
 
@@ -36,7 +36,6 @@ namespace CoreCZ.AI
             for (int i = 0; i < env.Length; ++i)
             {
                 env[i].side = Side.Nobody;
-                env[i].open = false;
             }
         }
 
@@ -74,10 +73,19 @@ namespace CoreCZ.AI
             return Direction.Positive;
         }
 
+        public PositionInfo Clone()
+        {
+            PositionInfo res = new PositionInfo(this.Side);
+            for (int i = 0; i < 8; ++i)
+            {
+                res.env[i] = this.env[i];
+            }
+            res.Active = this.Active;
+            return res;
+        }
 
         private LineInfo[] env = new LineInfo[8]; 
-
-        public bool Filled {get; set;}
+        public bool Active {get; set;}
         public Side Side {get; set;}
         public static Orientation[] Orientations = new Orientation[4] { Orientation.Vertical, Orientation.Horizontal, Orientation.DigonalSW, Orientation.DiagonalNW };
         public static Direction[] Directions = new Direction[2] { Direction.Positive, Direction.Negative };    
@@ -94,6 +102,7 @@ namespace CoreCZ.AI
             this[pos] = new PositionInfo(s);
             this.side = Utils.FlipSide(s);
             PopulateAroundPosition(pos, true, 1);
+            generation = 1;
         }
 
         private State(Area area)
@@ -138,16 +147,71 @@ namespace CoreCZ.AI
                 data[pos.X - area.sw.X, pos.Y - area.sw.Y] = value;
             }
         }
+
+        private int getMaxLine(PositionInfo info)
+        {
+            int max = int.MinValue;
+                if (info == null || info.Side != Side.Nobody)
+                {
+                    return 0;
+                }
+
+                foreach (PositionInfo.Orientation o in PositionInfo.Orientations)
+                {
+                    foreach (PositionInfo.Direction d in PositionInfo.Directions)
+                    {
+                        PositionInfo.LineInfo li = info[o, d];
+                        if (li.amount > max) max = li.amount;
+                    }
+                }
+            return max;
+        }
+
+        public int Generation
+        {
+            get { return generation; }
+        }
+
+        public override string ToString()
+        {
+            string s = "";
+            for (int i = 0; i <= data.GetUpperBound(0); i++)
+            {
+                for (int j = 0; j <= data.GetUpperBound(1); j++)
+                {
+                    PositionInfo p = data[i, j];
+                    if (p != null && p.Side == Side.Cross)
+                    {
+                        s += "x";
+                    }
+                    else if (p != null && p.Side == Side.Zero)
+                    {
+                        s += "o";
+                    }
+                    else
+                    {
+                        int k = getMaxLine(p);
+                        if (k > 0)
+                            s += string.Format("{0}", k);
+                        else
+                            s += "_";
+                    }
+                }
+                s += "\n";
+            }
+            return s;
+        }
         #endregion
 
         #region Derive state
         public State DeriveState(Position pos)
         {
             State result = new State(InflateArea(this.area, pos));
+            result.generation = this.generation + 1;
 
             foreach (Position p in this)
             {
-                result[p] = this[p];
+                result[p] = this[p].Clone();
             }
 
             result[pos] = new PositionInfo(this.side);
@@ -198,7 +262,8 @@ namespace CoreCZ.AI
         #region Fields
         private Side side;
         private Area area;
-        private PositionInfo[,] data;        
+        private PositionInfo[,] data;
+        private int generation;
         #endregion
     }
 
@@ -217,7 +282,7 @@ namespace CoreCZ.AI
                     Position delta = PositionInfo.GetDirectionVector(o, d);
                     Position p = pos;
                     Side prev = Side.Nobody;
-                    for (int i = 0; i < 4; ++i)
+                    for (int i = 0; i < 5; ++i)
                     {
                         p = p + delta;
                         if (this[p] == null || this[p].Side == Side.Nobody)
@@ -258,7 +323,7 @@ namespace CoreCZ.AI
                     for (int i = 0; i < dist; ++i)
                     {
                         p = p + delta;
-                        if (this[p] != null && ( this[p].Side != Side.Nobody || this[p].Filled && !force ) )
+                        if (this[p] != null && ( this[p].Side != Side.Nobody || this[p].Active && !force ) )
                         {
                             continue;
                         }
@@ -312,7 +377,7 @@ namespace CoreCZ.AI
                 }
             }
 
-            turnInfo.Filled = true;
+            turnInfo.Active = true;
 
             this[turnPos] = turnInfo;
         }

@@ -9,5 +9,8 @@ namespace CoreCZ.AI.MinMax
     public interface ICostFunction<S>
     {
         int EvaluateState(S state);
+
+        int WinValue { get; }
+        int LoseValue { get; }
     }
 }

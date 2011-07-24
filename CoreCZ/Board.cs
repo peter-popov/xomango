@@ -50,6 +50,10 @@ namespace CoreCZ
             return new Position(a.row - b.row, a.column - b.column);
         }
 
+        public override int GetHashCode()
+        {
+            return row << sizeof(short) + column;
+        }
 
         // TODO: use byte    
         public short row;

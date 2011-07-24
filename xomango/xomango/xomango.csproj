@@ -95,6 +95,9 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="xomango_7_20_2011_9_41_45_PM.sap" />
+    <None Include="xomango_7_20_2011_9_45_45_PM.sap" />
+    <None Include="xomango_7_20_2011_9_51_22_PM.sap" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="ApplicationIcon.png">

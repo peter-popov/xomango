@@ -10,7 +10,7 @@ namespace CoreCZ.AI
     /// </summary>
     public abstract class TurnHeuristics
     {
-        public abstract int EvaluateTurn(State s, Position pos);
+        public abstract int EvaluateTurn(GameState s, Position pos);
     }
 
     /// <summary>
@@ -32,14 +32,14 @@ namespace CoreCZ.AI
             evalOrientation = EvaluateOrientationF;        
         }
 
-        public override int EvaluateTurn(State s, Position pos)
+        public override int EvaluateTurn(GameState s, Position pos)
         {
             PositionInfo info = s[pos];
             if (info == null)
             {
                 return 0;
             }
-            return EvaluatePosition(info, s.Player);
+            return EvaluatePosition(info, Utils.FlipSide(s.Player));
         }
 
         private int EvaluatePosition(PositionInfo positionInfo, Side player)

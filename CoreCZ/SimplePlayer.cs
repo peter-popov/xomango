@@ -8,36 +8,34 @@ namespace CoreCZ
 {
     public class SimplePlayer: Player
     {
-        private State currentState;
-        private State previousState;
+        private GameState state = new GameState();
+        private Stack<GameState.ChangeSet> undoList = new Stack<GameState.ChangeSet>();
         private HeuristicTrunsGenerator gen = new HeuristicTrunsGenerator(new LineBasedTurnHeuristics());
-        //private AI.MinMax.MinMax ai;
+        private AI.MinMax.MinMax ai;
 
 
         public SimplePlayer(Side s)
         {
             this.Side = s;
             //ai = new AI.MinMax.MinMax(new HeuristicCostFunction(), this.gen);
+            ai = new AI.MinMax.MinMax(new SimpleCostFuntcion(), this.gen);
+        
         }
 
         public void Undo()
         {
-            currentState = previousState;
+            if (undoList.Count > 2)
+            {
+                state.Undo(undoList.Pop()); //enemy turn
+                state.Undo(undoList.Pop()); //our turn
+            }
         }
 
-        public SimplePlayer(Side s, Board b)
+        public SimplePlayer(Side s, Board b):this(s)
         {
-            this.Side = s;
             foreach (Turn turn in b.Turns)
             {
-                if (currentState == null)
-                {
-                    currentState = new State(turn.position, turn.side);
-                }
-                else
-                {                    
-                    currentState = currentState.DeriveState(turn.position);
-                }
+                undoList.Push(state.Advance(turn.position, turn.side));
             }
         }
 
@@ -45,32 +43,20 @@ namespace CoreCZ
 
         public void EnemyTurn(Position pos)
         {
-            previousState = currentState;
-            if (currentState == null)
-            {
-                currentState = new State(pos, Utils.FlipSide(Side));
-            }
-            else
-            {               
-                currentState = currentState.DeriveState(pos);
-            }
+            undoList.Push(state.Advance(pos, Utils.FlipSide(Side)));
         }
 
         public Position MakeNextTurn()
         {
             Position pos = new Position(4, 6);
-            
-            if (currentState == null)
+
+            if (state.Count() > 0)
             {
-                currentState = new State(pos, Utils.FlipSide(Side));
-                return pos;
+                pos = ai.FindTurn(state);                                
             }
-            else
-            {
-                //pos = ai.FindTurn(currentState);                
-                pos = gen.GetBestTurn(currentState);                
-                currentState = currentState.DeriveState(pos);
-            }
+
+            undoList.Push(state.Advance(pos, Side));
+
             return pos;
         }
     }

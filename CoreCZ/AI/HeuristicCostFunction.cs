@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CoreCZ.AI
 {
-    class HeuristicCostFunction : MinMax.ICostFunction<State>
+    class HeuristicCostFunction : MinMax.ICostFunction<GameState>
     {
         TurnHeuristics hCross = new LineBasedTurnHeuristics(Side.Cross);
         TurnHeuristics hZero = new LineBasedTurnHeuristics(Side.Zero);
@@ -20,7 +20,7 @@ namespace CoreCZ.AI
             genZero = new HeuristicTrunsGenerator(hZero);
         }
 
-        Position getBest(State s, HeuristicTrunsGenerator gen)
+        Position getBest(GameState s, HeuristicTrunsGenerator gen)
         {
             foreach (Position p in gen.GenerateTurns(s))
             {
@@ -30,7 +30,7 @@ namespace CoreCZ.AI
             return new Position(0,0);
         }
 
-        public int EvaluateState(State state)
+        public int EvaluateState(GameState state)
         {           
             int res = hCross.EvaluateTurn(state, getBest(state, genCross)) - hZero.EvaluateTurn(state, getBest(state, genZero));
             
@@ -41,5 +41,15 @@ namespace CoreCZ.AI
             return -res;
         }
 
+
+        public int WinValue
+        {
+            get { return 50000; }
+        }
+
+        public int LoseValue
+        {
+            get { return -50000; }
+        }
     }
 }

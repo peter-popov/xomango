@@ -5,17 +5,17 @@ using System.Text;
 
 namespace CoreCZ.AI
 {
-    public class HeuristicTrunsGenerator: MinMax.ITurnsGenerator<State>
+    public class HeuristicTrunsGenerator : MinMax.ITurnsGenerator<GameState>
     {
         Random r = new Random();
-        static int MaxTurns = 4;
+        static int MaxTurns = 12;
 
         public HeuristicTrunsGenerator(TurnHeuristics function)
         {
             this.function = function;
-        }       
+        }
 
-        public IEnumerable<Position> GenerateTurns(State state)
+        public IEnumerable<Position> GenerateTurns(GameState state)
         {
             List<KeyValuePair<int, Position>> possibleTurns = GetPossibleTurns(state);
             int k = 0;
@@ -23,14 +23,11 @@ namespace CoreCZ.AI
             {
                 ++k;
                 yield return possibleTurns[i].Value;
-            }
-
-            //Console.WriteLine("return {0}", k);
-            
+            }            
             //todo: generate several random turns
         }
 
-        public Position GetBestTurn(State s)
+        public Position GetBestTurn(GameState s)
         {
             List<KeyValuePair<int, Position>> possibleTurns = GetPossibleTurns(s);
             List<Position> bestTurns = new List<Position>();
@@ -41,10 +38,11 @@ namespace CoreCZ.AI
                 if (possibleTurns[i].Key != bestValue) break;
                 bestTurns.Add(possibleTurns[i].Value);
             }
+
             return bestTurns[r.Next(bestTurns.Count)];
         }
 
-        private List<KeyValuePair<int, Position>> GetPossibleTurns(State state)
+        private List<KeyValuePair<int, Position>> GetPossibleTurns(GameState state)
         {
             List<KeyValuePair<int, Position>> possibleTurns = new List<KeyValuePair<int, Position>>();
             foreach (Position p in state)
