@@ -8,8 +8,6 @@ namespace CoreCZ.AI
 {
     public class SimpleCostFuntcion : MinMax.ICostFunction<GameState>
     {
-        Random r = new Random(32);
-
         struct LineStatistics
         {
             public int cross;
@@ -27,45 +25,25 @@ namespace CoreCZ.AI
                 if (info == null || info.Side != Side.Nobody)
                 {
                     continue;
-                }
-                //Debug.WriteLine("Checking position {0}, {1}", p.X, p.Y);
+                }                
 
                 LineStatistics st = EvaluatePosition(info);
                 max_cross = Math.Max(st.cross, max_cross);
                 max_zero = Math.Max(st.zero, max_zero);
             }
 
-            //if (max_cross == WinValue) max_zero = 0;
-            //if (max_zero == WinValue) max_cross = 0;
-
-            //int res = state.Player == Side.Cross ? (int)(max_cross - 0.5 * max_zero) : (int)(max_zero - 0.5 * max_cross);
-
-            //Debug.WriteLine(">>>>enter evaluate state");
-            //Debug.WriteLine(state);
-            //Debug.WriteLine("max_zero = {0}, max_cross = {1}", max_zero, max_cross);
-
-            int res = max_zero - max_cross;
-            //Debug.WriteLine("<<<<enter evaluate state");
+            int res = max_zero - max_cross;            
             
-            res = Math.Min(res, WinValue);
-            res = Math.Max(res, LoseValue);
-
-            //if (res == 0)
-            //{
-            //    Console.WriteLine("Zero state:");
-            //    Console.WriteLine(state);
-            //}
-
-            return res;
+            return Math.Max(Math.Min(res, WinValue), LoseValue);
         }
 
         private LineStatistics EvaluatePosition(PositionInfo positionInfo)
         {
             LineStatistics ls = new LineStatistics();
             ls.cross = ls.zero = 0;
-            foreach (PositionInfo.Orientation o in PositionInfo.Orientations)
+            foreach (var  o in PositionInfo.Orientations)
             {
-                foreach (PositionInfo.Direction d in PositionInfo.Directions)
+                foreach (var d in PositionInfo.Directions)
                 {
                     PositionInfo.LineInfo li = positionInfo[o, d];
                     if (li.side == Side.Cross)
