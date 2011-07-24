@@ -7,10 +7,7 @@ namespace CoreCZ.AI
 {
 
     public class HeuristicTrunsGenerator : MinMax.ITurnsGenerator<GameState>
-    {
-        Random r = new Random();
-        static int MaxTurns = 16;
-        
+    {               
         public HeuristicTrunsGenerator(TurnHeuristics function)
         {
             this.function = function;
@@ -19,6 +16,10 @@ namespace CoreCZ.AI
         public IEnumerable<Position> GenerateTurns(GameState state)
         {
             //Use the power of LINQ!!
+            //What we do here?
+            //For all possible positions generate cost-position pairs, then group them 
+            //by cost, in each group shuffle results, then glue together groups sorted 
+            //in descending order, and then take required amount of elements... fuh.  
             var posibleTruns = from pos in state
                                where state[pos].Side == Side.Nobody
                                group pos by function.EvaluateTurn(state, pos) into g
@@ -29,13 +30,15 @@ namespace CoreCZ.AI
         
         private IEnumerable<T> randomize<T>(IEnumerable<T> i)
         {
-            Random r = new Random();
+            
             var groups = from el in i select new { Key = r.Next(), Value = el };
             return from g in groups
                           orderby g.Key
                           select g.Value;
         }
 
+        private Random r = new Random((int)DateTime.Now.Ticks);
+        private static int MaxTurns = 16;       
         private TurnHeuristics function;
     }
 }
