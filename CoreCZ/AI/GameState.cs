@@ -107,9 +107,10 @@ namespace CoreCZ.AI
 
         public class ChangeSet
         {
-            internal ChangeSet(Area a)
+            internal ChangeSet(Area a, Side player)
             {
                 this.area = a;
+                this.player = player;
             }
 
             internal void Add(Change change)
@@ -128,6 +129,7 @@ namespace CoreCZ.AI
             }
 
             internal readonly Area area;
+            internal readonly Side player;
             List<Change> changes = new List<Change>();
         }
         #endregion
@@ -139,8 +141,9 @@ namespace CoreCZ.AI
             //Console.WriteLine("Advance at {0},{1}", pos.X, pos.Y);
             //Console.WriteLine(this);
 
+            ChangeSet backup = new ChangeSet(area, player);
+
             player = side;
-            ChangeSet backup = new ChangeSet(area);
             area = InflateArea(area, pos);
 
             //Update current position
@@ -241,6 +244,7 @@ namespace CoreCZ.AI
                 storage[c.pos.X, c.pos.Y] = c.info;
             }
             area = p.area;
+            player = p.player;
         }
 
         public Side Player
