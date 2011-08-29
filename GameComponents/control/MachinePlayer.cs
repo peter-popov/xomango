@@ -61,6 +61,7 @@ namespace GameComponents.Control
             {
                 board[answer] = this.Side;
                 madeTurn(answer);
+                readyToAnswer = false;
             }
         }
 
