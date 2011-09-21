@@ -26,9 +26,8 @@ namespace GameComponents.View
 
         public override void Initialize()
         {
-            cell = content.Load<Texture2D>("textures/cell");
             indexFont = content.Load<SpriteFont>("MenuFont");
-
+            cell = content.Load<Texture2D>("textures/cell");
         }
 
         public override void Update(GameTime gameTime)

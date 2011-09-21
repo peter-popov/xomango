@@ -175,7 +175,7 @@ namespace GameComponents.Control
         public static GameControler Load()
         {
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;            
-            if ( !settings.Contains("Saved") || settings["Saved"] == false.ToString())
+            if ( !settings.Contains("Saved") || settings["Saved"].ToString() == false.ToString())
             {
                 return null;
             }

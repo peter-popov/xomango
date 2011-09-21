@@ -35,7 +35,7 @@ namespace xomango
             InitializeComponent();
 
             // Get the content manager from the application
-            content = (Application.Current as App).Content;
+            content = (Application.Current as App).Content;            
 
             // Create a timer for this page
             timer = new GameTimer();

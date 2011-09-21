@@ -11,7 +11,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="PortraitOrLandscape"
     mc:Ignorable="d" d:DesignHeight="800" d:DesignWidth="480"
-    shell:SystemTray.IsVisible="False" OrientationChanged="PageOrientationChanged" xmlns:my="clr-namespace:Microsoft.Phone.Controls.Maps;assembly=Microsoft.Phone.Controls.Maps" LayoutUpdated="PhoneApplicationPage_LayoutUpdated">
+    shell:SystemTray.IsVisible="False" OrientationChanged="PageOrientationChanged" LayoutUpdated="PhoneApplicationPage_LayoutUpdated">
     
     <!--No XAML content is required as the page is rendered entirely with XNA-->
     <Grid Height="800" Name="grid1" Width="480" HorizontalAlignment="Stretch">

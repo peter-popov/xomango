@@ -83,6 +83,12 @@
       <Project>{C3496342-D032-4159-946A-B123D6D1466A}</Project>
       <Name>CoreCZ</Name>
     </ProjectReference>
+    <ProjectReference Include="..\xomango\xomangoLibContent\xogameContent.contentproj">
+      <Project>{2373002D-D849-4A98-96FA-4FB6573D01C4}</Project>
+      <Name>xogameContent %28Content%29</Name>
+      <XnaReferenceType>Content</XnaReferenceType>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

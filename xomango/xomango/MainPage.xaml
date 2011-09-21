@@ -4,47 +4,83 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:xomango="clr-namespace:xomango"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="{StaticResource PhoneForegroundBrush}"
+    Foreground="Black"    
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded">
 
+
+
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
+
+        <Grid.Resources>
+            <xomango:OffOnToPlayerConverter x:Key="crossZeroConverter" />
+        </Grid.Resources>
+        
+        <!--Panorama control-->
+        <controls:Panorama Foreground="Black">
+            <controls:Panorama.Title>
+                <TextBlock Text="xoxo" Margin="5,20,0,0" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell"/>
+            </controls:Panorama.Title>
+
+            <controls:Panorama.Background>
+                <ImageBrush ImageSource="images/Background.jpg" Stretch="Fill"/>
+            </controls:Panorama.Background>
+
+            <!--Panorama item one-->
+            <controls:PanoramaItem Foreground="Black">
+
+                <StackPanel Height="450" HorizontalAlignment="Left" Margin="0,60,0,0" Name="stackPanel1" VerticalAlignment="Top" Width="420">
+                    <HyperlinkButton Name="hyperlinkResume" Content="Resume" NavigateUri="/GamePage.xaml?resume=true"
+                                     Style="{StaticResource MenuHyperLinkStyle}"
+                                     Height="30" Margin="10,30,0,0" Width="264"/>
+                    <HyperlinkButton Name="hyperlinkEasy" Content="Easy game" NavigateUri="/GamePage.xaml?resume=false"
+                                     Style="{StaticResource MenuHyperLinkStyle}"
+                                     Height="30" Margin="10,45,0,0" Width="264" />
+                    <HyperlinkButton Name="hyperlinkHard" Content="Hard game" NavigateUri="/GamePage.xaml?resume=false"
+                                     Style="{StaticResource MenuHyperLinkStyle}"
+                                     Height="30" Margin="10,45,0,0" Width="264" VerticalAlignment="Top" />
+
+                    <toolkit:ToggleSwitch Header="Play for"
+                                          Margin="10,30,0,0"
+                                          Style="{StaticResource XoToggleSwitchStyle}">
+                        <toolkit:ToggleSwitch.HeaderTemplate>
+                            <DataTemplate>
+                                <ContentControl Content="{Binding}" Foreground="Black" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell" FontSize="{StaticResource PhoneFontSizeSmall}" />
+                            </DataTemplate>
+                        </toolkit:ToggleSwitch.HeaderTemplate>
+                        <toolkit:ToggleSwitch.ContentTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding Converter={StaticResource crossZeroConverter}}" Foreground="Black" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell" FontSize="34"/>
+                                
+                            </DataTemplate>
+                        </toolkit:ToggleSwitch.ContentTemplate>
+                    </toolkit:ToggleSwitch>
+
+                </StackPanel>
+
+            </controls:PanoramaItem>
+
+            <!--Panorama item two-->
+            <!--Use 'Orientation="Horizontal"' to enable a panel that lays out horizontally-->
+            <controls:PanoramaItem Header="Statistics" Foreground="Black" FontSize="40">
+                
+            </controls:PanoramaItem>
+        </controls:Panorama>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel x:Name="TitlePanel" Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock x:Name="ApplicationTitle" Text="MY APPLICATION" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock x:Name="PageTitle" Text="page name" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
-        </StackPanel>
 
-        <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            
-            <!--Createa a single button to navigate to the second page which is rendered with XNA-->
-            <Button Name = "resumeGameButton"  Height="100" Content="Resume game" Click="ResumeGameButton_Click" Margin="0,104,0,435" IsEnabled="False" />
-            <Button Name="newGameButton" Content="New game" Height="108" HorizontalAlignment="Left" Margin="0,197,0,0" VerticalAlignment="Top" Width="456" Click="NewGameButton_Click" />
-        </Grid>
     </Grid>
- 
-    <!--Sample code showing usage of ApplicationBar-->
-    <!--<phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True">
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button1.png" Text="Button 1"/>
-            <shell:ApplicationBarIconButton IconUri="/Images/appbar_button2.png" Text="Button 2"/>
-            <shell:ApplicationBar.MenuItems>
-                <shell:ApplicationBarMenuItem Text="MenuItem 1"/>
-                <shell:ApplicationBarMenuItem Text="MenuItem 2"/>
-            </shell:ApplicationBar.MenuItems>
-        </shell:ApplicationBar>
-    </phone:PhoneApplicationPage.ApplicationBar>-->
-
 </phone:PhoneApplicationPage>
