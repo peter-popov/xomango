@@ -52,7 +52,11 @@
 
                     <toolkit:ToggleSwitch Header="Play for"
                                           Margin="10,30,0,0"
-                                          Style="{StaticResource XoToggleSwitchStyle}">
+                                          Style="{StaticResource XoToggleSwitchStyle}"
+                                          >
+                        <toolkit:ToggleSwitch.Background>
+                            <ImageBrush ImageSource="images/ToggleBackground.png"/>
+                        </toolkit:ToggleSwitch.Background>
                         <toolkit:ToggleSwitch.HeaderTemplate>
                             <DataTemplate>
                                 <ContentControl Content="{Binding}" Foreground="Black" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell" FontSize="{StaticResource PhoneFontSizeSmall}" />

@@ -94,6 +94,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\SKETCHROCKWELL-BOLD.TTF" />
+    <Resource Include="images\ToggleBackground.png" />
     <Resource Include="images\X.png" />
     <Resource Include="images\Background.jpg" />
     <None Include="Properties\AppManifest.xml" />

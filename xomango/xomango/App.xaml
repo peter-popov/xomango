@@ -13,10 +13,12 @@
         <Style x:Key="MenuHyperLinkStyle" TargetType="HyperlinkButton">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="FontFamily" Value=".fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell" />
+            <Setter Property="FontFamily" Value="fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell" />
             <Setter Property="Foreground" Value="Black" />
             <Setter Property="FontSize" Value="34" />
         </Style>
+
+        <SolidColorBrush Color="Black" x:Key="XoForegroundBrush"/>
 
         <Style x:Key="XoToggleSwitchButtonStyle" TargetType="primitives:ToggleSwitchButton">
             <Setter Property="Background" Value="{StaticResource PhoneBackgroundBrush}"/>
@@ -101,7 +103,7 @@
                             </VisualStateManager.VisualStateGroups>
                             <Grid x:Name="SwitchRoot" Background="Transparent" Height="95" Width="136">
                                 <Grid x:Name="SwitchTrack" Width="88">
-                                    <Grid x:Name="SwitchBottom" Background="{TemplateBinding SwitchForeground}" Height="32">
+                                    <Grid x:Name="SwitchBottom" Background="Transparent" Height="32">
                                         <Rectangle
                                         x:Name="SwitchBackground"
                                         Fill="{TemplateBinding Background}"
@@ -113,13 +115,13 @@
                                                 <TranslateTransform x:Name="BackgroundTranslation"/>
                                             </Rectangle.RenderTransform>
                                         </Rectangle>
-                                        <Border BorderBrush="{StaticResource PhoneForegroundBrush}" BorderThickness="2">
-                                            <Border BorderBrush="{StaticResource PhoneBackgroundBrush}" BorderThickness="4"/>
+                                        <Border BorderBrush="Transparent" BorderThickness="2">
+                                            <Border BorderBrush="{StaticResource XoForegroundBrush}" BorderThickness="4"/>
                                         </Border>
                                     </Grid>
                                     <Border
                                     x:Name="SwitchThumb"
-                                    BorderBrush="{StaticResource PhoneBackgroundBrush}"
+                                    BorderBrush="DarkGray"
                                     BorderThickness="4,0"
                                     Margin="-4,0"
                                     Width="28"
@@ -130,9 +132,9 @@
                                         </Border.RenderTransform>
                                         <Border
                                         x:Name="ThumbCenter"
-                                        BorderBrush="{StaticResource PhoneForegroundBrush}"
-                                        BorderThickness="2"
-                                        Background="Black"/>
+                                        BorderBrush="{StaticResource XoForegroundBrush}"
+                                        BorderThickness="0"
+                                        Background="{StaticResource XoForegroundBrush}"/>
                                     </Border>
                                 </Grid>
                             </Grid>
@@ -191,6 +193,7 @@
                                 x:Name="Header"
                                 Content="{TemplateBinding Header}"
                                 ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                Background="{TemplateBinding Background}"
                                 FontFamily="{StaticResource PhoneFontFamilyNormal}"
                                 FontSize="{StaticResource PhoneFontSizeNormal}"
                                 Foreground="{StaticResource PhoneBorderBrush}"

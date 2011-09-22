@@ -28,8 +28,8 @@ namespace xomango
             {
                 throw new ArgumentNullException("targetType");
             }
-            if (value.ToString() == "On") return "Cross";
-            if (value.ToString() == "Off") return "Zero";
+            if (value.ToString() == "On") return "Zero";
+            if (value.ToString() == "Off") return "Cross";
             throw new ArgumentException("Wrong value");
         }
 
