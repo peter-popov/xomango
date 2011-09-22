@@ -35,12 +35,6 @@ namespace xomango
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            //if (targetType == null)
-            //{
-            //    throw new ArgumentNullException("targetType");
-            //}
-            //if (value.ToString() == "Cross") return "On";
-            //if (value.ToString() == "Zero") return "Off";
             throw new ArgumentException("Wrong value");
         }
     }
