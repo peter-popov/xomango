@@ -17,28 +17,6 @@ using System.Globalization;
 
 namespace xomango
 {
-    /// <summary>
-    /// Converts bool? values to "Off" and "On" strings.
-    /// </summary>
-    public class OffOnToPlayerConverter : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (targetType == null)
-            {
-                throw new ArgumentNullException("targetType");
-            }
-            if (value.ToString() == "On") return "Zero";
-            if (value.ToString() == "Off") return "Cross";
-            throw new ArgumentException("Wrong value");
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new ArgumentException("Wrong value");
-        }
-    }
-
     public partial class MainPage : PhoneApplicationPage
     {
         // Constructor
@@ -49,6 +27,7 @@ namespace xomango
 
         private void PhoneApplicationPage_Loaded(object sender, RoutedEventArgs e)
         {
+            playerCheckBox.IsChecked = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -61,6 +40,20 @@ namespace xomango
             else
             {
                 hyperlinkResume.Visibility = System.Windows.Visibility.Collapsed;
+            }
+        }
+
+        private void playerCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            CheckBox cb = sender as CheckBox;
+
+            if ((bool)cb.IsChecked)
+            {
+                cb.Content = "Cross";
+            }
+            else
+            {
+                cb.Content = "Zero";            
             }
         }
     }

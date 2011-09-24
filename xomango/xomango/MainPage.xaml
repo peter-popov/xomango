@@ -5,7 +5,6 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
-    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:xomango="clr-namespace:xomango"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -21,10 +20,6 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-
-        <Grid.Resources>
-            <xomango:OffOnToPlayerConverter x:Key="crossZeroConverter" />
-        </Grid.Resources>
         
         <!--Panorama control-->
         <controls:Panorama Foreground="Black">
@@ -50,26 +45,26 @@
                                      Style="{StaticResource MenuHyperLinkStyle}"
                                      Height="30" Margin="10,45,0,0" Width="264" VerticalAlignment="Top" />
 
-                    <toolkit:ToggleSwitch Header="Play for"
-                                          Margin="10,30,0,0"
-                                          Style="{StaticResource XoToggleSwitchStyle}"
-                                          >
-                        <toolkit:ToggleSwitch.Background>
-                            <ImageBrush ImageSource="images/ToggleBackground.png"/>
-                        </toolkit:ToggleSwitch.Background>
-                        <toolkit:ToggleSwitch.HeaderTemplate>
+                    <CheckBox Content="" Height="70" Name="playerCheckBox" Style="{StaticResource XoToggleSwitchButtonStyle}" 
+                              Width="409" Margin="10,20,0,0" 
+                              HorizontalAlignment ="Left"
+                              Foreground="Black"
+                              BorderBrush ="Transparent" Background="{StaticResource XoControlBackground}"
+                              Checked="playerCheckBox_Checked" Unchecked="playerCheckBox_Checked">
+                        <CheckBox.ContentTemplate>
                             <DataTemplate>
-                                <ContentControl Content="{Binding}" Foreground="Black" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell" FontSize="{StaticResource PhoneFontSizeSmall}" />
+                                <StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Play for: " FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell"/>
+                                        <ContentControl HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                                    </StackPanel>
+                                    <TextBlock Text="{Binding}" FontSize="34" Foreground="Black" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell"/>
+                                </StackPanel>
                             </DataTemplate>
-                        </toolkit:ToggleSwitch.HeaderTemplate>
-                        <toolkit:ToggleSwitch.ContentTemplate>
-                            <DataTemplate>
-                                <TextBlock Text="{Binding Converter={StaticResource crossZeroConverter}}" Foreground="Black" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell" FontSize="34"/>
-                                
-                            </DataTemplate>
-                        </toolkit:ToggleSwitch.ContentTemplate>
-                    </toolkit:ToggleSwitch>
+                        </CheckBox.ContentTemplate>
 
+                    </CheckBox>
+                    
                 </StackPanel>
 
             </controls:PanoramaItem>
