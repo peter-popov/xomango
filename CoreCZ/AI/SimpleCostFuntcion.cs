@@ -8,6 +8,13 @@ namespace CoreCZ.AI
 {
     public class SimpleCostFuntcion : MinMax.ICostFunction<GameState>
     {
+        private Side winPlayer;
+
+        public SimpleCostFuntcion(Side winPlayer)
+        {
+            this.winPlayer = winPlayer;
+        }
+
         struct LineStatistics
         {
             public int cross;
@@ -32,7 +39,7 @@ namespace CoreCZ.AI
                 max_zero = Math.Max(st.zero, max_zero);
             }
 
-            int res = max_zero - max_cross;            
+            int res = winPlayer == Side.Zero ? max_zero - max_cross : max_cross - max_zero;            
             
             return Math.Max(Math.Min(res, WinValue), LoseValue);
         }

@@ -56,5 +56,31 @@ namespace xomango
                 cb.Content = "Zero";            
             }
         }
+
+        private void hyperlinkResume_Click(object sender, RoutedEventArgs e)
+        {
+            startGamePage(true);
+        }
+
+        private void hyperlinkEasy_Click(object sender, RoutedEventArgs e)
+        {
+            startGamePage(false);
+        }
+
+        private void hyperlinkHard_Click(object sender, RoutedEventArgs e)
+        {
+            startGamePage(false);
+        }
+
+
+        private void startGamePage(bool resume)
+        {
+            string uriTemplate = "/GamePage.xaml?resume={0}&side={1}";
+            Uri uri = new Uri(String.Format(uriTemplate, resume, playerCheckBox.Content), UriKind.Relative);
+            System.Diagnostics.Debug.WriteLine(uri.ToString());
+            NavigationService.Navigate(uri);
+        }
+
+
     }
 }

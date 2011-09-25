@@ -14,6 +14,7 @@ namespace GameComponents.Control
         public MachinePlayer(Board board, Side side)
         {
             playerAI = new SimplePlayer(side, board);
+            timeToMakeTheTurn = ( side == CoreCZ.Side.Cross );
             this.board = board;
             this.side = side;
         }

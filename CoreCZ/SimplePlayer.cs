@@ -17,7 +17,7 @@ namespace CoreCZ
         public SimplePlayer(Side s)
         {
             this.Side = s;
-            ai = new AI.MinMax.MinMax(new SimpleCostFuntcion(), this.gen, 2);        
+            ai = new AI.MinMax.MinMax(new SimpleCostFuntcion(s), this.gen, 2);        
         }
 
         public void Undo()

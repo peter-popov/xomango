@@ -35,15 +35,15 @@
             <controls:PanoramaItem Foreground="Black">
 
                 <StackPanel Height="450" HorizontalAlignment="Left" Margin="0,60,0,0" Name="stackPanel1" VerticalAlignment="Top" Width="420">
-                    <HyperlinkButton Name="hyperlinkResume" Content="Resume" NavigateUri="/GamePage.xaml?resume=true"
+                    <HyperlinkButton Name="hyperlinkResume" Content="Resume"
                                      Style="{StaticResource MenuHyperLinkStyle}"
-                                     Height="30" Margin="10,30,0,0" Width="264"/>
-                    <HyperlinkButton Name="hyperlinkEasy" Content="Easy game" NavigateUri="/GamePage.xaml?resume=false"
+                                     Height="30" Margin="10,30,0,0" Width="264" Click="hyperlinkResume_Click" />
+                    <HyperlinkButton Name="hyperlinkEasy" Content="Easy game"
                                      Style="{StaticResource MenuHyperLinkStyle}"
-                                     Height="30" Margin="10,45,0,0" Width="264" />
-                    <HyperlinkButton Name="hyperlinkHard" Content="Hard game" NavigateUri="/GamePage.xaml?resume=false"
+                                     Height="30" Margin="10,45,0,0" Width="264" Click="hyperlinkEasy_Click" />
+                    <HyperlinkButton Name="hyperlinkHard" Content="Hard game"
                                      Style="{StaticResource MenuHyperLinkStyle}"
-                                     Height="30" Margin="10,45,0,0" Width="264" VerticalAlignment="Top" />
+                                     Height="30" Margin="10,45,0,0" Width="264" VerticalAlignment="Top" Click="hyperlinkHard_Click" />
 
                     <CheckBox Content="" Height="70" Name="playerCheckBox" Style="{StaticResource XoToggleSwitchButtonStyle}" 
                               Width="409" Margin="10,20,0,0" 

@@ -23,7 +23,7 @@ namespace testAI
 
             Console.WriteLine(gs);
 
-            MinMax m = new MinMax(new SimpleCostFuntcion(), new HeuristicTrunsGenerator(new LineBasedTurnHeuristics()), 2);
+            MinMax m = new MinMax(new SimpleCostFuntcion(Side.Zero), new HeuristicTrunsGenerator(new LineBasedTurnHeuristics()), 2);
 
             Position p = m.FindTurn(gs);
             Console.WriteLine("Turn found {0},{1}", p.X, p.Y);

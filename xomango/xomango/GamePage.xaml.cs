@@ -52,14 +52,22 @@ namespace xomango
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
 
-            if (NavigationContext.QueryString["resume"] == "true")
+            if (NavigationContext.QueryString["resume"].ToLower() == "true")
             {
                 gameControler = GameControler.Load();            
-            }            
+            }
+
             if (gameControler==null)
             {
                 gameControler = new GameControler();
-                gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);
+                if (NavigationContext.QueryString["side"].ToLower() == "zero")
+                {
+                    gameControler.SetUpGame(PlayerType.Machine, PlayerType.Human);
+                }
+                else
+                {
+                    gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);                
+                }                
             }
            
             // TODO: use this.content to load your game content here
