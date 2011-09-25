@@ -10,13 +10,14 @@ using Microsoft.Xna.Framework;
 namespace GameComponents.Control
 {
     class MachinePlayer : BasePlayer
-    {
-        public MachinePlayer(Board board, Side side)
+    {        
+        public MachinePlayer(Board board, Side side, int level  )
         {
-            playerAI = new SimplePlayer(side, board);
+            playerAI = new SimplePlayer(side, board, level);
             timeToMakeTheTurn = ( side == CoreCZ.Side.Cross );
             this.board = board;
             this.side = side;
+            this.level = level;
         }
 
         
@@ -31,7 +32,7 @@ namespace GameComponents.Control
 
         public override void Reset()
         {
-            playerAI = new SimplePlayer(side);
+            playerAI = new SimplePlayer(side, level);
         }
 
         #region Worker
@@ -81,5 +82,6 @@ namespace GameComponents.Control
         private bool timeToMakeTheTurn = false;
         private bool readyToAnswer = false;
         private Position answer = new Position(0, 0);
+        private int level = 1;
     }
 }

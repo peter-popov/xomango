@@ -64,19 +64,24 @@ namespace xomango
 
         private void hyperlinkEasy_Click(object sender, RoutedEventArgs e)
         {
-            startGamePage(false);
+            startGamePage(false, "easy");
         }
 
         private void hyperlinkHard_Click(object sender, RoutedEventArgs e)
         {
-            startGamePage(false);
+            startGamePage(false, "hard");
         }
 
 
-        private void startGamePage(bool resume)
+        private void startGamePage(bool resume, string ai="")
         {
-            string uriTemplate = "/GamePage.xaml?resume={0}&side={1}";
-            Uri uri = new Uri(String.Format(uriTemplate, resume, playerCheckBox.Content), UriKind.Relative);
+            string uriString = String.Format("/GamePage.xaml?resume={0}&side={1}",
+                                               resume, playerCheckBox.Content);
+            if (!resume && ai != "")
+            {
+                uriString += String.Format("&ai={0}", ai);
+            }
+            Uri uri = new Uri(uriString, UriKind.Relative);
             System.Diagnostics.Debug.WriteLine(uri.ToString());
             NavigationService.Navigate(uri);
         }

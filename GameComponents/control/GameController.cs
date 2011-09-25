@@ -12,6 +12,13 @@ namespace GameComponents.Control
 {    
     public class GameControler
     {
+        public enum Level : int
+        {
+            EASY = 1,
+            HARD = 2
+        }
+
+
         public GameControler()
         {
             gameBoard = new Board();
@@ -46,7 +53,7 @@ namespace GameComponents.Control
             }
             else if (pt1 == PlayerType.Machine)
             {
-                Player1 = new MachinePlayer(gameBoard, Side.Cross);
+                Player1 = new MachinePlayer(gameBoard, Side.Cross, (int)aiLevel);
             }
 
             if (pt2 == PlayerType.Human)
@@ -59,7 +66,7 @@ namespace GameComponents.Control
             }
             else if (pt2 == PlayerType.Machine)
             {
-                Player2 = new MachinePlayer(gameBoard, Side.Zero);
+                Player2 = new MachinePlayer(gameBoard, Side.Zero, (int)aiLevel);
                 if (pt1 == PlayerType.Human)
                 {
                     Player1.OnTurnMade += (Player2 as MachinePlayer).OnEnemyMadeTurn;
@@ -264,5 +271,6 @@ namespace GameComponents.Control
         private BasePlayer player2;
         private BasePlayer currentPlayer;
         private Board gameBoard;
+        public Level aiLevel = Level.EASY;
     }
 }

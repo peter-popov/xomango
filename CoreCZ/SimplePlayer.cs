@@ -13,11 +13,10 @@ namespace CoreCZ
         private HeuristicTrunsGenerator gen = new HeuristicTrunsGenerator(new LineBasedTurnHeuristics());
         private AI.MinMax.MinMax ai;
 
-
-        public SimplePlayer(Side s)
+        public SimplePlayer(Side s, int level)
         {
             this.Side = s;
-            ai = new AI.MinMax.MinMax(new SimpleCostFuntcion(s), this.gen, 2);        
+            ai = new AI.MinMax.MinMax(new SimpleCostFuntcion(s), this.gen, level);        
         }
 
         public void Undo()
@@ -29,7 +28,8 @@ namespace CoreCZ
             }
         }
 
-        public SimplePlayer(Side s, Board b):this(s)
+        public SimplePlayer(Side s, Board b, int level)
+            : this(s, level)
         {
             foreach (Turn turn in b.Turns)
             {

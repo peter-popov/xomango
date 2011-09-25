@@ -44,6 +44,26 @@ namespace xomango
             timer.Draw += OnDraw;
         }
 
+        private GameControler.Level getLevel()
+        {
+            if (NavigationContext.QueryString.ContainsKey("ai"))
+            {
+                if (NavigationContext.QueryString["ai"].ToLower() == "hard")
+                {
+                    return GameControler.Level.HARD;
+                }
+                else if (NavigationContext.QueryString["ai"].ToLower() == "easy")
+                {
+                    return GameControler.Level.EASY;
+                }
+                else
+                {
+                    System.Diagnostics.Debug.Assert(false, "Level parameter has wrong value");
+                }
+            }
+            return GameControler.Level.EASY;            
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             // Set the sharing mode of the graphics device to turn on XNA rendering
@@ -60,6 +80,7 @@ namespace xomango
             if (gameControler==null)
             {
                 gameControler = new GameControler();
+                gameControler.aiLevel = getLevel();
                 if (NavigationContext.QueryString["side"].ToLower() == "zero")
                 {
                     gameControler.SetUpGame(PlayerType.Machine, PlayerType.Human);

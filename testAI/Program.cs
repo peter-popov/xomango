@@ -31,7 +31,7 @@ namespace testAI
 
         static void test_2()
         {
-            SimplePlayer player = new SimplePlayer(Side.Zero);
+            SimplePlayer player = new SimplePlayer(Side.Zero, 2);
             player.EnemyTurn(new Position(4, 5));
             Position p = player.MakeNextTurn();
 
