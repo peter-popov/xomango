@@ -28,7 +28,6 @@ namespace xomango
         GameControler gameControler;
         XoGame game;
 
-        UIElementRenderer elementRenderer;
 
         public GamePage()
         {
@@ -64,20 +63,10 @@ namespace xomango
             return GameControler.Level.EASY;            
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+
+        private void initGame()
         {
-            // Set the sharing mode of the graphics device to turn on XNA rendering
-            SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);            
-
-            // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
-
-            if (NavigationContext.QueryString["resume"].ToLower() == "true")
-            {
-                gameControler = GameControler.Load();            
-            }
-
-            if (gameControler==null)
+            if (gameControler == null)
             {
                 gameControler = new GameControler();
                 gameControler.aiLevel = getLevel();
@@ -87,22 +76,39 @@ namespace xomango
                 }
                 else
                 {
-                    gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);                
-                }                
+                    gameControler.SetUpGame(PlayerType.Human, PlayerType.Machine);
+                }
             }
-           
+
             // TODO: use this.content to load your game content here
-            game = new XoGame(SharedGraphicsDeviceManager.Current.GraphicsDevice, gameControler, new Microsoft.Xna.Framework.Rectangle(0, 0, 480, 720), content);
-           
+            Microsoft.Xna.Framework.Rectangle gameRect = new Microsoft.Xna.Framework.Rectangle(0, 0, (int)ActualWidth, (int)ActualHeight );
+            game = new XoGame(SharedGraphicsDeviceManager.Current.GraphicsDevice, gameControler, gameRect, content);
+
             game.LoadContent();
             game.TurnAnimationEvent += OnAnimationReady;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            // Set the sharing mode of the graphics device to turn on XNA rendering
+            SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
+
+            // Create a new SpriteBatch, which can be used to draw textures.
+            spriteBatch = new SpriteBatch(SharedGraphicsDeviceManager.Current.GraphicsDevice);
+
+            if (NavigationContext.QueryString["resume"].ToLower() == "true")
+            {
+                gameControler = GameControler.Load();            
+            }
+
+            initGame();
 
             // Start the timer
             timer.Start();
 
-            elementRenderer = new UIElementRenderer(this, (int)DesiredSize.Width, (int)DesiredSize.Height);
-
             base.OnNavigatedTo(e);
+
+            undoButton = (Microsoft.Phone.Shell.ApplicationBarIconButton)ApplicationBar.Buttons[1];
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -131,15 +137,9 @@ namespace xomango
         /// </summary>
         private void OnDraw(object sender, GameTimerEventArgs e)
         {
-            SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CornflowerBlue);
+            SharedGraphicsDeviceManager.Current.GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.Black);
             
-            game.Draw(/*new GameTime(e.TotalTime, e.ElapsedTime)*/);
-            // TODO: Add your drawing code here
-
-            elementRenderer.Render();
-            spriteBatch.Begin();
-            spriteBatch.Draw(elementRenderer.Texture, Vector2.Zero, Microsoft.Xna.Framework.Color.White);
-            spriteBatch.End();
+            game.Draw();
         }
 
         private DisplayOrientation ConvertPageOrientation(PageOrientation po)
@@ -183,10 +183,10 @@ namespace xomango
                 case PageOrientation.Portrait:
                 case PageOrientation.PortraitDown:
                 case PageOrientation.PortraitUp:
-                    game.ScreenRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, (int)this.ActualWidth, (int)this.ActualHeight - 80);
+                    game.ScreenRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, (int)this.ActualWidth, (int)this.ActualHeight);
                     break;
                 default:
-                    game.ScreenRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, (int)this.ActualWidth - 80, (int)this.ActualHeight);
+                    game.ScreenRectangle = new Microsoft.Xna.Framework.Rectangle(0, 0, (int)this.ActualWidth, (int)this.ActualHeight);
                     break;
             }
 
@@ -195,18 +195,25 @@ namespace xomango
 
         private void PhoneApplicationPage_LayoutUpdated(object sender, EventArgs e)
         {
-            // Create the UIElementRenderer to draw the XAML page to a texture.
-            if (ActualWidth > 0 && ActualHeight > 0)
-            {
-                elementRenderer = new UIElementRenderer(this, (int)ActualWidth, (int)ActualHeight);
-            }
             // Check for 0 because when we navigate away the LayoutUpdate event
             // is raised but ActualWidth and ActualHeight will be 0 in that case.            
+            if (ActualWidth > 0 && ActualHeight > 0)
+            {
+                SharedGraphicsDeviceManager.Current.PreferredBackBufferWidth = (int)ActualWidth;
+                SharedGraphicsDeviceManager.Current.PreferredBackBufferHeight = (int)ActualHeight;
+            }
         }
 
-        private void undoButton_Click(object sender, RoutedEventArgs e)
+
+        private void restartButton_Click(object sender, EventArgs e)
         {
-            gameControler.Undo();
+            gameControler = null;
+            initGame();
+        }
+
+        private void undoButton_Click(object sender, EventArgs e)
+        {
+            gameControler.Undo();            
             undoButton.IsEnabled = false;
         }
     }

@@ -8,12 +8,35 @@
 
     <!--Application Resources-->
     <Application.Resources>
-        <Style x:Key="MenuHyperLinkStyle" TargetType="HyperlinkButton">
+        <Style x:Key="MenuButtonStyle" TargetType="Button">
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="HorizontalContentAlignment" Value="Left" />
-            <Setter Property="FontFamily" Value="fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell" />
-            <Setter Property="Foreground" Value="Black" />
-            <Setter Property="FontSize" Value="34" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <StackPanel Orientation="Vertical">
+                            <ContentControl
+                                    x:Name="Content"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                    Foreground="{TemplateBinding Foreground}"
+                                    IsTabStop="True"
+                                    Margin="0,0,0,0"
+                                    Opacity="{TemplateBinding Opacity}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            
+                            <TextBlock Text="{TemplateBinding Tag}"
+                                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                    Foreground="{TemplateBinding Foreground}"                                                                       
+                                    Opacity="{TemplateBinding Opacity}"                                    
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    FontSize="{StaticResource PhoneFontSizeSmall}"/>
+                        </StackPanel>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <ImageBrush x:Name="XoControlBackground" ImageSource="images/ToggleBackground.png"/>
@@ -117,6 +140,7 @@
                                     Content="{TemplateBinding Content}"
                                     ContentTemplate="{TemplateBinding ContentTemplate}"
                                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                                    Foreground="{TemplateBinding Foreground}"
                                     IsTabStop="False"
                                     Margin="0,0,0,0"
                                     Opacity="{TemplateBinding Opacity}"
@@ -153,8 +177,8 @@
                                             </Border.RenderTransform>
                                             <Border
                                                 x:Name="ThumbCenter"
-                                                BorderBrush="{TemplateBinding Foreground}"
-                                                BorderThickness="0"
+                                                BorderBrush="{StaticResource PhoneBorderBrush}"
+                                                BorderThickness="2"
                                                 Background="{TemplateBinding Foreground}"/>
                                         </Border>
                                     </Grid>
@@ -165,6 +189,8 @@
                 </Setter.Value>
             </Setter>
         </Style>
+
+        
 
     </Application.Resources>
 

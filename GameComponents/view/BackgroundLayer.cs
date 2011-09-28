@@ -23,7 +23,7 @@ namespace GameComponents.View
 
         public override void Initialize()
         {
-            background = content.Load<Texture2D>("textures/comicpanel8");
+            background = content.Load<Texture2D>("textures/BoardBackground");
         }
 
         public override void Update(GameTime gameTime)

@@ -9,9 +9,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
-    FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell"
     FontSize="{StaticResource PhoneFontSizeNormal}"
-    Foreground="Black"    
     SupportedOrientations="Portrait" Orientation="Portrait"
     shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded">
 
@@ -22,43 +20,38 @@
     <Grid x:Name="LayoutRoot" Background="Transparent">
         
         <!--Panorama control-->
-        <controls:Panorama Foreground="Black">
-            <controls:Panorama.Title>
-                <TextBlock Text="xoxo" Margin="5,20,0,0" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell"/>
-            </controls:Panorama.Title>
-
-            <controls:Panorama.Background>
-                <ImageBrush ImageSource="images/Background.jpg" Stretch="Fill"/>
-            </controls:Panorama.Background>
-
+        <controls:Panorama Title="xoxo">
             <!--Panorama item one-->
             <controls:PanoramaItem Foreground="Black">
 
                 <StackPanel Height="450" HorizontalAlignment="Left" Margin="0,60,0,0" Name="stackPanel1" VerticalAlignment="Top" Width="420">
-                    <HyperlinkButton Name="hyperlinkResume" Content="Resume"
-                                     Style="{StaticResource MenuHyperLinkStyle}"
-                                     Height="30" Margin="10,30,0,0" Width="264" Click="hyperlinkResume_Click" />
-                    <HyperlinkButton Name="hyperlinkEasy" Content="Easy game"
-                                     Style="{StaticResource MenuHyperLinkStyle}"
-                                     Height="30" Margin="10,45,0,0" Width="264" Click="hyperlinkEasy_Click" />
-                    <HyperlinkButton Name="hyperlinkHard" Content="Hard game"
-                                     Style="{StaticResource MenuHyperLinkStyle}"
-                                     Height="30" Margin="10,45,0,0" Width="264" VerticalAlignment="Top" Click="hyperlinkHard_Click" />
+                    <Button Name="hyperlinkResume" Content="Resume"
+                                     Style="{StaticResource MenuButtonStyle}"
+                                     Margin="10,20,0,0" Click="hyperlinkResume_Click" />
+                    
+                    <Button Name="hyperlinkEasy" Content="Easy game"
+                                     Style="{StaticResource MenuButtonStyle}"
+                                     Margin="10,20,0,0" Click="hyperlinkEasy_Click" />
+                    
+                    <Button Name="hyperlinkHard" Content="Hard game"  HorizontalContentAlignment="Left"
+                                    Style="{StaticResource MenuButtonStyle}"
+                                    Margin="10,20,0,0" Click="hyperlinkHard_Click" />                    
 
-                    <CheckBox Content="" Height="70" Name="playerCheckBox" Style="{StaticResource XoToggleSwitchButtonStyle}" 
-                              Width="409" Margin="10,20,0,0" 
-                              HorizontalAlignment ="Left"
-                              Foreground="Black"
-                              BorderBrush ="Transparent" Background="{StaticResource XoControlBackground}"
+                    <CheckBox Content="" Height="90" Name="playerCheckBox" Style="{StaticResource XoToggleSwitchButtonStyle}" 
+                              Width="410" Margin="10,20,0,0" 
+                              HorizontalAlignment ="Left"                  
+                              Background="{StaticResource PhoneAccentBrush}"
+                              Foreground="{StaticResource PhoneForegroundBrush}"
+                              BorderBrush="Transparent"
                               Checked="playerCheckBox_Checked" Unchecked="playerCheckBox_Checked">
                         <CheckBox.ContentTemplate>
                             <DataTemplate>
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Play for: " FontSize="{StaticResource PhoneFontSizeSmall}" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell"/>
+                                        <TextBlock Text="Play for: " FontSize="{StaticResource PhoneFontSizeSmall}"/>
                                         <ContentControl HorizontalAlignment="Left" FontSize="{StaticResource PhoneFontSizeSmall}"/>
                                     </StackPanel>
-                                    <TextBlock Text="{Binding}" FontSize="34" Foreground="Black" FontFamily="./fonts/SKETCHROCKWELL-BOLD.TTF#Sketch Rockwell"/>
+                                    <TextBlock Text="{Binding}"/>
                                 </StackPanel>
                             </DataTemplate>
                         </CheckBox.ContentTemplate>
@@ -71,13 +64,13 @@
 
             <!--Panorama item two-->
             <!--Use 'Orientation="Horizontal"' to enable a panel that lays out horizontally-->
-            <controls:PanoramaItem Header="Statistics" Foreground="Black" FontSize="40">
+            <controls:PanoramaItem Header="Statistics">
                 
             </controls:PanoramaItem>
         </controls:Panorama>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="640"/>
+            <RowDefinition Height="160*"/>
         </Grid.RowDefinitions>
 
 
