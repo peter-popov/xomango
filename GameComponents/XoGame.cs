@@ -15,6 +15,13 @@ using GameComponents.View;
 
 namespace GameComponents
 {
+
+    public enum DifficultyLevel : int
+    {
+        EASY = 1,
+        HARD = 2
+    }
+
     public interface IInputEnumerator
     {
         bool IsGestureAvaliable {get;}

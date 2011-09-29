@@ -22,6 +22,7 @@ namespace xomango
 {
     public partial class GamePage : PhoneApplicationPage
     {
+        GameStatistics stat;
         ContentManager content;
         GameTimer timer;
         SpriteBatch spriteBatch;
@@ -43,24 +44,24 @@ namespace xomango
             timer.Draw += OnDraw;
         }
 
-        private GameControler.Level getLevel()
+        private DifficultyLevel getLevel()
         {
             if (NavigationContext.QueryString.ContainsKey("ai"))
             {
                 if (NavigationContext.QueryString["ai"].ToLower() == "hard")
                 {
-                    return GameControler.Level.HARD;
+                    return DifficultyLevel.HARD;
                 }
                 else if (NavigationContext.QueryString["ai"].ToLower() == "easy")
                 {
-                    return GameControler.Level.EASY;
+                    return DifficultyLevel.EASY;
                 }
                 else
                 {
                     System.Diagnostics.Debug.Assert(false, "Level parameter has wrong value");
                 }
             }
-            return GameControler.Level.EASY;            
+            return DifficultyLevel.EASY;            
         }
 
 
@@ -90,6 +91,7 @@ namespace xomango
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            stat = new GameStatistics();
             // Set the sharing mode of the graphics device to turn on XNA rendering
             SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(true);
 
@@ -120,6 +122,7 @@ namespace xomango
             SharedGraphicsDeviceManager.Current.GraphicsDevice.SetSharingMode(false);
 
             gameControler.Save();
+            stat.Flush();
             base.OnNavigatedFrom(e);
         }      
 
@@ -164,14 +167,19 @@ namespace xomango
             undoButton.IsEnabled = true;
             if (gameControler.GameBoard.Winner)
             {
+                bool winner = false;
                 if (gameControler.CurrentPlayer.Type == PlayerType.Human)
                 {
+                    winner = true;
                     MessageBox.Show("Congratulations! You win!");
                 }
                 else
                 {
                     MessageBox.Show("Sorry, you lose.");                
                 }
+
+                stat.AddGame(winner, gameControler.aiLevel, gameControler.Player1.Side, gameControler.GameBoard.Turns.Count() / 2);
+
                 undoButton.IsEnabled = false;
             }
         }

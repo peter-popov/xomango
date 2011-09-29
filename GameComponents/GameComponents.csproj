@@ -68,6 +68,7 @@
     <Compile Include="control\MachinePlayer.cs" />
     <Compile Include="control\TouchEventArgs.cs" />
     <Compile Include="GameOptions.cs" />
+    <Compile Include="GameStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="view\Animation.cs" />
     <Compile Include="view\BackgroundLayer.cs" />

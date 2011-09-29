@@ -19,6 +19,7 @@ namespace xomango
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        GameComponents.GameStatistics stat = null;
         // Constructor
         public MainPage()
         {
@@ -30,12 +31,36 @@ namespace xomango
             playerCheckBox.IsChecked = true;
         }
 
+        void updateButtonsTag(Button btn, GameComponents.DifficultyLevel level)
+        {
+            var easyStat = stat[level];
+            if (easyStat.Count > 0)
+            {
+                btn.Tag = string.Format("{0} played: {1}%",
+                                               easyStat.Count,
+                                               (int)100 * easyStat.Victory / easyStat.Count);
+            }
+            else
+            {
+                btn.Tag = "not yet played";
+            }
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            stat = new GameComponents.GameStatistics();
+            updateButtonsTag(hyperlinkEasy, GameComponents.DifficultyLevel.EASY);
+            updateButtonsTag(hyperlinkHard, GameComponents.DifficultyLevel.HARD);
+            
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains("Saved") && settings["Saved"].ToString() == true.ToString())
             {
                 hyperlinkResume.Visibility = System.Windows.Visibility.Visible;
+
+                if (settings.Contains("SavedTime"))
+                {
+                    hyperlinkResume.Tag = settings["SavedTime"];
+                }
             }
             else
             {

@@ -12,7 +12,8 @@
     SupportedOrientations="PortraitOrLandscape"
     mc:Ignorable="d" shell:SystemTray.IsVisible="False" 
     OrientationChanged="PageOrientationChanged" 
-    LayoutUpdated="PhoneApplicationPage_LayoutUpdated" d:DesignHeight="728" d:DesignWidth="480">
+    LayoutUpdated="PhoneApplicationPage_LayoutUpdated" 
+    d:DesignHeight="728" d:DesignWidth="480">
     
     
     <phone:PhoneApplicationPage.ApplicationBar>

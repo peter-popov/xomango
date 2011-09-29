@@ -12,13 +12,7 @@ namespace GameComponents.Control
 {    
     public class GameControler
     {
-        public enum Level : int
-        {
-            EASY = 1,
-            HARD = 2
-        }
-
-
+        
         public GameControler()
         {
             gameBoard = new Board();
@@ -231,7 +225,8 @@ namespace GameComponents.Control
                 return;
             }
             
-            settings["Saved"] = true;            
+            settings["Saved"] = true;
+            settings["SavedTime"] = DateTime.Now.ToString();
 
             using (IsolatedStorageFile store = IsolatedStorageFile.GetUserStoreForApplication())
             {
@@ -271,6 +266,6 @@ namespace GameComponents.Control
         private BasePlayer player2;
         private BasePlayer currentPlayer;
         private Board gameBoard;
-        public Level aiLevel = Level.EASY;
+        public DifficultyLevel aiLevel = DifficultyLevel.EASY;
     }
 }
