@@ -58,20 +58,20 @@ namespace GameComponents
             }
         }
 
-        public Stat this[DifficultyLevel lelev, CoreCZ.Side side]
+        public Stat this[DifficultyLevel level, CoreCZ.Side side]
         {
             get
             {
-                return other[index(lelev, side)];
+                return other[index(level, side)];
             }
         }
 
-        public Stat this[DifficultyLevel lelev]
+        public Stat this[DifficultyLevel level]
         {
             get
             {
-                Stat s1 = other[index(lelev, CoreCZ.Side.Cross)];
-                Stat s2 = other[index(lelev, CoreCZ.Side.Zero)];
+                Stat s1 = other[index(level, CoreCZ.Side.Cross)];
+                Stat s2 = other[index(level, CoreCZ.Side.Zero)];
                 return new Stat(s1.Count + s2.Count, s1.Victory + s2.Victory, s1.TurnsAmount + s2.TurnsAmount);
             }
         }
@@ -111,16 +111,16 @@ namespace GameComponents
             return new Stat( s.Count + 1, s.Victory + ( win ? 1 : 0 ), s.TurnsAmount + turns );
         }
 
-        private int index(DifficultyLevel lelev, CoreCZ.Side side)
+        private int index(DifficultyLevel level, CoreCZ.Side side)
         {
             int off = side == CoreCZ.Side.Cross ? 0 : 1;
-            return off + lelev == DifficultyLevel.EASY ? 0 : 2;
+            return off + (level == DifficultyLevel.EASY ? 0 : 2);
         }
 
-        private string key(DifficultyLevel lelev, CoreCZ.Side side)
+        private string key(DifficultyLevel level, CoreCZ.Side side)
         {
             string off = side == CoreCZ.Side.Cross ? "Cross" : "Zero";
-            return off + (lelev == DifficultyLevel.EASY ? "Easy" : "Hard");
+            return off + (level == DifficultyLevel.EASY ? "Easy" : "Hard");
         }
 
 

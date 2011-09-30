@@ -12,6 +12,7 @@
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="HorizontalContentAlignment" Value="Left" />
             <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="FontSize" Value="{StaticResource PhoneFontSizeExtraLarge}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -38,14 +39,12 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <ImageBrush x:Name="XoControlBackground" ImageSource="images/ToggleBackground.png"/>
         
         <Style x:Key="XoToggleSwitchButtonStyle" TargetType="CheckBox">
-            <Setter Property="Background" Value="{StaticResource PhoneBackgroundBrush}"/>
+            <Setter Property="Background" Value="{StaticResource PhoneAccentBrush}"/>
             <Setter Property="IsTabStop" Value="False"/>
-            <Setter Property="Foreground" Value="{StaticResource PhoneAccentBrush}"/>
             <Setter Property="MinHeight" Value="60"/>
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
@@ -125,7 +124,7 @@
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
-                            <Grid Margin="10,5,0,0">
+                            <Grid Margin="0,0,0,0">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                 </Grid.RowDefinitions>

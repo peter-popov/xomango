@@ -18,15 +18,23 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
         
         <!--Panorama control-->
-        <controls:Panorama Title="xoxo">
+        <controls:Panorama Title="xoxo" Height="800" VerticalAlignment="Top">
+            <controls:Panorama.Background>
+                <ImageBrush ImageSource="images/Background.jpg"/>
+            </controls:Panorama.Background>
             <!--Panorama item one-->
             <controls:PanoramaItem Foreground="Black">
 
                 <StackPanel Height="450" HorizontalAlignment="Left" Margin="0,60,0,0" Name="stackPanel1" VerticalAlignment="Top" Width="420">
                     <Button Name="hyperlinkResume" Content="Resume"
-                                     Style="{StaticResource MenuButtonStyle}"
+                                     Style="{StaticResource MenuButtonStyle}"                            
                                      Margin="10,20,0,0" Click="hyperlinkResume_Click" />
                     
                     <Button Name="hyperlinkEasy" Content="Easy game"
@@ -41,8 +49,8 @@
                               Width="410" Margin="10,20,0,0" 
                               HorizontalAlignment ="Left"                  
                               Background="{StaticResource PhoneAccentBrush}"
-                              Foreground="{StaticResource PhoneForegroundBrush}"
                               BorderBrush="Transparent"
+                              FontSize="{StaticResource PhoneFontSizeExtraLarge}"
                               Checked="playerCheckBox_Checked" Unchecked="playerCheckBox_Checked">
                         <CheckBox.ContentTemplate>
                             <DataTemplate>
@@ -65,13 +73,23 @@
             <!--Panorama item two-->
             <!--Use 'Orientation="Horizontal"' to enable a panel that lays out horizontally-->
             <controls:PanoramaItem Header="Statistics">
-                
+                <StackPanel Height="436">
+                    <TextBlock Text="Progress" FontSize="{StaticResource PhoneFontSizeMediumLarge}"/>
+                    <Grid Background="Transparent">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Grid.Column="0" Margin="20,0,0,0" Text="50%" VerticalAlignment="Center" FontSize="{StaticResource PhoneFontSizeExtraLarge}"/>
+                        <ProgressBar Grid.Column="1" Margin="0,0,0,0" Height="64" Name="progressBar1" Value="70"/>
+                    </Grid>
+                    
+                    
+
+                </StackPanel>                
             </controls:PanoramaItem>
         </controls:Panorama>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="640"/>
-            <RowDefinition Height="160*"/>
-        </Grid.RowDefinitions>
+
 
 
     </Grid>
