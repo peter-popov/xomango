@@ -31,14 +31,20 @@ namespace GameComponents.View
 
         }
 
-        public override void Draw(SpriteBatch spriteBatch, Rectangle rect)
-        {
-            //Some kind of very clever logic should be here, goal - make texture to pan with the board
-            // TODO: make samrt background paning
 
-            //spriteBatch.Draw(background, new Vector2(0, 0), Color.White);
-        
-            spriteBatch.Draw(background, new Vector2(rect.X, rect.Y), Color.White);
+        public override void Draw(SpriteBatch spriteBatch, Rectangle rect)
+        {            
+            var w = background.Width;
+            var h = background.Height;
+            var x = rect.X - rect.X % w;
+            var y = rect.Y - rect.Y % h;
+            h *= Math.Sign(rect.Y);
+            w *= Math.Sign(rect.X);
+
+            spriteBatch.Draw(background, new Vector2(x, y), Color.White);
+            spriteBatch.Draw(background, new Vector2(x+w, y), Color.White);
+            spriteBatch.Draw(background, new Vector2(x, y+h), Color.White);
+            spriteBatch.Draw(background, new Vector2(x+w, y+h), Color.White);
         }
     }
 }

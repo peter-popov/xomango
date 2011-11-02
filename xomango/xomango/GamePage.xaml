@@ -9,7 +9,7 @@
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
-    SupportedOrientations="PortraitOrLandscape"
+    SupportedOrientations="Portrait"
     mc:Ignorable="d" shell:SystemTray.IsVisible="False" 
     OrientationChanged="PageOrientationChanged" 
     LayoutUpdated="PhoneApplicationPage_LayoutUpdated" 
