@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
@@ -46,8 +47,21 @@ namespace xomango
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        public ImageBrush PanoramaBackgroundImage
         {
+            get
+            {
+                var url = IsLightTheme ? "Images/BackgroundLight.jpg" : "Images/BackgroundDark.jpg";
+                return new ImageBrush
+                {
+                    ImageSource = new BitmapImage(new Uri(url, UriKind.RelativeOrAbsolute))
+                };
+            
+            }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {            
             stat = new GameComponents.GameStatistics();
             updateButtonsTag(hyperlinkEasy, GameComponents.DifficultyLevel.EASY);
             updateButtonsTag(hyperlinkHard, GameComponents.DifficultyLevel.HARD);
@@ -167,6 +181,25 @@ namespace xomango
             double dprogress = 1 - (x - 1) * (x - 1);
             progressBar1.Value = (int)(320 * dprogress);
             progressText.Text = ((int)(100 * dprogress)).ToString();
+        }
+
+
+        public bool IsLightTheme
+        {
+            get
+            {
+                return (Visibility)Resources["PhoneLightThemeVisibility"]
+                    == Visibility.Visible;
+            }
+        }
+
+        public bool IsDarkTheme
+        {
+            get
+            {
+                return (Visibility)Resources["PhoneDarkThemeVisibility"]
+                    == Visibility.Visible;
+            }
         }
     }
 }

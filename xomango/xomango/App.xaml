@@ -203,7 +203,7 @@
                                 Padding="{TemplateBinding Padding}">
                             
                             <Grid Background="Transparent" Margin="0,0,0,0" >
-                                <Border BorderThickness="2" Height="20" VerticalAlignment="Center" BorderBrush="{TemplateBinding Foreground}">
+                                <Border BorderThickness="4" Height="20" VerticalAlignment="Center" BorderBrush="{TemplateBinding Foreground}">
                                     
                                 </Border>
                                 <Rectangle Height="20" Width="{TemplateBinding Value}" Opacity="0.5" HorizontalAlignment="Left" VerticalAlignment="Center" Fill="{TemplateBinding Foreground}">

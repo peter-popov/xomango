@@ -11,13 +11,17 @@
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="800"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     SupportedOrientations="Portrait" Orientation="Portrait"
-    shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded">
+    shell:SystemTray.IsVisible="False" Loaded="PhoneApplicationPage_Loaded"
+    x:Name= "menuPage">
 
 
 
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
+
+<!--        d:DataContext="{d:DesignData /SampleData/MainViewModelSampleData.xaml}">-->
+
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -25,10 +29,7 @@
         
         
         <!--Panorama control-->
-        <controls:Panorama Title="xoxo" Height="800" VerticalAlignment="Top">
-            <controls:Panorama.Background>
-                <ImageBrush ImageSource="images/Background.jpg"/>
-            </controls:Panorama.Background>
+        <controls:Panorama Title="xoxo" Height="800" VerticalAlignment="Top" Background="{Binding PanoramaBackgroundImage, ElementName=menuPage}">
             <!--Panorama item one-->
             <controls:PanoramaItem Foreground="Black">
 
