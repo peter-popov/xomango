@@ -51,7 +51,10 @@ namespace xomango
             stat = new GameComponents.GameStatistics();
             updateButtonsTag(hyperlinkEasy, GameComponents.DifficultyLevel.EASY);
             updateButtonsTag(hyperlinkHard, GameComponents.DifficultyLevel.HARD);
-            
+
+            updateStatistics();
+            updateProgress();
+
             IsolatedStorageSettings settings = IsolatedStorageSettings.ApplicationSettings;
             if (settings.Contains("Saved") && settings["Saved"].ToString() == true.ToString())
             {
@@ -112,5 +115,58 @@ namespace xomango
         }
 
 
+        private string format(int x)
+        {
+            if (x <= 0) return "-";
+            return x.ToString();
+        }
+
+        private string format(double x)
+        {
+            if (x <= 0.001 || double.IsNaN(x) ) return "-";
+            return x.ToString("0.0");
+        }
+
+
+
+        private void updateStatistics()
+        {
+            txtAll.Text = format(stat.Overall.Count);
+            txtWin.Text = format(stat.Overall.Victory);
+            txtAvgTurns.Text = format((double)stat.Overall.TurnsAmount / stat.Overall.Count);
+
+            var easy = stat[GameComponents.DifficultyLevel.EASY];
+            txtEasyAll.Text = format(easy.Count);
+            txtEasyWin.Text = format(easy.Victory);
+            txtEasyAvgTurns.Text = format((double)easy.TurnsAmount / easy.Count);
+
+            var hard = stat[GameComponents.DifficultyLevel.HARD];
+            
+            txtHardAll.Text = format(hard.Count);
+            txtHardWin.Text = format(hard.Victory);
+            txtHardAvgTurns.Text = format((double)hard.TurnsAmount / hard.Count);
+        }
+
+
+
+
+
+        //(x-1)^2 + (y)^2 = 1
+
+        private void updateProgress()
+        {
+
+            int easy_win = stat[GameComponents.DifficultyLevel.EASY].Victory;
+            int hard_win = stat[GameComponents.DifficultyLevel.HARD].Victory;
+
+            double easy_way = Math.Min(1.0, easy_win / 100.0);
+            double hard_way = Math.Min(1.0, hard_win / 50.0);
+
+            double x = Math.Min(1.0,  0.5*easy_way + hard_way);
+
+            double dprogress = 1 - (x - 1) * (x - 1);
+            progressBar1.Value = (int)(320 * dprogress);
+            progressText.Text = ((int)(100 * dprogress)).ToString();
+        }
     }
 }
