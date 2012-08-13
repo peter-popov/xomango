@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2009/deployment" AppPlatformVersion="7.1">
-  <App xmlns="" ProductID="{873a6a63-eba0-4de1-a951-692c326c4acf}" Title="xomango" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="xomango author" Description="Sample description" Publisher="xomango">
+  <App xmlns="" ProductID="{873a6a63-eba0-4de1-a951-692c326c4acf}" Title="xoxo" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="xomango author" Description="Sample description" Publisher="xomango">
     <IconPath IsRelative="true" IsResource="false">images\ApplicationIcon.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_GAMERSERVICES" />
@@ -21,9 +21,9 @@
     <Tokens>
       <PrimaryToken TokenID="xomangoToken" TaskName="_default">
         <TemplateType5>
-          <BackgroundImageURI IsRelative="true" IsResource="false">images\Background.jpg</BackgroundImageURI>
+          <BackgroundImageURI IsRelative="true" IsResource="false">images\Tile.png</BackgroundImageURI>
           <Count>0</Count>
-          <Title>xomango</Title>
+          <Title>xoxo</Title>
         </TemplateType5>
       </PrimaryToken>
     </Tokens>

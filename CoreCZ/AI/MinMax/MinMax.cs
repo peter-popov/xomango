@@ -48,7 +48,14 @@ namespace CoreCZ.AI.MinMax
                     GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));
                     int score = AlphaBetaSearch(s, alpha, beta, deep + 1, ref turn);
                     s.Undo(ch);
-                    
+                    s[p].Weight = score;
+                        
+                    if (deep == 0)
+                    {
+                        var hscore = hf.EvaluateTurn(s, p);
+                        Debug.WriteLine("Considering ({0},{1}) with ab_cost = {2}, h_cost = {3}", p.X, p.Y, score, hscore);            
+                    }
+
                     if (score > alpha)
                     {
                         res_turn = p;                        
@@ -155,6 +162,7 @@ namespace CoreCZ.AI.MinMax
         #region Private fields
         ICostFunction<GameState> costFunction;
         ITurnsGenerator<GameState> turnsGenerator;
+        TurnHeuristics hf = new LineBasedTurnHeuristics();
         int maxDepth = 4;
         #endregion
     }

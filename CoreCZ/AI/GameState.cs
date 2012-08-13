@@ -33,6 +33,7 @@ namespace CoreCZ.AI
         public PositionInfo(Side s)
         {
             this.Side = s;
+            this.Weight = int.MinValue;
             for (int i = 0; i < env.Length; ++i)
             {
                 env[i].side = Side.Nobody;
@@ -81,12 +82,14 @@ namespace CoreCZ.AI
                 res.env[i] = this.env[i];
             }
             res.Active = this.Active;
+            res.Weight = this.Weight;
             return res;
         }
 
         private LineInfo[] env = new LineInfo[8];
         public bool Active { get; set; }
         public Side Side { get; set; }
+        public int Weight { get; set; }
         public static Orientation[] Orientations = new Orientation[4] { Orientation.Vertical, Orientation.Horizontal, Orientation.DigonalSW, Orientation.DiagonalNW };
         public static Direction[] Directions = new Direction[2] { Direction.Positive, Direction.Negative };
     }

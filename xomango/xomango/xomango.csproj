@@ -20,7 +20,7 @@
     </SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
-    <XapFilename>xomango.xap</XapFilename>
+    <XapFilename>xoxo.xap</XapFilename>
     <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
     <SilverlightAppEntry>xomango.App</SilverlightAppEntry>
     <ValidateXaml>true</ValidateXaml>
@@ -92,17 +92,19 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="images\Background.jpg" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\ApplicationIcon.png">
+    <Content Include="images\ApplicationIcon.png" />
+    <Resource Include="images\Tile.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\BackgroundDark.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="images\BackgroundDark.jpg" />
+    </Resource>
     <Resource Include="images\BackgroundLight.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -112,7 +114,7 @@
     <Content Include="images\Restart.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\SplashScreenImage.jpg" />
+    <SplashScreen Include="images\SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CoreCZ\CoreCZ.csproj">

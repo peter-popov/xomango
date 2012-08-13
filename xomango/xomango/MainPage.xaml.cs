@@ -144,7 +144,7 @@ namespace xomango
 
 
         private void updateStatistics()
-        {
+        {/*
             txtAll.Text = format(stat.Overall.Count);
             txtWin.Text = format(stat.Overall.Victory);
             txtAvgTurns.Text = format((double)stat.Overall.TurnsAmount / stat.Overall.Count);
@@ -158,7 +158,7 @@ namespace xomango
             
             txtHardAll.Text = format(hard.Count);
             txtHardWin.Text = format(hard.Victory);
-            txtHardAvgTurns.Text = format((double)hard.TurnsAmount / hard.Count);
+            txtHardAvgTurns.Text = format((double)hard.TurnsAmount / hard.Count);*/
         }
 
 

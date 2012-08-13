@@ -19,7 +19,7 @@ namespace GameComponents
     public enum DifficultyLevel : int
     {
         EASY = 1,
-        HARD = 2
+        HARD = 3
     }
 
     public interface IInputEnumerator

@@ -33,7 +33,7 @@ namespace GameComponents.View
 
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle rect)
-        {            
+        {
             var w = background.Width;
             var h = background.Height;
             var x = rect.X - rect.X % w;
