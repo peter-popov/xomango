@@ -36,8 +36,8 @@ namespace CoreCZ.AI
 
         public int EvaluateState(GameState state)
         {
-            int max_zero = int.MinValue;
-            int max_cross = int.MinValue;
+            int max_zero = 0; //int.MinValue;
+            int max_cross = 0;// int.MinValue;
 
             foreach (Position p in state)
             {
@@ -56,7 +56,7 @@ namespace CoreCZ.AI
             
             }
 
-            int res = (winPlayer == Side.Zero) ? (max_zero - max_cross) : (max_cross - max_zero);            
+            int res = (winPlayer == Side.Zero) ? (max_zero - (int)(0.8*max_cross)) : (max_cross - (int)(0.8*max_zero));            
             
             return Math.Max(Math.Min(res, WinValue), LoseValue);
         }

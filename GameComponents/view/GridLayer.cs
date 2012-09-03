@@ -16,6 +16,10 @@ namespace GameComponents.View
     {
         ContentManager content;
         Texture2D cell;
+        // It's always better to avoid additional allocations inside rendering loop
+        // Maybe not that important for this game, but stil...
+        Rectangle destRect = new Rectangle();  
+
        
         public GridLayer(ContentManager contentManager)
         {
@@ -25,6 +29,7 @@ namespace GameComponents.View
         public override void Initialize()
         {
             cell = content.Load<Texture2D>("textures/cell");
+            destRect.Height = destRect.Width = GameOptions.Instanse.CellSize;
         }
 
         public override void Update(GameTime gameTime)
@@ -39,13 +44,14 @@ namespace GameComponents.View
             int refY = rect.Y - rect.Y % cellSize - cellSize; 
             int countX = rect.Width / cellSize + 1;
             int countY = rect.Height / cellSize + 3;
-            
+
             for (int i = 0; i <= countX; i++)
             {
                 for (int j = 0; j <= countY; j++)
                 {
-                    Vector2 pos = new Vector2(refX + cellSize * i, refY + cellSize * j);
-                    spriteBatch.Draw(cell, pos, Color.White);
+                    destRect.X = refX + cellSize * i;
+                    destRect.Y = refY + cellSize * j;
+                    spriteBatch.Draw(cell, destRect, null, Color.White);
                 }
             }
         }

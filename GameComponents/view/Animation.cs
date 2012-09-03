@@ -128,6 +128,16 @@ namespace GameComponents.View
                   frameSize.Y),
                   Color.White, 0f, Vector2.Zero, scale, spriteEffect, 0);
         }
+
+        public void Draw(SpriteBatch spriteBatch, Rectangle dest, SpriteEffects spriteEffect)
+        {
+            spriteBatch.Draw(animationTexture, dest, new Rectangle(
+                  frameSize.X * currentFrame.X,
+                  frameSize.Y * currentFrame.Y,
+                  frameSize.X,
+                  frameSize.Y),
+                  Color.White, 0f, Vector2.Zero, spriteEffect, 0);
+        }
         #endregion
     }
 }

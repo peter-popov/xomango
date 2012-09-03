@@ -85,9 +85,16 @@ namespace GameComponents.View
 
         public override void Draw(SpriteBatch spriteBatch, Rectangle rect)
         {
+            Rectangle destRect = new Rectangle();
+            destRect.Height = destRect.Width = GameOptions.Instanse.CellSize;
+
+
             foreach (Turn turn in board.Turns)
             {
-                Position p = turn.position;                
+                Position p = turn.position;
+                destRect.X = p.row * cellSize;
+                destRect.Y = p.column * cellSize;
+
                 //Do not draw turn which is currently animated
                 if (curentTurnAnimation != null && p == curentTurn.position)
                 {
@@ -95,22 +102,24 @@ namespace GameComponents.View
                 }
                 if (p == curentTurn.position)
                 {
-                    spriteBatch.Draw(lastCellHighlight, new Vector2(p.row * cellSize, p.column * cellSize), Color.White);
+                    spriteBatch.Draw(lastCellHighlight, destRect, null, Color.White);
                 }
                 if (board[p] == Side.Cross)
                 {
-                    cross.Draw(spriteBatch, new Vector2(p.row * cellSize, p.column * cellSize), SpriteEffects.None);
+                    cross.Draw(spriteBatch, destRect, SpriteEffects.None);
                 }
                 else
                 {
-                    zero.Draw(spriteBatch, new Vector2(p.row * cellSize, p.column * cellSize), SpriteEffects.None);
+                    zero.Draw(spriteBatch, destRect, SpriteEffects.None);
                 }
                 
             }
 
             if (curentTurnAnimation != null)
             {
-                curentTurnAnimation.Draw(spriteBatch, new Vector2(curentTurn.position.row * cellSize, curentTurn.position.column * cellSize), SpriteEffects.None);
+                destRect.X = curentTurn.position.row * cellSize;
+                destRect.Y = curentTurn.position.column * cellSize;
+                curentTurnAnimation.Draw(spriteBatch, destRect, SpriteEffects.None);
             }
 
             lastVisibleRect = rect;
