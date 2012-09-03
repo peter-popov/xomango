@@ -72,6 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="view\Animation.cs" />
     <Compile Include="view\BackgroundLayer.cs" />
+    <Compile Include="view\DebugLayer.cs" />
     <Compile Include="view\GridLayer.cs" />
     <Compile Include="view\Layer.cs" />
     <Compile Include="view\LayersCollection.cs" />

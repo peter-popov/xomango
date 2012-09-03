@@ -16,7 +16,6 @@ namespace GameComponents.View
     {
         ContentManager content;
         Texture2D cell;
-        SpriteFont indexFont;
        
         public GridLayer(ContentManager contentManager)
         {
@@ -25,7 +24,6 @@ namespace GameComponents.View
 
         public override void Initialize()
         {
-            indexFont = content.Load<SpriteFont>("MenuFont");
             cell = content.Load<Texture2D>("textures/cell");
         }
 
@@ -50,23 +48,6 @@ namespace GameComponents.View
                     spriteBatch.Draw(cell, pos, Color.White);
                 }
             }
-
-            for (int i = 0; i <= 20; i++)
-            {
-                for (int j = 0; j <= 20; j++)
-                {
-                    Vector2 pos = new Vector2(cellSize * i, cellSize * j);
-                    spriteBatch.DrawString(indexFont,
-                    String.Format("{0},{1}", i, j),
-                    pos + new Vector2(3, 3),
-                    Color.Gray,
-                    0,
-                    Vector2.Zero,
-                    0.4f,
-                    SpriteEffects.None,
-                    0);
-                }
-            }            
         }
 
 

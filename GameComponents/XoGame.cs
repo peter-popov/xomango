@@ -19,7 +19,7 @@ namespace GameComponents
     public enum DifficultyLevel : int
     {
         EASY = 1,
-        HARD = 3  
+        HARD = 2  
     }
 
     public interface IInputEnumerator
@@ -103,6 +103,7 @@ namespace GameComponents
             
             gameLayers.AddLayer(turnsLayer);            
             gameLayers.AddLayer(new GridLayer(content));
+            //gameLayers.AddLayer(new DebugLayer(content));
             gameLayers.AddLayer(new BackgroundLayer(content));
             
             // Will couse initialization of all others layers
