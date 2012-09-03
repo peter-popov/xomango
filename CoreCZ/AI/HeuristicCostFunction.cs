@@ -36,9 +36,9 @@ namespace CoreCZ.AI
             
             if (state.Player == Side.Cross)
             {
-                return res;
+                return -res;
             }
-            return -res;
+            return res;
         }
 
 

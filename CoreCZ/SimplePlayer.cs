@@ -17,6 +17,7 @@ namespace CoreCZ
         {
             this.Side = s;
             ai = new AI.MinMax.MinMax(new SimpleCostFuntcion(s), this.gen, level);        
+            //ai = new AI.MinMax.MinMax(new HeuristicCostFunction(), this.gen, level);
         }
 
         public void Undo()

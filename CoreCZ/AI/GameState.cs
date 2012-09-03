@@ -306,6 +306,33 @@ namespace CoreCZ.AI
             }
             return s;
         }
+
+        public override int GetHashCode()
+        {
+            StringBuilder sb = new StringBuilder(area.Height * area.Width);
+            for (int i = area.sw.X; i <= area.ne.X; i++)
+            {
+                for (int j = area.sw.Y; j <= area.ne.Y; j++)
+                {
+                    PositionInfo p = storage[i, j];
+                    if (p != null && p.Side == Side.Cross)
+                    {
+                        sb.Append("x");
+                    }
+                    else if (p != null && p.Side == Side.Zero)
+                    {
+                        sb.Append("o");
+                    }
+                    else
+                    {
+                        sb.Append(" ");
+                    }
+                }
+                sb.Append("\n");
+            }
+            return sb.ToString().GetHashCode();
+        }
+
         #endregion
 
         #region Iteration

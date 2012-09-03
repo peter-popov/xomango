@@ -22,10 +22,10 @@ namespace CoreCZ.AI
             //in descending order, and then take required amount of elements... fuh.  
             var posibleTruns = from pos in state
                                where state[pos].Side == Side.Nobody
-                               group pos by state[pos].Weight/*function.EvaluateTurn(state, pos)*/ into g
+                               group pos by function.EvaluateTurn(state, pos) into g
                                orderby g.Key descending
-                               select new { Cost = g.Key, Positions = g };
-            return (from g in posibleTruns from p in g.Positions orderby function.EvaluateTurn(state, p) descending select p).Take(MaxTurns);
+                               select new { Cost = g.Key, Positions = randomize(g) };
+            return (from g in posibleTruns from p in g.Positions select p).Take(MaxTurns);//.Reverse();            
         }
         
         private IEnumerable<T> randomize<T>(IEnumerable<T> i)

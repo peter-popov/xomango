@@ -89,8 +89,8 @@ namespace CoreCZ.AI
                 }
                 else
                 {
-                    int npos = positive.amount + (player == positive.side ? 1 : 0);
-                    int nneg = negative.amount + (player == negative.side ? 1 : 0);
+                    int npos = positive.amount+1;// +(player == positive.side ? 1 : 0);
+                    int nneg = negative.amount+1;// +(player == negative.side ? 1 : 0);
 
                     return Math.Max(LineCost(npos, positive.open, false), LineCost(nneg, negative.open, false));
                 }
@@ -98,13 +98,13 @@ namespace CoreCZ.AI
 
             if (positive.amount > 0)
             {
-                return LineCost(positive.amount + (player == positive.side ? 1 : 0), positive.open, true);
+                return LineCost(positive.amount+1 /*+ (player == positive.side ? 1 : 0)*/, positive.open, true);
             }
 
 
             if (negative.amount > 0)
             {
-                return LineCost(negative.amount + (player == negative.side ? 1 : 0), negative.open, true);
+                return LineCost(negative.amount+1 /*+ (player == negative.side ? 1 : 0)*/, negative.open, true);
             }
 
             return 0;
@@ -122,15 +122,15 @@ namespace CoreCZ.AI
             int[] weights = new int[] {0, 
                                        1,
                                        2,
-                                       10,
-                                       1000,
-                                       100000, 0, 0, 0, 0};
+                                       15,
+                                       100,
+                                       1000, 0, 0, 0, 0};
             return weights[size];
         }
 
         private int CloseOpenCoefficient(int size, bool open1, bool open2)
         {
-            if (size == 5) return 1;
+            //if (size == 5) return 1;
             return 2 - (open1 ? 0 : 1) - (open2 ? 0 : 1);
         }
     }

@@ -63,6 +63,7 @@ namespace GameComponents.View
             zeroFrames = content.Load<Texture2D>("animation/zero_animation");
             zero = createTurnAnimation(zeroFrames, 60, 10);
             zero.Stop();
+            lastCellHighlight = content.Load<Texture2D>("textures/cell_highlight");
         }
 
         public override void Update(GameTime gameTime)
@@ -92,6 +93,10 @@ namespace GameComponents.View
                 {
                     continue;
                 }
+                if (p == curentTurn.position)
+                {
+                    spriteBatch.Draw(lastCellHighlight, new Vector2(p.row * cellSize, p.column * cellSize), Color.White);
+                }
                 if (board[p] == Side.Cross)
                 {
                     cross.Draw(spriteBatch, new Vector2(p.row * cellSize, p.column * cellSize), SpriteEffects.None);
@@ -100,6 +105,7 @@ namespace GameComponents.View
                 {
                     zero.Draw(spriteBatch, new Vector2(p.row * cellSize, p.column * cellSize), SpriteEffects.None);
                 }
+                
             }
 
             if (curentTurnAnimation != null)
@@ -152,6 +158,7 @@ namespace GameComponents.View
         Animation curentTurnAnimation;
         Turn curentTurn;
         Texture2D crossFrames;
-        Texture2D zeroFrames;        
+        Texture2D zeroFrames;
+        Texture2D lastCellHighlight;
     }
 }
