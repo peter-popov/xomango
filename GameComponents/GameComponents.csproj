@@ -17,6 +17,8 @@
     <XnaCrossPlatformGroupID>9db49364-6ba5-4cdd-8e09-6b4df6b8c540</XnaCrossPlatformGroupID>
     <XnaOutputType>Library</XnaOutputType>
     <XnaRefreshLevel>0</XnaRefreshLevel>
+    <TileImage />
+    <TileTitle>xomango</TileTitle>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|Windows Phone' ">
     <DebugSymbols>true</DebugSymbols>

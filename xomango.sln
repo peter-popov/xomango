@@ -55,6 +55,7 @@ Global
 		{EC3EE198-2E80-4309-A40A-3F93F36B7BCE}.Release|x86.ActiveCfg = Release|Windows Phone
 		{2373002D-D849-4A98-96FA-4FB6573D01C4}.Debug|Any CPU.ActiveCfg = Debug|Windows Phone
 		{2373002D-D849-4A98-96FA-4FB6573D01C4}.Debug|Mixed Platforms.ActiveCfg = Debug|Windows Phone
+		{2373002D-D849-4A98-96FA-4FB6573D01C4}.Debug|Mixed Platforms.Deploy.0 = Debug|Windows Phone
 		{2373002D-D849-4A98-96FA-4FB6573D01C4}.Debug|Windows Phone.ActiveCfg = Debug|Windows Phone
 		{2373002D-D849-4A98-96FA-4FB6573D01C4}.Debug|x86.ActiveCfg = Debug|Windows Phone
 		{2373002D-D849-4A98-96FA-4FB6573D01C4}.Release|Any CPU.ActiveCfg = Release|Windows Phone
