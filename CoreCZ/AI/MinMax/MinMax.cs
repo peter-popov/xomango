@@ -19,9 +19,8 @@ namespace CoreCZ.AI.MinMax
         {
             Position turn = new Position(0,0);
             Debug.WriteLine(s);
-            //int turnValue = AlphaBetaSearchWithMemory(s, int.MinValue, int.MaxValue, 0, ref turn);
+            //int turnValue = MinMaxSearch(s, 0, ref turn);                         
             int turnValue = AlphaBetaSearch(s, int.MinValue, int.MaxValue, 0, ref turn);  
-            //int turnValue = minMax(s, 0, ref turn);           
             
             Debug.WriteLine("Choose ({0},{1}) with cost {2}", turn.X, turn.Y, turnValue);
             return turn;
@@ -47,7 +46,7 @@ namespace CoreCZ.AI.MinMax
                 foreach( Position p in turnsGenerator.GenerateTurns(s))
                 {
                     GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));
-                    int score = AlphaBetaSearch(s, alpha, beta, deep + 1, ref turn);
+                    int score = AlphaBetaSearch(s, alpha, beta, deep + 1, ref turn) - deep * 20;
                     s.Undo(ch);
                     s[p].Weight = score;
                         
@@ -77,9 +76,15 @@ namespace CoreCZ.AI.MinMax
                 foreach (Position p in turnsGenerator.GenerateTurns(s))
                 {
                     GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));
-                    int score = AlphaBetaSearch(s, alpha, beta, deep + 1, ref turn);
+                    int score = AlphaBetaSearch(s, alpha, beta, deep + 1, ref turn) - deep * 20;
                     s.Undo(ch);
-                    
+
+                    //if (deep == 1)
+                    //{
+                    //    var hscore = hf.EvaluateTurn(s, p);
+                    //    Debug.WriteLine("\tEnemy turn ({0},{1}) with ab_cost = {2}, h_cost = {3}", p.X, p.Y, score, hscore);
+                    //}
+
                     if (score < beta)
                     {
                         beta = score;
@@ -104,7 +109,7 @@ namespace CoreCZ.AI.MinMax
             return res;
         }
 
-        private int minMax(GameState s, int deep, ref Position turn)
+        private int MinMaxSearch(GameState s, int deep, ref Position turn)
         {
             int cost = costFunction.EvaluateState(s);
             if (deep == maxDepth || cost <= costFunction.LoseValue || cost >= costFunction.WinValue)
@@ -119,11 +124,13 @@ namespace CoreCZ.AI.MinMax
                 {
                     string hash = s.ToString();                    
                     GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));
-                    int score = minMax(s, deep + 1, ref sub_turn);
+                    int score = MinMaxSearch(s, deep + 1, ref sub_turn);
                     s.Undo(ch);
                     Debug.Assert(s.ToString() == hash);
-                    if (deep == 0) Debug.WriteLine(intend(deep) + "max: ({0},{1}) avaluated as {2}", p.X, p.Y, score);
-
+                    if (deep == 0)
+                    {
+                        Debug.WriteLine(intend(deep) + "max: ({0},{1}) avaluated as {2}\n", p.X, p.Y, score);
+                    }
                     if (score > max)
                     {
                         max = score;
@@ -140,10 +147,10 @@ namespace CoreCZ.AI.MinMax
                 {
                     string hash = s.ToString();
                     
-                    GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));                    
-                    int score = minMax(s, deep + 1, ref sub_turn);
+                    GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));
+                    int score = MinMaxSearch(s, deep + 1, ref sub_turn);
 
-                    //Debug.WriteLine(intend(deep) + "min: ({0},{1}) avaluated as {2}", p.X, p.Y, score);
+                    if (deep == 1) Debug.WriteLine(intend(deep) + "min: ({0},{1}) avaluated as {2}", p.X, p.Y, score);
                     
                     s.Undo(ch);
                     Debug.Assert(s.ToString() == hash);

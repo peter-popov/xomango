@@ -48,8 +48,6 @@ namespace CoreCZ.AI
                 }                
 
                 LineStatistics st = EvaluatePosition(info);
-                //max_cross = Math.Max(st.cross, max_cross);
-                //max_zero = Math.Max(st.zero, max_zero);
 
                 max_cross += st.cross;
                 max_zero += st.zero;

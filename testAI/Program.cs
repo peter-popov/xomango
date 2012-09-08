@@ -38,14 +38,36 @@ namespace testAI
             Console.WriteLine("Turn found {0},{1}", p.X, p.Y);
         }
 
+        static void test_2x2_final()
+        {
+            GameState gs = new GameState();
+            MinMax m = new MinMax(new SimpleCostFuntcion(Side.Zero), new HeuristicTrunsGenerator(new LineBasedTurnHeuristics()), 2);
+
+            gs.Advance(new Position(3, 3), Side.Cross);
+                gs.Advance(new Position(4, 3), Side.Zero);            
+            gs.Advance(new Position(4, 4), Side.Cross);
+                gs.Advance(new Position(3, 4), Side.Zero);
+            gs.Advance(new Position(6, 6), Side.Cross);
+                gs.Advance(new Position(2, 5), Side.Zero);
+            gs.Advance(new Position(7, 7), Side.Cross);
+
+            Position p = m.FindTurn(gs);
+            Console.WriteLine("Turn found {0},{1}", p.X, p.Y);
+        }
+
+
         static void Main(string[] args)
         {
-            Console.WriteLine("Test 1");
-            test_1();
-            Console.WriteLine("_______________________________________________");
+            //Console.WriteLine("Test 1");
+            //test_1();
+            //Console.WriteLine("_______________________________________________");
             
-            Console.WriteLine("Test 2");
-            test_2();
+            //Console.WriteLine("Test 2");
+            //test_2();
+            //Console.WriteLine("_______________________________________________");
+
+            Console.WriteLine("Final turn xx_xx combination");            
+            test_2x2_final();
             Console.WriteLine("_______________________________________________");
         }
     }

@@ -38,7 +38,7 @@ namespace CoreCZ.AI
         }
 
         private Random r = new Random((int)DateTime.Now.Ticks);
-        private static int MaxTurns = 10;       
+        private static int MaxTurns = 25;       
         private TurnHeuristics function;
     }
 }

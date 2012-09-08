@@ -64,7 +64,6 @@ namespace GameComponents
         public XoGame(GraphicsDevice device, GameControler gameController, Rectangle rect, ContentManager content, IInputEnumerator input)
         {
             this.gameController = gameController;
-            //this.spriteBatch = sb;
             this.screenRect = rect;
             this.content = content;
             this.device = device;
@@ -103,7 +102,7 @@ namespace GameComponents
             
             gameLayers.AddLayer(turnsLayer);            
             gameLayers.AddLayer(new GridLayer(content));
-            //gameLayers.AddLayer(new DebugLayer(content));
+            gameLayers.AddLayer(new DebugLayer(content));
             gameLayers.AddLayer(new BackgroundLayer(content));
             
             // Will couse initialization of all others layers
