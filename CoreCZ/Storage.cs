@@ -15,7 +15,7 @@ namespace CoreCZ
         public Storage(uint capacity)
         {
             mCapacity = 2*(int)capacity;
-            mArray = new T[mCapacity, mCapacity];
+            mArray = new T[mCapacity*mCapacity];
         }
 
         public Storage(uint capacity, T defaultValue)
@@ -28,11 +28,11 @@ namespace CoreCZ
         {
             get
             {
-                return mArray[Convert(i), Convert(j)];
+                return mArray[Convert(i) * mCapacity + Convert(j)];
             }
             set
             {
-                mArray[Convert(i), Convert(j)] = value;
+                mArray[Convert(i) * mCapacity + Convert(j)] = value;
             }
         }
 
@@ -42,7 +42,7 @@ namespace CoreCZ
             {
                 for (int j = 0; j < mCapacity; ++j)
                 {
-                    mArray[i, j] = value;
+                    mArray[i * mCapacity + j] = value;
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace CoreCZ
             return mCapacity/2 + x;
         }
 
-        private T[,] mArray;
+        private T[] mArray;
         private int mCapacity;
     }
 }

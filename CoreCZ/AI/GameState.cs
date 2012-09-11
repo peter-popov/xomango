@@ -141,9 +141,6 @@ namespace CoreCZ.AI
 
         public ChangeSet Advance(Position pos, Side side)
         {
-            //Console.WriteLine("Advance at {0},{1}", pos.X, pos.Y);
-            //Console.WriteLine(this);
-
             ChangeSet backup = new ChangeSet(area, player);
 
             player = side;
