@@ -170,7 +170,7 @@ namespace CoreCZ.AI
                     updateOrientations(pos, curentInfo, o, d, backup);
                 }
             }
-
+            count++;
             return backup;
         }
 
@@ -248,6 +248,7 @@ namespace CoreCZ.AI
             }
             area = p.area;
             player = p.player;
+            count--;
         }
 
         public Side Player
@@ -255,6 +256,14 @@ namespace CoreCZ.AI
             get 
             {
                 return player;
+            }
+        }
+
+        public int Counter
+        {
+            get
+            {
+                return count;
             }
         }
 
@@ -368,6 +377,7 @@ namespace CoreCZ.AI
         private Area area = new Area(new Position(short.MaxValue, short.MaxValue), new Position(short.MinValue, short.MinValue));
         private Storage<PositionInfo> storage = new Storage<PositionInfo>(20);
         private Side player = Side.Nobody;
+        private int count = 0;
         #endregion
     }
 }

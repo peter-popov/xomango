@@ -20,7 +20,8 @@ namespace CoreCZ.AI.MinMax
             Position turn = new Position(0,0);
             Debug.WriteLine(s);
             //int turnValue = MinMaxSearch(s, 0, ref turn);                         
-            int turnValue = AlphaBetaSearch(s, int.MinValue, int.MaxValue, 0, ref turn);  
+            int turnValue = AlphaBetaSearch(s, int.MinValue, int.MaxValue, 0, ref turn);
+            //int turnValue = AlphaBetaSearchWithMemory(s, int.MinValue, int.MaxValue, 0, ref turn);  
             
             Debug.WriteLine("Choose ({0},{1}) with cost {2}", turn.X, turn.Y, turnValue);
             return turn;

@@ -15,6 +15,19 @@ namespace CoreCZ.AI
 
         public IEnumerable<Position> GenerateTurns(GameState state)
         {
+            if (state.Counter < 8)
+            {
+                MaxTurns = 8;
+            }
+            else if (state.Counter < 20)
+            {
+                MaxTurns = 15;
+            }
+            else
+            {
+                MaxTurns = 20;
+            }
+
             //Use the power of LINQ!!
             //What we do here?
             //For all possible positions generate cost-position pairs, then group them 
@@ -25,7 +38,7 @@ namespace CoreCZ.AI
                                group pos by function.EvaluateTurn(state, pos) into g
                                orderby g.Key descending
                                select new { Cost = g.Key, Positions = randomize(g) };
-            return (from g in posibleTruns from p in g.Positions select p).Take(MaxTurns);//.Reverse();            
+            return (from g in posibleTruns from p in g.Positions select p).Take(MaxTurns);            
         }
         
         private IEnumerable<T> randomize<T>(IEnumerable<T> i)
@@ -38,7 +51,7 @@ namespace CoreCZ.AI
         }
 
         private Random r = new Random((int)DateTime.Now.Ticks);
-        private static int MaxTurns = 25;       
+        private int MaxTurns = 20;       
         private TurnHeuristics function;
     }
 }

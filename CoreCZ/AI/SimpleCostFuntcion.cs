@@ -9,6 +9,7 @@ namespace CoreCZ.AI
     public class SimpleCostFuntcion : MinMax.ICostFunction<GameState>
     {
         private Side winPlayer;
+        //private Dictionary<GameState, int> cache = new Dictionary<GameState, int>();
 
         public SimpleCostFuntcion(Side winPlayer)
         {
@@ -36,6 +37,10 @@ namespace CoreCZ.AI
 
         public int EvaluateState(GameState state)
         {
+            int res = 0;
+            //if (cache.TryGetValue(state, out res))
+            //    return res;
+
             int max_zero = 0; //int.MinValue;
             int max_cross = 0;// int.MinValue;
 
@@ -54,9 +59,10 @@ namespace CoreCZ.AI
             
             }
 
-            int res = (winPlayer == Side.Zero) ? (max_zero - (int)(0.8*max_cross)) : (max_cross - (int)(0.8*max_zero));            
-            
-            return Math.Max(Math.Min(res, WinValue), LoseValue);
+            res = (winPlayer == Side.Zero) ? (max_zero - (int)(0.8 * max_cross)) : (max_cross - (int)(0.8 * max_zero));
+            res = Math.Max(Math.Min(res, WinValue), LoseValue);
+            //cache[state] = res;
+            return res;
         }
 
         private LineStatistics EvaluatePosition(PositionInfo positionInfo)
