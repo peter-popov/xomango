@@ -13,6 +13,7 @@ namespace CoreCZ.AI
             this.function = function;
         }
 
+        
         public IEnumerable<Position> GenerateTurns(GameState state)
         {
             if (state.Counter < 8)
@@ -28,17 +29,22 @@ namespace CoreCZ.AI
                 MaxTurns = 20;
             }
 
-            //Use the power of LINQ!!
-            //What we do here?
-            //For all possible positions generate cost-position pairs, then group them 
-            //by cost, in each group shuffle results, then glue together groups sorted 
-            //in descending order, and then take required amount of elements... fuh.  
-            var posibleTruns = from pos in state
-                               where state[pos].Side == Side.Nobody
-                               group pos by function.EvaluateTurn(state, pos) into g
+
+            var turns = from pos in state
+                        where state[pos].Side == Side.Nobody
+                        select new { Value = function.EvaluateTurn(state, pos), pos };
+
+            var threats = from t in turns where t.Value.threat_level == 2 select t.pos;
+            var semi_threats = from t in turns where t.Value.threat_level == 1 select t.pos;
+            
+            if (threats.Count() > 0) return threats.Concat(semi_threats);
+
+            var posibleTruns = from t in turns                               
+                               group t by t.Value.cost into g
                                orderby g.Key descending
                                select new { Cost = g.Key, Positions = randomize(g) };
-            return (from g in posibleTruns from p in g.Positions select p).Take(MaxTurns);            
+
+            return (from g in posibleTruns from p in g.Positions select p.pos).Take(MaxTurns);                        
         }
         
         private IEnumerable<T> randomize<T>(IEnumerable<T> i)

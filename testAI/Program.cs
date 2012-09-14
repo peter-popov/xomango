@@ -55,9 +55,22 @@ namespace testAI
             Console.WriteLine("Turn found {0},{1}", p.X, p.Y);
         }
 
+        static System.Diagnostics.Stopwatch costFunctionTimer = new System.Diagnostics.Stopwatch();
+
+        static void start()
+        {
+            costFunctionTimer.Start();
+        }
+
+        static void stop()
+        {
+            costFunctionTimer.Stop();
+        }
 
         static void test_performance(int runs = 10)
         {
+            CoreCZ.AI.SimpleCostFuntcion.startProfiling = start;
+            CoreCZ.AI.SimpleCostFuntcion.endProfiling = stop;
 
 
             double[] times = new double[runs];
@@ -101,12 +114,14 @@ namespace testAI
             Console.WriteLine("Average time: {0:F3}", avg_time);
             Console.WriteLine("    max time: {0:F3}", max_time);
             Console.WriteLine("    min time: {0:F3}", min_time);
-        
+
+            Console.WriteLine("SimpleCostFunction: {0:F3}", costFunctionTimer.ElapsedMilliseconds/1000.0);
+            Console.WriteLine("SimpleCostFunction: {0} calls, {1} cache hits", SimpleCostFuntcion.calls, SimpleCostFuntcion.cache_hits);
         }
 
 
         static void Main(string[] args)
-        {
+        {            
             //Console.WriteLine("Test 1");
             //test_1();
             //Console.WriteLine("_______________________________________________");

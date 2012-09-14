@@ -76,11 +76,8 @@ namespace CoreCZ.AI
 
         public PositionInfo Clone()
         {
-            PositionInfo res = new PositionInfo(this.Side);
-            for (int i = 0; i < 8; ++i)
-            {
-                res.env[i] = this.env[i];
-            }
+            PositionInfo res = new PositionInfo(this.Side);            
+            this.env.CopyTo(res.env, 0);
             res.Active = this.Active;
             res.Weight = this.Weight;
             return res;
@@ -240,8 +237,8 @@ namespace CoreCZ.AI
         public void Undo(ChangeSet p)
         {
             foreach(Change c in p.Items)
-            {
-                storage[c.pos.X, c.pos.Y] = c.info;
+            {                
+                storage[c.pos.X, c.pos.Y] = c.info;            
             }
             area = p.area;
             player = p.player;
@@ -312,33 +309,6 @@ namespace CoreCZ.AI
             }
             return s;
         }
-
-        public override int GetHashCode()
-        {
-            StringBuilder sb = new StringBuilder(area.Height * area.Width);
-            for (int i = area.sw.X; i <= area.ne.X; i++)
-            {
-                for (int j = area.sw.Y; j <= area.ne.Y; j++)
-                {
-                    PositionInfo p = storage[i, j];
-                    if (p != null && p.Side == Side.Cross)
-                    {
-                        sb.Append("x");
-                    }
-                    else if (p != null && p.Side == Side.Zero)
-                    {
-                        sb.Append("o");
-                    }
-                    else
-                    {
-                        sb.Append(" ");
-                    }
-                }
-                sb.Append("\n");
-            }
-            return sb.ToString().GetHashCode();
-        }
-
         #endregion
 
         #region Iteration
@@ -374,7 +344,7 @@ namespace CoreCZ.AI
         private Area area = new Area(new Position(short.MaxValue, short.MaxValue), new Position(short.MinValue, short.MinValue));
         private Storage<PositionInfo> storage = new Storage<PositionInfo>(20);
         private Side player = Side.Nobody;
-        private int count = 0;
+        private int count = 0;        
         #endregion
     }
 }

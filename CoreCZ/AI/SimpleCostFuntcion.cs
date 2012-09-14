@@ -3,20 +3,29 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Diagnostics;
+
 
 namespace CoreCZ.AI
 {
     public class SimpleCostFuntcion : MinMax.ICostFunction<GameState>
     {
         private Side winPlayer;
-        //private Dictionary<GameState, int> cache = new Dictionary<GameState, int>();
+
+        public static Action startProfiling;
+        public static Action endProfiling;
+               
+        private Dictionary<GameState, int> cache = new Dictionary<GameState, int>();
+        public static int calls = 0;
+        public static int cache_hits = 0;
+        
 
         public SimpleCostFuntcion(Side winPlayer)
         {
             this.winPlayer = winPlayer;
         }
 
-        struct LineStatistics
+        class LineStatistics
         {
             public int cross;
             public int zero;
@@ -37,37 +46,48 @@ namespace CoreCZ.AI
 
         public int EvaluateState(GameState state)
         {
+            //startProfiling();
             int res = 0;
+            //calls++;
             //if (cache.TryGetValue(state, out res))
+            //{
+            //    cache_hits++;
+            //    //endProfiling();
             //    return res;
+            //}
+            res = EvaluateStateImpl(state);
+            //cache[state] = res;
+            //endProfiling();
+            return res;
+        }
 
+        private LineStatistics st = new LineStatistics();
+
+        private int EvaluateStateImpl(GameState state)
+        {            
             int max_zero = 0; //int.MinValue;
             int max_cross = 0;// int.MinValue;
-
+            
             foreach (Position p in state)
             {
                 PositionInfo info = state[p];
                 if (info == null || info.Side != Side.Nobody)
                 {
                     continue;
-                }                
+                }
 
-                LineStatistics st = EvaluatePosition(info);
+                EvaluatePosition(info, st);
 
                 max_cross += st.cross;
                 max_zero += st.zero;
-            
             }
-
-            res = (winPlayer == Side.Zero) ? (max_zero - (int)(0.8 * max_cross)) : (max_cross - (int)(0.8 * max_zero));
-            res = Math.Max(Math.Min(res, WinValue), LoseValue);
-            //cache[state] = res;
+            var res = (winPlayer == Side.Zero) ? (max_zero - (int)(0.8 * max_cross)) : (max_cross - (int)(0.8 * max_zero));
+            res = Math.Max(Math.Min(res, WinValue), LoseValue);            
             return res;
         }
 
-        private LineStatistics EvaluatePosition(PositionInfo positionInfo)
+        private LineStatistics EvaluatePosition(PositionInfo positionInfo, LineStatistics ls)
         {
-            var ls = new LineStatistics();
             ls.cross = ls.zero = 0;
             foreach (var  o in PositionInfo.Orientations)
             {
@@ -88,7 +108,7 @@ namespace CoreCZ.AI
             return ls;
         }        
 
-        private int LineCost(int size, bool isopen)
+        static private int LineCost(int size, bool isopen)
         {
             switch (size)
             {
@@ -106,7 +126,7 @@ namespace CoreCZ.AI
             return int.MaxValue;
         }
 
-        private int PatternCost(int size1, bool isopen1, int size2, bool isopen2)
+        static private int PatternCost(int size1, bool isopen1, int size2, bool isopen2)
         {
             return LineCost(size1 + size2, isopen1 && isopen2);
         }

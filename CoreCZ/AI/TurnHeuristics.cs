@@ -10,72 +10,53 @@ namespace CoreCZ.AI
     /// </summary>
     public abstract class TurnHeuristics
     {
-        public abstract int EvaluateTurn(GameState s, Position pos);
+        public struct Value 
+        { 
+            public int cost; 
+            public int threat_level;
+            public override string ToString()
+            {
+                return string.Format("{0}({1})", cost, threat_level);
+            }
+        }
+
+        public abstract TurnHeuristics.Value EvaluateTurn(GameState s, Position pos);
     }
 
     /// <summary>
     /// 
     /// </summary>
     public class LineBasedTurnHeuristics: TurnHeuristics
-    {
-        private Side? basePlayer;
-        Func<PositionInfo.LineInfo, PositionInfo.LineInfo, Side, int> evalOrientation;
+    {        
 
         public LineBasedTurnHeuristics()
         {
-            evalOrientation = EvaluateOrientation;
+            
         }
 
-        public LineBasedTurnHeuristics(Side ?player)
-        {
-            this.basePlayer = player;
-            evalOrientation = EvaluateOrientationF;        
-        }
-
-        public override int EvaluateTurn(GameState s, Position pos)
+        public override TurnHeuristics.Value EvaluateTurn(GameState s, Position pos)
         {
             PositionInfo info = s[pos];
             if (info == null)
             {
-                return 0;
+                return new TurnHeuristics.Value();
             }
             return EvaluatePosition(info, Utils.FlipSide(s.Player));
         }
 
-        private int EvaluatePosition(PositionInfo positionInfo, Side player)
+        private TurnHeuristics.Value EvaluatePosition(PositionInfo positionInfo, Side player)
         {
-            int value = 0;
+            var value = new TurnHeuristics.Value();
             foreach (PositionInfo.Orientation o in PositionInfo.Orientations)
             {
-                value += evalOrientation(positionInfo[o, PositionInfo.Direction.Positive], 
+                value.cost += EvaluateOrientation(positionInfo[o, PositionInfo.Direction.Positive], 
                                          positionInfo[o, PositionInfo.Direction.Negative], 
                                          player);
+                value.threat_level = Math.Max(EvaluateThreatLevel(positionInfo[o, PositionInfo.Direction.Positive],
+                                         positionInfo[o, PositionInfo.Direction.Negative],
+                                         player), value.threat_level);
             }
             return value;
-        }
-
-        private int EvaluateOrientationF(PositionInfo.LineInfo positive, PositionInfo.LineInfo negative, Side player)
-        {
-            if (positive.amount > 0 && negative.amount > 0)
-            {
-                if (positive.side == negative.side && positive.side == basePlayer)
-                {
-                    int n = 1 + positive.amount + negative.amount;
-                    return LineCost(n, positive.open, negative.open);
-                }
-            }
-
-            if (positive.amount > 0 && positive.side == basePlayer)
-            {
-                return LineCost(positive.amount + (player == positive.side ? 1 : 0), positive.open, true);
-            }
-
-
-            if (negative.amount > 0 && positive.side == basePlayer)
-            {
-                return LineCost(negative.amount + (player == negative.side ? 1 : 0), negative.open, true);
-            }
-            return 0;        
         }
 
         private int EvaluateOrientation(PositionInfo.LineInfo positive, PositionInfo.LineInfo negative, Side player)
@@ -89,8 +70,8 @@ namespace CoreCZ.AI
                 }
                 else
                 {
-                    int npos = positive.amount+1;// +(player == positive.side ? 1 : 0);
-                    int nneg = negative.amount+1;// +(player == negative.side ? 1 : 0);
+                    int npos = positive.amount + 1;
+                    int nneg = negative.amount + 1;
 
                     return Math.Max(LineCost(npos, positive.open, false), LineCost(nneg, negative.open, false));
                 }
@@ -98,13 +79,45 @@ namespace CoreCZ.AI
 
             if (positive.amount > 0)
             {
-                return LineCost(positive.amount+1 /*+ (player == positive.side ? 1 : 0)*/, positive.open, true);
+                return LineCost(positive.amount + 1, positive.open, true);
             }
 
 
             if (negative.amount > 0)
             {
-                return LineCost(negative.amount+1 /*+ (player == negative.side ? 1 : 0)*/, negative.open, true);
+                return LineCost(negative.amount + 1, negative.open, true);
+            }
+
+            return 0;
+        }
+
+        private int EvaluateThreatLevel(PositionInfo.LineInfo positive, PositionInfo.LineInfo negative, Side player)
+        {
+            if (positive.amount > 0 && negative.amount > 0)
+            {
+                if (positive.side == negative.side)
+                {
+                    int n = 1 + positive.amount + negative.amount;
+                    return ThreatLevel(n, positive.open, negative.open, positive.side == player);
+                }
+                else
+                {
+                    int npos = positive.amount + 1;
+                    int nneg = negative.amount + 1;
+
+                    return Math.Max(ThreatLevel(npos, positive.open, false, positive.side == player), ThreatLevel(nneg, negative.open, false, negative.side == player));
+                }
+            }
+
+            if (positive.amount > 0)
+            {
+                return ThreatLevel(positive.amount + 1, positive.open, true, positive.side == player);
+            }
+
+
+            if (negative.amount > 0)
+            {
+                return ThreatLevel(negative.amount + 1, negative.open, true, negative.side == player);
             }
 
             return 0;
@@ -115,6 +128,13 @@ namespace CoreCZ.AI
             int lineWeight = LineSizeCoefficient(size);
             int factor = CloseOpenCoefficient(size, open1, open2);
             return (int)Math.Pow(lineWeight, factor);
+        }
+
+        private int ThreatLevel(int size, bool open1, bool open2, bool same_player)
+        {
+            if (size == 5 || (size == 4 && open1 && open2)) return 2;
+            if (size == 4 && (open1 || open2) && same_player) return 1;
+            return 0;
         }
 
         private int LineSizeCoefficient(int size)
@@ -130,7 +150,7 @@ namespace CoreCZ.AI
 
         private int CloseOpenCoefficient(int size, bool open1, bool open2)
         {
-            //if (size == 5) return 1;
+            if (size == 5) return 1;
             return 2 - (open1 ? 0 : 1) - (open2 ? 0 : 1);
         }
     }

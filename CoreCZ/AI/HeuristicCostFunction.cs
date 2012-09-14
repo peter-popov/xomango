@@ -7,8 +7,8 @@ namespace CoreCZ.AI
 {
     class HeuristicCostFunction : MinMax.ICostFunction<GameState>
     {
-        TurnHeuristics hCross = new LineBasedTurnHeuristics(Side.Cross);
-        TurnHeuristics hZero = new LineBasedTurnHeuristics(Side.Zero);
+        TurnHeuristics hCross = new LineBasedTurnHeuristics();
+        TurnHeuristics hZero = new LineBasedTurnHeuristics();
 
         HeuristicTrunsGenerator genCross;
         HeuristicTrunsGenerator genZero;
@@ -32,7 +32,7 @@ namespace CoreCZ.AI
 
         public int EvaluateState(GameState state)
         {           
-            int res = hCross.EvaluateTurn(state, getBest(state, genCross)) - hZero.EvaluateTurn(state, getBest(state, genZero));
+            int res = hCross.EvaluateTurn(state, getBest(state)) - hZero.EvaluateTurn(state, getBest(state));
             
             if (state.Player == Side.Cross)
             {
