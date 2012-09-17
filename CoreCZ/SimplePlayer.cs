@@ -19,13 +19,10 @@ namespace CoreCZ
             ai = new AI.MinMax.MinMax(new SimpleCostFuntcion(s), this.gen, level);
         }
 
-        public void Undo()
+        public SimplePlayer(GameState state, Side s, int level)
+            : this(s, level)
         {
-            if (undoList.Count > 2)
-            {
-                state.Undo(undoList.Pop()); //enemy turn
-                state.Undo(undoList.Pop()); //our turn
-            }
+            this.state = state;
         }
 
         public SimplePlayer(Side s, Board b, int level)
@@ -44,6 +41,7 @@ namespace CoreCZ
             undoList.Push(state.Advance(pos, Utils.FlipSide(Side)));
         }
 
+
         public Position MakeNextTurn()
         {
             Position pos = new Position(4, 6);
@@ -56,6 +54,15 @@ namespace CoreCZ
             undoList.Push(state.Advance(pos, Side));
 
             return pos;
+        }
+
+        public void Undo()
+        {
+            if (undoList.Count > 2)
+            {
+                state.Undo(undoList.Pop()); //enemy turn
+                state.Undo(undoList.Pop()); //our turn
+            }
         }
     }
 }

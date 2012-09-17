@@ -298,10 +298,10 @@ namespace CoreCZ.AI
                     }
                     else
                     {
-                        int k = getMaxLine(p);
-                        if (k > 0)
-                            s += string.Format("{0}", k);
-                        else
+                        //int k = getMaxLine(p);
+                        //if (k > 0)
+                        //    s += string.Format("{0}", k);
+                        //else
                             s += "_";
                     }
                 }

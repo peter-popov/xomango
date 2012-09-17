@@ -67,6 +67,22 @@ namespace testAI
             costFunctionTimer.Stop();
         }
 
+
+        static void test_scenario()
+        {
+            var board = @"
+o_x_
+_xxx
+_ox_
+o_o_";
+
+            Scenario s = new Scenario(board);
+
+            var player = new SimplePlayer(s.Play(), Side.Zero, 2);
+            Position p = player.MakeNextTurn();
+
+        }
+
         static void test_performance(int runs = 10)
         {
             CoreCZ.AI.SimpleCostFuntcion.startProfiling = start;
@@ -134,7 +150,9 @@ namespace testAI
             //test_2x2_final();
             //Console.WriteLine("_______________________________________________");
 
-            test_performance();
+            test_scenario();
+
+            //test_performance();
         }
     }
 }
