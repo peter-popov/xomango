@@ -20,7 +20,7 @@ namespace CoreCZ.AI.MinMax
             Position turn = new Position(0,0);
             Debug.WriteLine(s);
             //int turnValue = MinMaxSearch(s, 0, ref turn);                         
-            int turnValue = AlphaBetaSearch(s, int.MinValue, int.MaxValue, 0, ref turn);
+            int turnValue = AlphaBetaSearch(s, costFunction.LoseValue, costFunction.WinValue, 0, ref turn);
             //int turnValue = AlphaBetaSearchWithMemory(s, int.MinValue, int.MaxValue, 0, ref turn);  
             
             Debug.WriteLine("Choose ({0},{1}) with cost {2}", turn.X, turn.Y, turnValue);
@@ -31,11 +31,11 @@ namespace CoreCZ.AI.MinMax
         private int AlphaBetaSearch(GameState s, int alpha, int beta, int deep, ref Position res_turn)
         {
             Position turn = new Position(0, 0);
-            int cost = costFunction.EvaluateState(s);
             
-            if (deep >= maxDepth || cost <= costFunction.LoseValue || cost >= costFunction.WinValue)
+            if (deep >= maxDepth)
             {
-                return cost;
+                return costFunction.EvaluateState(s);
+                //cost <= costFunction.LoseValue || cost >= costFunction.WinValue
             }
             if (deep % 2 == 0)
             {
@@ -49,12 +49,11 @@ namespace CoreCZ.AI.MinMax
                     GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));
                     int score = AlphaBetaSearch(s, alpha, beta, deep + 1, ref turn) - deep * 20;
                     s.Undo(ch);
-                    s[p].Weight = score;
-                        
+
                     if (deep == 0)
                     {
                         var hscore = hf.EvaluateTurn(s, p);
-                        Debug.WriteLine("Considering ({0},{1}) with ab_cost = {2}, h_cost = {3}", p.X, p.Y, score, hscore);            
+                        Debug.WriteLine("Considering ({0},{1}) with ab_cost = {2}, h_cost = {3}", p.X, p.Y, score, hscore);
                     }
 
                     if (score > alpha)

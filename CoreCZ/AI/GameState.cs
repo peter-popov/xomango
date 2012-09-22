@@ -156,7 +156,7 @@ namespace CoreCZ.AI
             {
                 curentInfo.Side = side;
             }
-            //Update this info plus beighbiurs in all directions
+            //Update this info plus neighbours in all directions
             foreach (PositionInfo.Orientation o in PositionInfo.Orientations)
             {
                 foreach (PositionInfo.Direction d in PositionInfo.Directions)
@@ -259,25 +259,6 @@ namespace CoreCZ.AI
             {
                 return count;
             }
-        }
-
-        private int getMaxLine(PositionInfo info)
-        {
-            int max = int.MinValue;
-            if (info == null || info.Side != Side.Nobody)
-            {
-                return 0;
-            }
-
-            foreach (PositionInfo.Orientation o in PositionInfo.Orientations)
-            {
-                foreach (PositionInfo.Direction d in PositionInfo.Directions)
-                {
-                    PositionInfo.LineInfo li = info[o, d];
-                    if (li.amount > max) max = li.amount;
-                }
-            }
-            return max;
         }
 
         public override string ToString()

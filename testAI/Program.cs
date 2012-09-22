@@ -150,9 +150,9 @@ o_o_";
             //test_2x2_final();
             //Console.WriteLine("_______________________________________________");
 
-            test_scenario();
+            //test_scenario();
 
-            //test_performance();
+            test_performance(1);
         }
     }
 }

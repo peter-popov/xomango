@@ -13,6 +13,16 @@ namespace CoreCZ.AI
             this.function = function;
         }
 
+        struct WeightedPoistion: IComparable<WeightedPoistion>
+        { 
+            public Position pos; 
+            public int cost;
+
+            public int CompareTo(WeightedPoistion other)
+            {
+                return other.cost-cost;
+            }
+        }
         
         public IEnumerable<Position> GenerateTurns(GameState state)
         {
@@ -29,27 +39,47 @@ namespace CoreCZ.AI
                 MaxTurns = 20;
             }
 
+            var turns = new List<WeightedPoistion>();
+            turns.Capacity = 2*MaxTurns;
+            var threats = new List<Position>();
+            threats.Capacity = 2;
+            var semi_threats = new List<Position>();
+            semi_threats.Capacity = 6;
 
-            var turns = from pos in state
-                        where state[pos].Side == Side.Nobody
-                        select new { Value = function.EvaluateTurn(state, pos), pos };
+            foreach (var p in state)
+            {
+                if (state[p].Side == Side.Nobody)
+                {
+                    var v = function.EvaluateTurn(state, p);
 
-            var threats = from t in turns where t.Value.threat_level == 2 select t.pos;
-            var semi_threats = from t in turns where t.Value.threat_level == 1 select t.pos;
+                    if (v.threat_level == 2)
+                    {
+                        threats.Add(p);
+                        continue;
+                    }
+                    if (v.threat_level == 1)
+                    {
+                        semi_threats.Add(p);                        
+                    }
+                    turns.Add(new WeightedPoistion { pos = p, cost = v.cost });
+                }
+            }
+
+            if (threats.Count > 0) return threats.Concat(semi_threats);
+
+            turns.Sort();
+            return (from t in turns select t.pos).Take(MaxTurns);
             
-            if (threats.Count() > 0) return threats.Concat(semi_threats);
+            //var posibleTruns = from t in turns                               
+            //                   group t by t.cost into g
+            //                   orderby g.Key descending
+            //                   select new { Cost = g.Key, Positions = g/*randomize(g)*/ };
 
-            var posibleTruns = from t in turns                               
-                               group t by t.Value.cost into g
-                               orderby g.Key descending
-                               select new { Cost = g.Key, Positions = randomize(g) };
-
-            return (from g in posibleTruns from p in g.Positions select p.pos).Take(MaxTurns);                        
+            //return (from g in posibleTruns from p in g.Positions select p.pos).Take(MaxTurns);                        
         }
         
         private IEnumerable<T> randomize<T>(IEnumerable<T> i)
-        {
-            
+        {            
             var groups = from el in i select new { Key = r.Next(), Value = el };
             return from g in groups
                           orderby g.Key

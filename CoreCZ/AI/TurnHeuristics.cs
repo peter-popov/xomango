@@ -49,12 +49,15 @@ namespace CoreCZ.AI
             var value = new TurnHeuristics.Value();
             foreach (PositionInfo.Orientation o in PositionInfo.Orientations)
             {
+                value.threat_level = Math.Max(EvaluateThreatLevel(positionInfo[o, PositionInfo.Direction.Positive],
+                         positionInfo[o, PositionInfo.Direction.Negative],
+                         player), value.threat_level);
+
+                if (value.threat_level >= 2) return value;
+
                 value.cost += EvaluateOrientation(positionInfo[o, PositionInfo.Direction.Positive], 
                                          positionInfo[o, PositionInfo.Direction.Negative], 
                                          player);
-                value.threat_level = Math.Max(EvaluateThreatLevel(positionInfo[o, PositionInfo.Direction.Positive],
-                                         positionInfo[o, PositionInfo.Direction.Negative],
-                                         player), value.threat_level);
             }
             return value;
         }
@@ -127,7 +130,12 @@ namespace CoreCZ.AI
         {
             int lineWeight = LineSizeCoefficient(size);
             int factor = CloseOpenCoefficient(size, open1, open2);
-            return (int)Math.Pow(lineWeight, factor);
+            switch (factor)
+            {
+                default: return 1;
+                case 1: return lineWeight;
+                case 2: return lineWeight * lineWeight;
+            }
         }
 
         private int ThreatLevel(int size, bool open1, bool open2, bool same_player)
@@ -139,13 +147,15 @@ namespace CoreCZ.AI
 
         private int LineSizeCoefficient(int size)
         {
-            int[] weights = new int[] {0, 
-                                       1,
-                                       2,
-                                       15,
-                                       100,
-                                       1000, 0, 0, 0, 0};
-            return weights[size];
+            switch (size)
+            {
+                default: return 0;
+                case 1: return 1;
+                case 2: return 2;
+                case 3: return 15;
+                case 4: return 100;
+                case 5: return 1000;
+            }           
         }
 
         private int CloseOpenCoefficient(int size, bool open1, bool open2)

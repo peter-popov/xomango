@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Diagnostics;
 
 
 namespace CoreCZ.AI
@@ -89,7 +88,7 @@ namespace CoreCZ.AI
         private LineStatistics EvaluatePosition(PositionInfo positionInfo, LineStatistics ls)
         {
             ls.cross = ls.zero = 0;
-            foreach (var  o in PositionInfo.Orientations)
+            foreach (var o in PositionInfo.Orientations)
             {
 
                 var liPos = positionInfo[o, PositionInfo.Direction.Positive];

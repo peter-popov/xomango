@@ -40,12 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\GameState.cs" />
     <Compile Include="AI\HeuristicTrunsGenerator.cs" />
     <Compile Include="AI\MinMax\ICostFunction.cs" />
     <Compile Include="AI\MinMax\ITurnsGenerator.cs" />
     <Compile Include="AI\MinMax\MinMax.cs" />
     <Compile Include="AI\SimpleCostFuntcion.cs" />
-    <Compile Include="AI\State.cs" />
     <Compile Include="AI\TurnHeuristics.cs" />
     <Compile Include="Board.cs" />
     <Compile Include="Player.cs" />
