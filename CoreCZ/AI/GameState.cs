@@ -91,7 +91,7 @@ namespace CoreCZ.AI
         public static Direction[] Directions = new Direction[2] { Direction.Positive, Direction.Negative };
     }
 
-    public class GameState : IEnumerable<Position>
+    public class GameState : IEnumerable<GameState.PosInfoPair>
     {
         #region State backup
         internal struct Change
@@ -222,6 +222,7 @@ namespace CoreCZ.AI
             {
                 neighbourLine.open = false;
             }
+            if (neighbourLine.amount >= 5) gameOverFlag = true;
             neighbour[o, PositionInfo.Flip(d)] = neighbourLine;
         }
 
@@ -243,6 +244,7 @@ namespace CoreCZ.AI
             area = p.area;
             player = p.player;
             count--;
+            gameOverFlag = false;
         }
 
         public Side Player
@@ -252,6 +254,16 @@ namespace CoreCZ.AI
                 return player;
             }
         }
+
+        public bool GameOver
+        {
+            get
+            {
+                return gameOverFlag;
+            }
+
+        }
+
 
         public int Counter
         {
@@ -279,11 +291,7 @@ namespace CoreCZ.AI
                     }
                     else
                     {
-                        //int k = getMaxLine(p);
-                        //if (k > 0)
-                        //    s += string.Format("{0}", k);
-                        //else
-                            s += "_";
+                        s += "_";
                     }
                 }
                 s += "\n";
@@ -293,15 +301,17 @@ namespace CoreCZ.AI
         #endregion
 
         #region Iteration
-        public IEnumerator<Position> GetEnumerator()
+        public struct PosInfoPair { public Position Pos; public PositionInfo Info; }
+        public IEnumerator<PosInfoPair> GetEnumerator()
         {
             for (int i = area.sw.X; i <= area.ne.X; i++)
             {
                 for (int j = area.sw.Y; j <= area.ne.Y; j++)
                 {
-                    if (storage[i, j] != null)
+                    var pi = storage[i, j];
+                    if (pi != null)
                     {
-                        yield return new Position(i, j);
+                        yield return new PosInfoPair { Pos = new Position(i, j), Info = pi };
                     }
                 }
             }
@@ -325,7 +335,8 @@ namespace CoreCZ.AI
         private Area area = new Area(new Position(short.MaxValue, short.MaxValue), new Position(short.MinValue, short.MinValue));
         private Storage<PositionInfo> storage = new Storage<PositionInfo>(20);
         private Side player = Side.Nobody;
-        private int count = 0;        
+        private int count = 0;
+        private bool gameOverFlag = false;
         #endregion
     }
 }

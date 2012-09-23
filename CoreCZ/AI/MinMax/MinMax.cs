@@ -18,11 +18,8 @@ namespace CoreCZ.AI.MinMax
         public Position FindTurn(GameState s)
         {
             Position turn = new Position(0,0);
-            Debug.WriteLine(s);
-            //int turnValue = MinMaxSearch(s, 0, ref turn);                         
-            int turnValue = AlphaBetaSearch(s, costFunction.LoseValue, costFunction.WinValue, 0, ref turn);
-            //int turnValue = AlphaBetaSearchWithMemory(s, int.MinValue, int.MaxValue, 0, ref turn);  
-            
+            Debug.WriteLine(s);                         
+            int turnValue = AlphaBetaSearch(s, int.MinValue, int.MaxValue, 0, ref turn);             
             Debug.WriteLine("Choose ({0},{1}) with cost {2}", turn.X, turn.Y, turnValue);
             return turn;
         }
@@ -32,18 +29,12 @@ namespace CoreCZ.AI.MinMax
         {
             Position turn = new Position(0, 0);
             
-            if (deep >= maxDepth)
+            if (deep >= maxDepth || s.GameOver)
             {
                 return costFunction.EvaluateState(s);
-                //cost <= costFunction.LoseValue || cost >= costFunction.WinValue
             }
             if (deep % 2 == 0)
             {
-                //for each child
-                //score = alpha-beta(other player,child,alpha,beta)
-                //if score > alpha then alpha = score (we have found a better best move)
-                //if alpha >= beta then return alpha (cut off)
-                //return alpha (this is our best move)
                 foreach( Position p in turnsGenerator.GenerateTurns(s))
                 {
                     GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));
@@ -68,22 +59,11 @@ namespace CoreCZ.AI.MinMax
             }
             else
             {
-                //for each child
-                //    score = alpha-beta(other player,child,alpha,beta)
-                //    if score < beta then beta = score (opponent has found a better worse move)
-                //    if alpha >= beta then return beta (cut off)
-                //return beta (this is the opponent's best move)
                 foreach (Position p in turnsGenerator.GenerateTurns(s))
                 {
                     GameState.ChangeSet ch = s.Advance(p, Utils.FlipSide(s.Player));
                     int score = AlphaBetaSearch(s, alpha, beta, deep + 1, ref turn) - deep * 20;
                     s.Undo(ch);
-
-                    //if (deep == 1)
-                    //{
-                    //    var hscore = hf.EvaluateTurn(s, p);
-                    //    Debug.WriteLine("\tEnemy turn ({0},{1}) with ab_cost = {2}, h_cost = {3}", p.X, p.Y, score, hscore);
-                    //}
 
                     if (score < beta)
                     {

@@ -48,20 +48,20 @@ namespace CoreCZ.AI
 
             foreach (var p in state)
             {
-                if (state[p].Side == Side.Nobody)
+                if (p.Info.Side == Side.Nobody)
                 {
-                    var v = function.EvaluateTurn(state, p);
+                    var v = function.EvaluatePosition(p.Info, Utils.FlipSide(state.Player));
 
                     if (v.threat_level == 2)
                     {
-                        threats.Add(p);
+                        threats.Add(p.Pos);
                         continue;
                     }
                     if (v.threat_level == 1)
                     {
-                        semi_threats.Add(p);                        
+                        semi_threats.Add(p.Pos);                        
                     }
-                    turns.Add(new WeightedPoistion { pos = p, cost = v.cost });
+                    turns.Add(new WeightedPoistion { pos = p.Pos, cost = v.cost });
                 }
             }
 

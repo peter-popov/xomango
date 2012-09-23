@@ -67,9 +67,9 @@ namespace CoreCZ.AI
             int max_zero = 0; //int.MinValue;
             int max_cross = 0;// int.MinValue;
             
-            foreach (Position p in state)
+            foreach (var p in state)
             {
-                PositionInfo info = state[p];
+                PositionInfo info = p.Info;
                 if (info == null || info.Side != Side.Nobody)
                 {
                     continue;

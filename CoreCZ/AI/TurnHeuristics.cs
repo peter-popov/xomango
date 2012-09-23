@@ -21,6 +21,8 @@ namespace CoreCZ.AI
         }
 
         public abstract TurnHeuristics.Value EvaluateTurn(GameState s, Position pos);
+
+        public abstract TurnHeuristics.Value EvaluatePosition(PositionInfo positionInfo, Side player);
     }
 
     /// <summary>
@@ -44,7 +46,7 @@ namespace CoreCZ.AI
             return EvaluatePosition(info, Utils.FlipSide(s.Player));
         }
 
-        private TurnHeuristics.Value EvaluatePosition(PositionInfo positionInfo, Side player)
+        public override TurnHeuristics.Value EvaluatePosition(PositionInfo positionInfo, Side player)
         {
             var value = new TurnHeuristics.Value();
             foreach (PositionInfo.Orientation o in PositionInfo.Orientations)
