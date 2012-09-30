@@ -16,7 +16,7 @@
     <XnaProfile>Reach</XnaProfile>
     <XnaCrossPlatformGroupID>9db49364-6ba5-4cdd-8e09-6b4df6b8c540</XnaCrossPlatformGroupID>
     <XnaOutputType>Library</XnaOutputType>
-    <XnaRefreshLevel>0</XnaRefreshLevel>
+    <XnaRefreshLevel>1</XnaRefreshLevel>
     <TileImage />
     <TileTitle>xomango</TileTitle>
   </PropertyGroup>

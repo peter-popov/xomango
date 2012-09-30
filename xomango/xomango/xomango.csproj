@@ -96,8 +96,6 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="before_micro.sap" />
-    <None Include="xomango_2012_09_22_22_35_34.sap" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="images\ApplicationIcon.png" />
@@ -110,7 +108,7 @@
     <Content Include="images\Restart.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="images\SplashScreenImage.jpg" />
+    <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\CoreCZ\CoreCZ.csproj">
