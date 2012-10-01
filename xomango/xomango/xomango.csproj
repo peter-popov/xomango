@@ -108,6 +108,8 @@
     <Content Include="images\Restart.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="images\TileSmall.png" />
+    <Resource Include="images\TileMarketplace.png" />
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
